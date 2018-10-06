@@ -12,3 +12,10 @@ NEXT MEETING : Meeting 2- 07/10 16:30-20:30 A0.736 Universiteitssingel 40
 - Assign all positions formally(think of which one would you want and are a good fit).
 
 - Decide which path we take and start working on a unified model.
+
+
+
+## Additional reading:
+https://algorithms.tutorialhorizon.com/graph-implementation-adjacency-list-better-set-2/
+https://www.callicoder.com/java-hashmap/
+
