@@ -1,0 +1,420 @@
+
+
+// this is the way i found to find the break points between vertices who start from a different number, try to have a look./
+// we should also try and implement this recursively so its not as clumsy and will work dynamically, this is currently being tested on graph10 and the data is from there .
+
+
+
+int counter = 0;
+				List<Integer> breakPoints = new ArrayList<Integer>();
+				for (int i=0; i <e.length;i++){
+					if ( e[0].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				for (int i=8; i <e.length;i++){
+					if ( e[8].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				int start = breakPoints.get(1)+ breakPoints.get(0); 
+				for (int i=start; i <e.length;i++){
+					if ( e[start].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				int start1 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2); 
+				for (int i=start1; i <e.length;i++){
+					if ( e[start1].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+			int start2 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3); 
+				for (int i=start2; i <e.length;i++){
+					if ( e[start2].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				int start3 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4); 
+				for (int i=start3; i <e.length;i++){
+					if ( e[start3].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				int start4 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)+breakPoints.get(5); 
+				for (int i=start4; i <e.length;i++){
+					if ( e[start4].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				int start5 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)+breakPoints.get(5)+breakPoints.get(6); 
+				for (int i=start5; i <e.length;i++){
+					if ( e[start5].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				int start6 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7); 
+				for (int i=start6; i <e.length;i++){
+					if ( e[start6].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start7 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8); 
+				for (int i=start7; i <e.length;i++){
+					if ( e[start7].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start8 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9); 
+				for (int i=start8; i <e.length;i++){
+					if ( e[start8].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				int start9 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10); 
+				for (int i=start9; i <e.length;i++){
+					if ( e[start9].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				} 
+				
+				int start10 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)+breakPoints.get(11); 
+				for (int i=start10; i <e.length;i++){
+					if ( e[start10].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				} 
+				
+				int start11 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)+breakPoints.get(11)+breakPoints.get(12); 
+				for (int i=start11; i <e.length;i++){
+					if ( e[start11].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				} 
+				
+				int start12 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13); 
+				for (int i=start12; i <e.length;i++){
+					if ( e[start12].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				} 
+				int start13 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14); 
+				for (int i=start13; i <e.length;i++){
+					if ( e[start13].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				} 
+				int start14 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15); 
+				for (int i=start14; i <e.length;i++){
+					if ( e[start14].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start15 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)+breakPoints.get(16); 
+				for (int i=start15; i <e.length;i++){
+					if ( e[start15].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start16 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)+breakPoints.get(16)+breakPoints.get(17); 
+				for (int i=start16; i <e.length;i++){
+					if ( e[start16].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start17 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18); 
+				for (int i=start17; i <e.length;i++){
+					if ( e[start17].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start18 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18)+breakPoints.get(19); 
+				for (int i=start18; i <e.length;i++){
+					if ( e[start18].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				int start19 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18)+breakPoints.get(19)+breakPoints.get(20); 
+				for (int i=start19; i <e.length;i++){
+					if ( e[start19].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start20 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18)+breakPoints.get(19)+breakPoints.get(20)+breakPoints.get(21); 
+				for (int i=start20; i <e.length;i++){
+					if ( e[start20].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start21 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18)+breakPoints.get(19)+breakPoints.get(20)+breakPoints.get(21)+breakPoints.get(22); 
+				for (int i=start21; i <e.length;i++){
+					if ( e[start21].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start22 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18)+breakPoints.get(19)+breakPoints.get(20)+breakPoints.get(21)+breakPoints.get(22)+breakPoints.get(23); 
+				for (int i=start22; i <e.length;i++){
+					if ( e[start22].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start23 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18)+breakPoints.get(19)+breakPoints.get(20)
+				+breakPoints.get(21)+breakPoints.get(22)+breakPoints.get(23)+breakPoints.get(24); 
+				for (int i=start23; i <e.length;i++){
+					if ( e[start23].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start24 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18)+breakPoints.get(19)+breakPoints.get(20)
+				+breakPoints.get(21)+breakPoints.get(22)+breakPoints.get(23)+breakPoints.get(25); 
+				for (int i=start24; i <e.length;i++){
+					if ( e[start24].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start25 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18)+breakPoints.get(19)+breakPoints.get(20)
+				+breakPoints.get(21)+breakPoints.get(22)+breakPoints.get(23)+breakPoints.get(25)+breakPoints.get(26); 
+				for (int i=start25; i <e.length;i++){
+					if ( e[start25].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start26 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18)+breakPoints.get(19)+breakPoints.get(20)
+				+breakPoints.get(21)+breakPoints.get(22)+breakPoints.get(23)+breakPoints.get(25)+breakPoints.get(26)+breakPoints.get(27); 
+				for (int i=start26; i <e.length;i++){
+					if ( e[start26].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start27 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18)+breakPoints.get(19)+breakPoints.get(20)
+				+breakPoints.get(21)+breakPoints.get(22)+breakPoints.get(23)+breakPoints.get(25)+breakPoints.get(26)+breakPoints.get(27)+breakPoints.get(28); 
+				for (int i=start27; i <e.length;i++){
+					if ( e[start27].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				int start28 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18)+breakPoints.get(19)+breakPoints.get(20)
+				+breakPoints.get(21)+breakPoints.get(22)+breakPoints.get(23)+breakPoints.get(25)+breakPoints.get(26)+breakPoints.get(27)+breakPoints.get(28)+breakPoints.get(29); 
+				for (int i=start28; i <e.length;i++){
+					if ( e[start28].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				int start29 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18)+breakPoints.get(19)+breakPoints.get(20)
+				+breakPoints.get(21)+breakPoints.get(22)+breakPoints.get(23)+breakPoints.get(25)+breakPoints.get(26)+breakPoints.get(27)+breakPoints.get(28)+breakPoints.get(29)+breakPoints.get(30); 
+				for (int i=start29; i <e.length;i++){
+					if ( e[start29].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
+				
+				int start30 = breakPoints.get(0)+ breakPoints.get(1)+ breakPoints.get(2)+ breakPoints.get(3)+ breakPoints.get(4)
+				+breakPoints.get(5)+breakPoints.get(6)+breakPoints.get(7)+breakPoints.get(8)+breakPoints.get(9)+breakPoints.get(10)
+				+breakPoints.get(11)+breakPoints.get(12)+breakPoints.get(13)+breakPoints.get(14)+breakPoints.get(15)
+				+breakPoints.get(16)+breakPoints.get(17)+breakPoints.get(18)+breakPoints.get(19)+breakPoints.get(20)
+				+breakPoints.get(21)+breakPoints.get(22)+breakPoints.get(23)+breakPoints.get(25)+breakPoints.get(26)+breakPoints.get(27)
+				+breakPoints.get(28)+breakPoints.get(29)+breakPoints.get(30)+breakPoints.get(31); 
+				for (int i=start30; i <e.length;i++){
+					if ( e[start30].u == e[i].u){
+						counter++;
+					}else{
+						breakPoints.add(counter);
+						counter = 0;
+						break;
+					}
+				}
