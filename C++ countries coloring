@@ -1,0 +1,54 @@
+#include <fstream>
+using namespace std;
+ifstream fin("colorare.in");
+ofstream fout("colorare.out");
+
+int A[101][101];// A[i][j]==1 for neighboring countries, 0 otherwise
+int X[101],n;//X[i]= color index for the country i
+char C[5][21];//colors
+
+void printing()
+{
+    for(int i=1;i<=n;i++)
+        fout<<i<<" "<<C[X[i]]<<"\n";// Printing the country and the color
+    fout<<endl;
+}
+
+int valid(int k)
+{//1 if the country k can be color using X[k], 0 otherwise
+    for(int i=1;i<k;i++)//pt tarile colorate deja
+        if(A[i][k]==1 && X[i]==X[k]) return 0;// there exists a neighboring country that has the same color => 0
+    return 1;
+}
+
+int choose(int k)
+{//  choosing the minimal valid color
+    for(int i=1;i<=4;i++)// I've got 4 colors
+        {
+            X[k]=i;//  putting the color
+            if(valid(k)) return i;//  if it works, then I return it
+        }
+    return 0;//in case we can't colorize it
+}
+
+void coloring()
+{//I place the color of country i in X[i]
+    for(int i=1;i<=n;i++)
+        X[i]=choose(i);// minimal color
+}
+
+int main()
+{
+    int t1,t2;
+    fin>>n;// reading the number of countries
+    for(int i=1;i<=4;i++)
+        fin>>C[i];//reading the colors
+    while(fin>>t1>>t2)//  reading the pairs of neighboring countries
+    {
+        A[t1][t2]=1;//put 1 in the Adjacency Matrix
+        A[t2][t1]=1;
+    }
+    coloring();
+    printing();
+    return 0;
+}
