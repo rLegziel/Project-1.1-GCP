@@ -1,0 +1,11 @@
+
+//works strictly with the ReadGraph.java file, uses its specfic inputs etc.
+// improvement should be using the vertices as the dimensions of the arrays
+
+
+
+int[][] matrix = new int[10000][10000];
+				for(int i = 0;i<e.length;i++){
+					matrix[e[i].u][e[i].v] = 1;
+					matrix[e[i].v][e[i].u] = 1;
+				}
