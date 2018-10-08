@@ -16,7 +16,7 @@ void printing()
 
 int valid(int k)
 {//1 if the country k can be color using X[k], 0 otherwise
-    for(int i=1;i<k;i++)//pt tarile colorate deja
+    for(int i=1;i<k;i++)// for countrries that have already been colored 
         if(A[i][k]==1 && X[i]==X[k]) return 0;// there exists a neighboring country that has the same color => 0
     return 1;
 }
