@@ -1,6 +1,6 @@
 # Project-1.1
 
-NEXT MEETING : Meeting 2- 08/10 16:15-16:15 BOU1-3 D1.227/225  BOUILLONSTRAAT 1-3
+NEXT MEETING : Meeting 4- 09/10 10:00 Inner City Library, 10:45 meeting with mentor.
 
 ## Meeting 1: 05/10 13:15- 14:45 Attendees: everyone
 ### Goals by next meeting
@@ -12,6 +12,11 @@ NEXT MEETING : Meeting 2- 08/10 16:15-16:15 BOU1-3 D1.227/225  BOUILLONSTRAAT 1-
 - Assign all positions formally(think of which one would you want and are a good fit).
 
 - Decide which path we take and start working on a unified model.
+
+## Meeting 3:08/10 16:15-19:15 BOU1-3 D1.227/225  BOUILLONSTRAAT 1-3 Attendees: everyone
+
+- rought abstract of the coloring method
+- rough abstract of the adjecency matrix 
 
 
 
