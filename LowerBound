@@ -1,0 +1,16 @@
+//lower bound
+private static LowerBound(int[][] matrix)
+{
+	int min_degree=0;
+	for(i=0; i<matrix.length; i++)
+	{
+		int degree=0;
+		for(int j=0; j<matrix[i].length; j++)
+		{
+		degree=degree+matrix[i][j];
+		}
+	if(i==0){min_degree=degree;}
+	else if (degree<min_degree){min_degree=degree;}
+	}
+	return min_degree;
+}
