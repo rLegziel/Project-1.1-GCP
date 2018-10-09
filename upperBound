@@ -1,0 +1,15 @@
+int upperBound(int[][] Matrix) {
+	int max = 0;
+	int upperBound = 0;
+	
+	for(int i = 0; i < Matrix[0].length; i++) {
+		for(int j = 0; j < Matrix.length; j++) {
+			if(Matrix[i][j]) {
+				upperBound++;
+			}
+		}
+		if(max < upperBound)
+			max = upperBound;
+	}
+	return max;
+}
