@@ -10,7 +10,8 @@ private static int LowerBound(int[][] matrix)
 		{
 		degree=degree+matrix[i][j];
 		}
-	if(first && degree!=0){min_degree=degree;}
+	if(first && degree!=0){min_degree=degree;
+	first=false;}
 	else if (degree<min_degree && degree!=0){min_degree=degree;}
 	}
 	return min_degree;
