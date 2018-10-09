@@ -159,19 +159,34 @@ public class ReadGraph
 				}
 				int upperBound = upperBound(matrix);
 				
-				ArrayList<Integer> colorList =new ArrayList<Integer>();
+				for(int i = 0; i<matrix.length;i++){
+					for(int j = 0;j<matrix.length;j++){
+						System.out.print(matrix[i][j]);
+					}
+					System.out.println();
+				}
+				System.out.println(upperBound);
+				
+				ArrayList<Integer> colorList = new ArrayList<Integer>();
 				colorList = makeColorsList(upperBound);
 				
-				int[] doneArray = new int[matrix.length]; 
-                for (int j = 0;j <matrix.length-1; j++){
-	                     if (j == 0 || j == 1){
-		              doneArray[j] = 1;
-	                       }
-	              doneArray[j] = coloring(colorList,matrix,doneArray,j);
-                        }
-                        
-                        System.out.println(doneArray[0]);
+				for(int i = 0;i>upperBound+1;i++){
+					System.out.println(colorList.get(i));
+				}
 				
+				
+				
+				
+				
+				//int[] doneArray = new int[matrix.length]; 
+                //for (int j = 0;j <matrix.length-1; j++){
+	                     //if (j == 0 || j == 1){
+		              //doneArray[j] = 1;
+	                   //    }
+	           //   doneArray[j] = coloring(colorList,matrix,doneArray,j);
+                 //       }
+                        
+                   //     System.out.println(doneArray[0]);
 				
 				
 				
@@ -204,16 +219,19 @@ private static ArrayList<Integer> makeColorsList(int upperBound){
 	return colorList;
 }
 
-private static int  coloring(List<Integer> colors,int[][] matrix,int[] done,int index){
+private static int  coloring(ArrayList<Integer> colors,int[][] matrix,int[] done,int index){
+	ArrayList<Integer> nameholder = new ArrayList<Integer>();
+	colors.addAll(nameholder);
            for (int j = index-1;j>0;j--){
            if( matrix[index][j] == 1){
            	   int colorToRemove = done[j];
-           	   if(colors.contains(colorToRemove) == true){
-           colors.remove(colorToRemove);
+           	 int indexToRemove = nameholder.indexOf(colorToRemove);
+           	   if(indexToRemove != -1){
+           colors.remove(indexToRemove);
            }
            }
            }
-           return colors.get(0);
+           return nameholder.get(1);
            }
 
 }
