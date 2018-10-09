@@ -1,5 +1,6 @@
 import java.io.*;
-import java.util.*;    
+import java.util.*; 
+import java.util.Arrays;
 
 		class ColEdge
 			{
@@ -144,7 +145,6 @@ public class ReadGraph
 				}
 				*/
 				int vertices = n;
-				System.out.println(vertices);
 				
 				int[][] matrix = new int[n+1][n+1];
 				for (int i = 0;i<e.length ;i++){
@@ -156,17 +156,17 @@ public class ReadGraph
 					matrix[secondNumber][firstNumber] = 1;
 				}
 				int upperBound = upperBound(matrix);
-				
+				System.out.println(upperBound);
 				int[] color;
 				color = makeColorsArray(upperBound);
-				
-				int[] doneArray = new int[matrix.length]; 
-                for (int j = 0;j <matrix.length-1; j++){
+				//doneArray holds all the lowest numbers each vertix
+				int[] doneArray = new int[n]; 
+                for (int j = 0;j <n; j++){
 	                     if (j == 0 || j == 1){
 		              doneArray[j] = 1;
 	                       }
 	              doneArray[j] = coloring(color,matrix,doneArray,j);
-                        }
+}
                         int finalReturn=0;
                         for(int k=0;k<doneArray.length;k++){
                         	if(doneArray[k]>finalReturn){
@@ -200,7 +200,7 @@ public class ReadGraph
 }
 
 private static int[] makeColorsArray(int upperBound){
-	int[] colors = new int[upperBound+1];
+	int[] colors = new int[upperBound];
 	for (int i = 0; i<colors.length;i++){
 		colors[i]=i+1;
 	}
@@ -208,21 +208,22 @@ private static int[] makeColorsArray(int upperBound){
 }
 
 private static int coloring(int[] colors,int[][] matrix,int[] done,int index){
+	int[] array = Arrays.copyOf(colors,colors.length);
 	for (int j = index-1;j>0;j--){
            if( matrix[index][j] == 1){
            	   int colorToRemove = done[j];
-           	   for(int i=0; i<colors.length; i++){
-           	   	   if(colors[i]==colorToRemove){
-           	   	   	   colors[i]=0;
+           	   for(int i=0; i<array.length; i++){
+           	   	   if(array[i]==colorToRemove){
+           	   	   	   array[i]=0;
            	   	   }
            }
            }
            }
            boolean stop=false;
            int lowestColor=0;
-           for(int i=0;i<colors.length&&stop!=true;i++){
-           	   if(colors[i]!=0){
-           	   lowestColor=colors[i];
+           for(int i=0;i<array.length&&stop!=true;i++){
+           	   if(array[i]!=0){
+           	   lowestColor=array[i];
            	   stop=true;
            }
            }
