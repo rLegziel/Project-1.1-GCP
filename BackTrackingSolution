@@ -1,0 +1,41 @@
+int st[NMAX],n,m,a[NMAX][NMAX],viz[NMAX],maxim=0,pmax=0;
+int p,minim=0,nr=0;
+ 
+// READING INTO AN ADJACENCY MATRIX METHOD
+
+bool valid(int k,int c)
+{
+    int i;
+    for(i=1; i < k; i++)
+        if(a[i][k] && st[i] == c)  // so, if the neighbour is conn
+            return 0;
+    return 1;
+}
+ 
+void back(int k)
+{
+    int i;
+    if(k == n+1)
+    {
+        minim++;
+        if(minim == 1)
+            p = pmax;
+    }
+    else
+        for(i=1; i <= p; i++)
+            if(valid(k,i))
+            {
+                if(pmax <i )
+                    pmax = i;
+                st[k] = i;
+                back(k+1);
+            }
+}
+ 
+int main()
+{
+    int i;
+    read();
+    back(1);
+    
+}
