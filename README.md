@@ -25,5 +25,7 @@ NEXT MEETING : Meeting 4- 09/10 10:00 Inner City Library, 10:45 meeting with men
 - https://www.callicoder.com/java-hashmap/
 - https://www.youtube.com/watch?v=YWlXe7m89VU - introduction to cliques 
 - https://www.programiz.com/dsa/graph-adjacency-matrix
+- https://www.tutorialspoint.com/java/util/arraylist_remove_object.htm arrayList Remove method
+- https://www.tutorialspoint.com/java/util/arraylist_contains.htm - arrayList contains method
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
