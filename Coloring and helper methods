@@ -14,7 +14,7 @@ we want to make sure that we always backtrack and make sure we check everything 
 
 TODO:
 1)fix it so if the vertices dont start at 1 but in a different number, and make sure that all graphs are sorted in an ascending order
-2)implement the deletion from the colors array correctly.
+2)implement the deletion from the colors array correctly. DONE
 */
 
 
@@ -22,13 +22,24 @@ TODO:
 
 
 
-
-
-private int coloring(int[] colors,int[][] matrix,int[] done,int index){
+private int coloring(List<Integer> colors,int[][] matrix,int[] done,int index){
            for (j = index-1;j>0;j--){
            if( matrix[index][j] == 1){
-           colors - done[j];
+           	   done[j] = colorToRemove;
+           	   if(colors.contain(colorToRemove){
+           colors.remove(colorToRemove);
+           }
            }
            }
            return colors[0];
            }
+           
+           // a method that creates an ArrayList containing all the colors(shown as numbers) when the upperbound will be the number of colors we can use.
+           
+           private List<Integer> makeColorsList(int upperBound){
+	ArrayList<Integer> colorList = new ArrayList<Integer>;
+	for (int i = 1; i > upperBound;i++){
+		colorList.add(i)
+	}
+	return colorList;
+}
