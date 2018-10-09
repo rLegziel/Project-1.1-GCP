@@ -4,7 +4,7 @@
 
 
 
-int[][] matrix = new int[10000][10000];
+int[][] matrix = new int[vertices][vertices];
 				for(int i = 0;i<e.length;i++){
 					matrix[e[i].u][e[i].v] = 1;
 					matrix[e[i].v][e[i].u] = 1;
