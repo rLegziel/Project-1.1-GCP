@@ -154,6 +154,11 @@ public class ReadGraph
 }
                         int chromaticNumber = findChromatic(doneArray);
                         System.out.println("The chromatic number is: " + chromaticNumber);
+                        
+                        int chromaticRandomized = randomizedTest(matrix,n,upperBound,color);
+                        System.out.println("The chromatic number(randomized) is: " + chromaticRandomized);
+                        
+                        
 				
 				
 				
@@ -224,5 +229,25 @@ private static int coloring(int[] colors,int[][] matrix,int[] done,int index){
            	   }
            	   return smallestColor;
            }
+           
+           private static int randomizedTest(int[][] matrix,int vertices,int upperBound,int[] color){
+           	   ArrayList<Integer> randomOrder = new ArrayList<Integer>(vertices+1);
+           	   for (int i=1;i<vertices+1;i++){
+           	   	   randomOrder.add(i);
+           	   }
+           	   Collections.shuffle(randomOrder);
+           	   int[] doneArray = new int[vertices+1]; //doneArray is the array that will contain the colorings of the nodes
+                for (int j = 0;j <vertices; j++){
+	                     if (randomOrder.get(j) == 0 || randomOrder.get(j) == 1){
+		              doneArray[j] = 1;
+	                       }
+	                       int randomChoosing = randomOrder.get(j);
+	                       System.out.println(randomChoosing);
+	              doneArray[j] = coloring(color,matrix,doneArray,randomChoosing);
+}
+                        int chromaticNumber = findChromatic(doneArray);
+                        return chromaticNumber;
+           }
+           	   
 
 }
