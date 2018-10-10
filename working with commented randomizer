@@ -230,6 +230,24 @@ private static int coloring(int[] colors,int[][] matrix,int[] done,int index){
            	   return smallestColor;
            }
            
+           /*
+           randomizedTest method takes in 4 @params
+           matrix = the adj. matrix
+           vertices = number of vertices in the graph
+           upperBound = the upperbound for the chromatic number, determined by Brooks Theorem
+           color = an array of possible colors, its length is based on the upperbound
+           
+           Reason to use:
+           the greedy coloring method has some inherent problems in some graph structures because it uses a specific order of vertices.
+           But there might be a better solution when using a different order of the vertices checked.
+           this method randomizes the order of vertices we check so we can see if theres a better solution.
+           
+           pseudocode:
+           we create a list which has a length of the number of vertices,
+           we randomize it using Collections.shuffle
+           then we basically run the same method to actually color the 
+          */
+           
            private static int randomizedTest(int[][] matrix,int vertices,int upperBound,int[] color){
            	   ArrayList<Integer> randomOrder = new ArrayList<Integer>(vertices+1);
            	   for (int i=1;i<vertices+1;i++){
@@ -248,6 +266,7 @@ private static int coloring(int[] colors,int[][] matrix,int[] done,int index){
                         int chromaticNumber = findChromatic(doneArray);
                         return chromaticNumber;
            }
+           */
            	   
 
 }
