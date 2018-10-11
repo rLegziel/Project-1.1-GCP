@@ -1,4 +1,4 @@
-int vertices = n;
+   int vertices = n;
         int edges = m;
         if (isComplete(vertices, edges)) { // we check if the graph is a complete graph, if it is- the chromatic number equals to the number of vertices.
             System.out.println("Chromatic number = " + vertices);
@@ -16,9 +16,9 @@ int vertices = n;
 
 
             int upperBound = upperBound(matrix);
-            int lowerBound = lowerBound(matrix, upperBound);
+            int lowestDegree = lowestDegree(matrix, upperBound);
             System.out.println("The upper bound is " + upperBound);
-            System.out.println("the lower bound is " + lowerBound);
+            System.out.println("the lowest degree is " + lowestDegree);
 
             int[] color;
             color = makeColorsArray(upperBound);
@@ -33,8 +33,12 @@ int vertices = n;
             int chromaticNumber = findChromatic(doneArray);
             System.out.println("The chromatic number is: " + chromaticNumber);
 
+
+// in order to take advantage of the randomizer, were running the test multiple times(same as the amount of vertices in this case)
+// and output the lowest chromatic number we get.
+            
             int minimumChromatic = upperBound;
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < vertices; i++) {
                 int chromaticRandomized = randomizedTest(matrix, n, upperBound, color);
                 if (chromaticRandomized < minimumChromatic) {
                     minimumChromatic = chromaticRandomized;
@@ -167,8 +171,6 @@ int vertices = n;
             if (j == 0) {
                 doneArray[j] = 1;
             } else {
-                //System.out.println(randomChoosing);
-
                 doneArray[j] = coloringRandom(color, matrix, doneArray, randomChoosing, randomOrder);
             }
         }
@@ -177,13 +179,14 @@ int vertices = n;
     }
 
     /*
-               lowerBound is a method to find a basic lower bound to the chromatic number.
+               lowestDegree is a method to find a basic lower bound to the chromatic number.
                the method takes in two @params- the adjacency matrix and upper bound.
                it iterates through the matrix and finds the vertex which has the least edges connected to it
-               we then use the number of least edges connected as the lower bound to the chromatic number
+               this number can be used as a simple lower bound to the chromatic number, but not in all cases
+
 
               **/
-    private static int lowerBound(int[][] matrix, int upperBound) {
+    private static int lowestDegree(int[][] matrix, int upperBound) {
         int min = upperBound;
         int lowerbound = upperBound;
         int degrees = 0;
@@ -211,7 +214,6 @@ int vertices = n;
         int index = randomOrder.indexOf(number);
         for (int j = index - 1; j > 0; j--) {
             if (matrix[number][randomOrder.get(j)] == 1) {
-                //System.out.println("the color we remove is : " + done[j]);
                 int colorToRemove = done[j];
                 for (int i = 0; i < array.length; i++) {
                     if (array[i] == colorToRemove) {
