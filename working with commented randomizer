@@ -157,8 +157,10 @@ public class ReadGraph
                         int chromaticNumber = findChromatic(doneArray);
                         System.out.println("The chromatic number is: " + chromaticNumber);
                         
+                        for (int i=0; i<(n/2);i++){
                         int chromaticRandomized = randomizedTest(matrix,n,upperBound,color);
                         System.out.println("The chromatic number(randomized) is: " + chromaticRandomized);
+                        }
                         
                         
 				
@@ -199,13 +201,13 @@ public class ReadGraph
 
 private static int[] makeColorsArray(int upperBound){ // the array doesnt contain 0 as its not counted towards amount of colors.
 	int[] colors = new int[upperBound];
-	for (int i = 0; i<colors.length;i++){
-		colors[i]=i+1;
+	for (int i = 1; i<colors.length+1;i++){
+		colors[i-1]=i;
 	}
 	return colors;
 }
 
-private static int coloring(int[] colors,int[][] matrix,int[] done,int index){ //rebuild for randomized!!
+private static int coloring(int[] colors,int[][] matrix,int[] done,int index){ 
 	int[] array = Arrays.copyOf(colors,colors.length);
 	for (int j = index-1;j>0;j--){
            if( matrix[index][j] == 1){
@@ -251,19 +253,22 @@ private static int coloring(int[] colors,int[][] matrix,int[] done,int index){ /
           **/
            
            private static int randomizedTest(int[][] matrix,int vertices,int upperBound,int[] color){
+           	   color[0] = 1;
            	   ArrayList<Integer> randomOrder = new ArrayList<Integer>(vertices+1);
            	   for (int i=1;i<vertices+1;i++){
            	   	   randomOrder.add(i);
            	   }
            	   Collections.shuffle(randomOrder);
-           	   int[] doneArray = new int[vertices+1]; //doneArray is the array that will contain the colorings of the nodes
+           	   int[] doneArray = new int[vertices]; //doneArray is the array that will contain the colorings of the nodes
                 for (int j = 0;j <vertices; j++){
-	                     if (randomOrder.get(j) == 0 || randomOrder.get(j) == 1){
+                	int randomChoosing = randomOrder.get(j);
+	                     if (j == 0){
 		              doneArray[j] = 1;
-	                       }
-	                       int randomChoosing = randomOrder.get(j);
+	                       }else{
 	                       //System.out.println(randomChoosing);
+	                       
 	              doneArray[j] = coloringRandom(color,matrix,doneArray,randomChoosing,randomOrder);
+	              		   }
 }
                         int chromaticNumber = findChromatic(doneArray);
                         return chromaticNumber;
@@ -291,8 +296,10 @@ return min;
 		   // same as the coloring method, just takes on extra @param which is randomOrder- the order of the vertices checked.
 		   private static int coloringRandom(int[] colors,int[][] matrix,int[] done,int index,ArrayList<Integer> randomOrder){ 
 	int[] array = Arrays.copyOf(colors,colors.length);
-	for (int j = index-1;j>0;j--){
+	int test = randomOrder.indexOf(index);
+	for (int j = test-1;j>0;j--){
            if( matrix[index][randomOrder.get(j)] == 1){
+           	   //System.out.println("the color we remove is : " + done[j]);
            	   int colorToRemove = done[j];
            	   for(int i=0; i<array.length; i++){
            	   	   if(array[i]==colorToRemove){
@@ -301,6 +308,10 @@ return min;
            }
            }
            }
+         //  for (int i = 0;i<array.length;i++){
+           //	   System.out.print(array[i]);
+           	 //  System.out.println();
+           //}
            int lowestColor = findSmallest(array);
            return lowestColor;
            }
