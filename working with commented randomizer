@@ -130,6 +130,9 @@ public class ReadGraph
 				}
 				
 				int vertices = n;
+				if((n*(n-1))/2==m){//Complete Graphs
+					System.out.println("Chromatic number = "+n);
+				}else{
 				
 				int[][] matrix = new int[n+1][n+1]; // creating adjecency matrix based on the amount of vertices.
 				for (int i = 0;i<e.length ;i++){
@@ -161,7 +164,7 @@ public class ReadGraph
                         int chromaticRandomized = randomizedTest(matrix,n,upperBound,color);
                         System.out.println("The chromatic number(randomized) is: " + chromaticRandomized);
                         }
-                        
+	 }
                         
 				
 				
