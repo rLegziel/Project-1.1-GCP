@@ -141,7 +141,9 @@ public class ReadGraph
 					matrix[secondNumber][firstNumber] = 1;
 				}
 				int upperBound = upperBound(matrix);
+				int lowerBound = lowerBound(matrix,upperBound);
 				System.out.println("The upperbound is " + upperBound);
+				System.out.println("the lower bound is " + lowerBound);
 				int[] color;
 				color = makeColorsArray(upperBound);
 				
@@ -203,7 +205,7 @@ private static int[] makeColorsArray(int upperBound){ // the array doesnt contai
 	return colors;
 }
 
-private static int coloring(int[] colors,int[][] matrix,int[] done,int index){
+private static int coloring(int[] colors,int[][] matrix,int[] done,int index){ //rebuild for randomized!!
 	int[] array = Arrays.copyOf(colors,colors.length);
 	for (int j = index-1;j>0;j--){
            if( matrix[index][j] == 1){
@@ -224,7 +226,7 @@ private static int coloring(int[] colors,int[][] matrix,int[] done,int index){
            	   for(int i =0;i<copyArray.length;i++){
            	   	   if (copyArray[i] !=0){
            	   	   	   smallestColor = copyArray[i];
-           	   	   	   return smallestColor;
+           	   	   	   break;
            	   	   }
            	   }
            	   return smallestColor;
@@ -246,7 +248,7 @@ private static int coloring(int[] colors,int[][] matrix,int[] done,int index){
            we create a list which has a length of the number of vertices,
            we randomize it using Collections.shuffle
            then we basically run the same method to actually color the 
-          */
+          **/
            
            private static int randomizedTest(int[][] matrix,int vertices,int upperBound,int[] color){
            	   ArrayList<Integer> randomOrder = new ArrayList<Integer>(vertices+1);
@@ -260,13 +262,49 @@ private static int coloring(int[] colors,int[][] matrix,int[] done,int index){
 		              doneArray[j] = 1;
 	                       }
 	                       int randomChoosing = randomOrder.get(j);
-	                       System.out.println(randomChoosing);
-	              doneArray[j] = coloring(color,matrix,doneArray,randomChoosing);
+	                       //System.out.println(randomChoosing);
+	              doneArray[j] = coloringRandom(color,matrix,doneArray,randomChoosing,randomOrder);
 }
                         int chromaticNumber = findChromatic(doneArray);
                         return chromaticNumber;
            }
-           */
+           
+           private static int lowerBound(int[][] matrix,int upperBound) {
+	int min = upperBound;
+	int lowerbound = upperBound;
+	int degrees = 0;
+	
+	for(int i = 0; i < matrix[0].length; i++) { // based on Brooks Theorem, the upperbound can be at most the highest degree of edges +1
+		for(int j = 0; j < matrix.length; j++) {
+			if(matrix[i][j] == 1) {
+				degrees++;
+			}
+		}
+		if(lowerbound > degrees && degrees<min && degrees > 1 ){
+			min = degrees;
+			degrees = 0;
+	}
+	degrees = 0;
+}
+return min;
+		   }
+		   // same as the coloring method, just takes on extra @param which is randomOrder- the order of the vertices checked.
+		   private static int coloringRandom(int[] colors,int[][] matrix,int[] done,int index,ArrayList<Integer> randomOrder){ 
+	int[] array = Arrays.copyOf(colors,colors.length);
+	for (int j = index-1;j>0;j--){
+           if( matrix[index][randomOrder.get(j)] == 1){
+           	   int colorToRemove = done[j];
+           	   for(int i=0; i<array.length; i++){
+           	   	   if(array[i]==colorToRemove){
+           	   	   	   array[i]=0;
+           	   	   }
+           }
+           }
+           }
+           int lowestColor = findSmallest(array);
+           return lowestColor;
+           }
+           
            	   
 
 }
