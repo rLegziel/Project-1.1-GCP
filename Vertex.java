@@ -64,7 +64,7 @@ public class Vertex
 		return y_coordinate;
 	}
 	
-	public double getRadius(){
+	public static double getRadius(){
 		return radius;
 	}
 	
