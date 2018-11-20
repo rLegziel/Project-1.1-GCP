@@ -12,6 +12,9 @@ public class Vertex
 			A = new double[1][2];
 			x_coordinate = Math.random() * WIDTH + 1;
 			y_coordinate = Math.random() * HEIGHT +1;
+			x_coordinate = x_coordinate - (x_coordinate%5);
+			y_coordinate = y_coordinate - (x_coordinate%5);
+			
 			A[0][0] = x_coordinate;
 			A[0][1] = y_coordinate;
 		}
@@ -61,6 +64,10 @@ public class Vertex
 		return y_coordinate;
 	}
 	
+	public double getRadius(){
+		return radius;
+	}
+	
 	
 	private double x_coordinate;
 	private double y_coordinate;
@@ -71,4 +78,6 @@ public class Vertex
 	private static double[][]A;
 	private static final double WIDTH = 400;
 	private static final double HEIGHT = 400;
+	private static final double radius = 5;
+
 }
