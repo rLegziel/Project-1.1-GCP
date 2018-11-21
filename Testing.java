@@ -46,7 +46,7 @@ import javafx.scene.control.MenuItem;
 public class Testing extends Application
 {
 		
-	public Circle circle = new Circle(300, 150, 80);
+	public static Circle circle = new Circle(300, 150, 80);
 	
 	public void start(Stage stage){
 	//Getting Roy's color array
@@ -55,24 +55,19 @@ public class Testing extends Application
 	circle.setFill(Color.RED);
 	
 	ContextMenu colorMenu = new ContextMenu();
-	//To be implemented when MenuItemArray class works
-	//MenuItem[] menuItem = MenuItemArray.getMenuItemArray();
+	MenuItemArray temp = new MenuItemArray();
+	MenuItem[] menuItemArray = temp.getMenuItemArray();
 	
-	//This should be moved to the MenuItemArray class later but is uncommented for testing
+	/*
 	MenuItem item1 = new MenuItem("Blue");
 	item1.setOnAction((new EventHandler<ActionEvent>(){ //Sets what happens when you choose this option
 		public void handle(ActionEvent e){
 			circle.setFill(Color.web(colorArray[0]));
 	}}));
-	
-	//Add option to menu
-	colorMenu.getItems().addAll(item1);
-	
-	/* To be implemented when MenuItemArray class works
-	for(i=0; i<2;i++){ //10 should be replaced with number of colors
-	colorMenu.getItems().addAll(menuItem[i]);
-	}
 	*/
+	for(int i=0; i<50;i++){
+	colorMenu.getItems().addAll(menuItemArray[i]);
+	}
 	
 	//Drops down menu when circle(Later vertex) is clicked
 	circle.setOnMouseClicked((new EventHandler<MouseEvent>(){
