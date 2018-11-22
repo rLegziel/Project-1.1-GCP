@@ -44,7 +44,13 @@ import javafx.scene.control.PopupControl;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
-public class Vertex extends Circle
+/*
+Elliot's Vertex class (subclass of MenuItemArray)
+Basically a circle subclass, so it has the same methods as a circle
+aka: setting and getting coordinates and colors etc.
+*/
+
+public class Vertex extends MenuItemArray
 {
 	private static int counter = 0;
 	private int index;
@@ -61,20 +67,42 @@ public class Vertex extends Circle
 		counter++;
 
 		ContextMenu colorMenu = new ContextMenu();
-		MenuItemArray temp = new MenuItemArray();
-		MenuItem[] menuItemArray = temp.getMenuItemArray();
+		MenuItem[] menuItemArray = getMenuItemArray();
 		
+		/*
+		This was original template for a menu item that I just kept here
+		Doesn't do anything when uncommented
+		
+		MenuItem item0 = new MenuItem("Cyan");
+	item0.setOnAction((new EventHandler<ActionEvent>(){
+		public void handle(ActionEvent e){
+			Testing.vertex0.setFill(Color.web(colorArray[0]));
+	}}));
+	menuItemArray[0]=item0;
+	*/	
+		
+			
+	
 		for(int i=0; i<91;i++){
 		colorMenu.getItems().addAll(menuItemArray[i]);
 		}
 		
 		this.setOnMouseClicked((new EventHandler<MouseEvent>(){
-		@Override
 		public void handle(MouseEvent e){
 		PointerInfo a = MouseInfo.getPointerInfo();
 		Point b = a.getLocation();
 		colorMenu.show(Testing.root,b.getX(),b.getY());
 		}}));
 		}
+		
+		/*
+		Not used anymore but might be an idea to add something like this to 
+		the MenuItemArray class to make color checking easier
+		
+		public void setColorIndex(int colorIndex){
+			this.colorIndex = colorIndex;
+			this.setFill(Color.web(colorArray[colorIndex]));
+		}
+		*/
 		
 	}
