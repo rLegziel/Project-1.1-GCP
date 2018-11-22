@@ -90,7 +90,6 @@ public class Testing extends Application
 		*/
 	
 	//Scene setting
-	
 	root.getChildren().addAll(vertex0,vertex1,vertex2,vertex3,vertex4);
 	
 	Scene scene = new Scene(root, 1000, 750);
