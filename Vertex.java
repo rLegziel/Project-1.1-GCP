@@ -44,19 +44,13 @@ import javafx.scene.control.PopupControl;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
-/*
-Elliot's Vertex class (subclass of MenuItemArray)
-Basically a circle subclass, so it has the same methods as a circle
-aka: setting and getting coordinates and colors etc.
-*/
-
 public class Vertex extends MenuItemArray
 {
 	private static int counter = 0;
 	private int index;
-	private final static double WIDTH = 600;
-	private final static double HEIGHT = 300;
-	private final static double RADIUS = 10;
+	private final static double WIDTH = 1500;
+	private final static double HEIGHT = 750;
+	private final static double RADIUS = 15;
 	public static String[] colorArray = ColorArray.getColorArray();
 	
 	public Vertex(){
@@ -83,7 +77,7 @@ public class Vertex extends MenuItemArray
 		
 			
 	
-		for(int i=0; i<91;i++){
+		for(int i=0; i<91;i++){ //Change 91 to less for smaller menu's with less colors
 		colorMenu.getItems().addAll(menuItemArray[i]);
 		}
 		
