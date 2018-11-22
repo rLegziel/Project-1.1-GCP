@@ -18,5 +18,4 @@ import javafx.scene.paint.Color;
 	};
  	 return colorArray;
  }
-
 }
