@@ -43,65 +43,52 @@ import javafx.scene.control.PopupControl;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
+/*
+Elliot's Testing screen builder
+This would basically be the game screen which should open from Lena's
+Menu screen and which has the vertices on it etc.
+*/
+
 public class Testing extends Application
 {
-	
-	
-	public static Circle circle = new Circle(300, 150, 80);
-	public static Pane root = new Pane();
-	public static Vertex vertex0 = new Vertex();
-	public static Vertex vertex1 = new Vertex();
-	public static Vertex vertex2 = new Vertex();
+	/*NEEDS TO BE HERE!!! (I think), MenuItems need to be able to reach this node
+	otherwise the menu's won't work*/
+	public static Pane root = new Pane(); 
 
 	public void start(Stage stage){		
 		
 		RandomNodes graph = new RandomNodes(6,10);
 		graph.createAdjMatrix();
 		int[][] adjMatrix = graph.getAdjMatrix();
-	/*
+		
+		/*
+		Automated object creation impossible
+		maybe something like we did with the menuItems?
+		so an Array with preset vertices (Still random location tho)
+		*/
+		
+			Vertex vertex0 = new Vertex();
+			Vertex vertex1 = new Vertex();
+			Vertex vertex2 = new Vertex();
+			Vertex vertex3 = new Vertex();
+			Vertex vertex4 = new Vertex();
+	
+		/*This is to Test my adjMatrix class, can be recommented
+		
 		System.out.println("Matrix is: "+adjMatrix.length);
 		for(int i=0; i<adjMatrix.length;i++){
 			for(int j=0; j<adjMatrix.length;j++){
 				System.out.print(adjMatrix[i][j]+" ");
 			}
 		}
-		
-		
-	//Getting Roy's color array
-	String[] colorArray = ColorArray.getColorArray();
-	//Temp starting color of circle
-	circle.setFill(Color.RED);
+		*/
 	
-	ContextMenu colorMenu = new ContextMenu();
-	MenuItemArray temp = new MenuItemArray();
-	MenuItem[] menuItemArray = temp.getMenuItemArray();
+	//Scene setting
 	
-	/*
-	MenuItem item1 = new MenuItem("Blue");
-	item1.setOnAction((new EventHandler<ActionEvent>(){ //Sets what happens when you choose this option
-		public void handle(ActionEvent e){
-			circle.setFill(Color.web(colorArray[0]));
-	}}));
+	root.getChildren().addAll(vertex0,vertex1,vertex2,vertex3,vertex4);
 	
-	for(int i=0; i<92;i++){
-	colorMenu.getItems().addAll(menuItemArray[i]);
-	}
-	
-	//Drops down menu when circle(Later vertex) is clicked
-	circle.setOnMouseClicked((new EventHandler<MouseEvent>(){
-	@Override
-	public void handle(MouseEvent e){
-		PointerInfo a = MouseInfo.getPointerInfo();
-		Point b = a.getLocation();
-		colorMenu.show(circle,b.getX(),b.getY());
-		}}));
-	*/
-	
-	
-	root.getChildren().addAll(vertex0,vertex1,vertex2);
-	
-	Scene scene = new Scene(root, 600, 300);
-	scene.setFill(Color.GRAY);
+	Scene scene = new Scene(root, 1000, 750);
+	scene.setFill(Color.BLACK);
 	stage.setTitle("Test");
 	stage.setScene(scene);
 	stage.show();
