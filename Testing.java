@@ -45,10 +45,28 @@ import javafx.scene.control.MenuItem;
 
 public class Testing extends Application
 {
-		
-	public static Circle circle = new Circle(300, 150, 80);
 	
-	public void start(Stage stage){
+	
+	public static Circle circle = new Circle(300, 150, 80);
+	public static Pane root = new Pane();
+	public static Vertex vertex0 = new Vertex();
+	public static Vertex vertex1 = new Vertex();
+	public static Vertex vertex2 = new Vertex();
+
+	public void start(Stage stage){		
+		
+		RandomNodes graph = new RandomNodes(6,10);
+		graph.createAdjMatrix();
+		int[][] adjMatrix = graph.getAdjMatrix();
+	/*
+		System.out.println("Matrix is: "+adjMatrix.length);
+		for(int i=0; i<adjMatrix.length;i++){
+			for(int j=0; j<adjMatrix.length;j++){
+				System.out.print(adjMatrix[i][j]+" ");
+			}
+		}
+		
+		
 	//Getting Roy's color array
 	String[] colorArray = ColorArray.getColorArray();
 	//Temp starting color of circle
@@ -64,8 +82,8 @@ public class Testing extends Application
 		public void handle(ActionEvent e){
 			circle.setFill(Color.web(colorArray[0]));
 	}}));
-	*/
-	for(int i=0; i<50;i++){
+	
+	for(int i=0; i<92;i++){
 	colorMenu.getItems().addAll(menuItemArray[i]);
 	}
 	
@@ -77,10 +95,10 @@ public class Testing extends Application
 		Point b = a.getLocation();
 		colorMenu.show(circle,b.getX(),b.getY());
 		}}));
-
+	*/
 	
-	Pane root = new Pane();
-	root.getChildren().addAll(circle);
+	
+	root.getChildren().addAll(vertex0,vertex1,vertex2);
 	
 	Scene scene = new Scene(root, 600, 300);
 	scene.setFill(Color.GRAY);
