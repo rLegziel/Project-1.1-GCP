@@ -10,7 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent; 
 import javafx.scene.paint.Color; 
 import javafx.scene.shape.Circle; 
-
+import javafx.scene.shape.Shape;
+import javafx.scene.shape.Line;
 import java.util.EventObject;
 import javafx.event.Event;
 import javafx.event.ActionEvent;
@@ -43,11 +44,7 @@ import javafx.scene.control.PopupControl;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
-/*
-Elliot's Testing screen builder
-This would basically be the game screen which should open from Lena's
-Menu screen and which has the vertices on it etc.
-*/
+//Elliot's Testing.java
 
 public class Testing extends Application
 {
@@ -62,39 +59,32 @@ public class Testing extends Application
 		No parameters returns random amount of edges and vertices matrix
 		(boundries set in RandomNodes.java)
 		*/
-		
-		RandomNodes graph = new RandomNodes(6,10);
+		RandomNodes graph = new RandomNodes(10,10);
 		graph.createAdjMatrix();
 		int[][] adjMatrix = graph.getAdjMatrix();
 		
-		/*
-		Automated object creation impossible
-		maybe something like we did with the menuItems?
-		so an Array with preset vertices (Still random location tho)
-		*/
-		
-			Vertex vertex0 = new Vertex();
-			Vertex vertex1 = new Vertex();
-			Vertex vertex2 = new Vertex();
-			Vertex vertex3 = new Vertex();
-			Vertex vertex4 = new Vertex();
-	
 		/*This is to Test my adjMatrix class, can be recommented
 		
 		System.out.println("Matrix is: "+adjMatrix.length);
-		for(int i=0; i<adjMatrix.length;i++){
+		for(int i=0; i<adjMatrix.length;i++,System.out.print("\n")){
 			for(int j=0; j<adjMatrix.length;j++){
 				System.out.print(adjMatrix[i][j]+" ");
 			}
 		}
 		*/
+		
+	//Background color	
+	root.setStyle("-fx-background-color: #E7E8E9;");
 	
-	//Scene setting
-	root.getChildren().addAll(vertex0,vertex1,vertex2,vertex3,vertex4);
 	
-	Scene scene = new Scene(root, 1000, 750);
-	scene.setFill(Color.BLACK);
-	stage.setTitle("Test");
+	/*Adds all the Vertices to the Pane 
+	(Could be moved to adjMatrix class root. would be Testing.root. */
+	for(int i=0;i<adjMatrix.length;i++){
+	root.getChildren().addAll(VertexArray.vertexArray[i]);
+	}
+	
+	Scene scene = new Scene(root, 1500, 750);
+	stage.setTitle("Chromatic Number Game");
 	stage.setScene(scene);
 	stage.show();
 	}
