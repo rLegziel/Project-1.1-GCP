@@ -57,6 +57,12 @@ public class Testing extends Application
 
 	public void start(Stage stage){		
 		
+		/*Parameters of constructor are: (int vertices, int edges)
+		so maybe we should add the way for the user to choose these here
+		No parameters returns random amount of edges and vertices matrix
+		(boundries set in RandomNodes.java)
+		*/
+		
 		RandomNodes graph = new RandomNodes(6,10);
 		graph.createAdjMatrix();
 		int[][] adjMatrix = graph.getAdjMatrix();
