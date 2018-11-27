@@ -8,8 +8,7 @@ RandomNodes.java
 MenuItemArray.java
 
 To do list (Not in any particular order):
-1. Update the randomNum() method in RandomNodes.java. It should not double check stuff, it makes the code
-really slow for a lot of edges relative to vertice count
+
 2. Rearrange the colorArray in ColorArray.java so the order of colors makes more sense (Make first black like base color)
 2b. Labelling every color in MenuItemArray.java (This will suck)
     Try to use the Find&Replace option in your IDE
