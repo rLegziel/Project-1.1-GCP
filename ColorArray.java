@@ -1,7 +1,29 @@
 import javafx.scene.paint.Color;
+public class ColorArray{  //Updated
+    public static String[] getColorArray(){
+        String[] colorArray = {
+                "#FF0000", "#008000", "#FFFF00", "#0000FF", "#FFA500", "#800080",
+                "#00FFFF", "#FF00FF", "#00FF00", "#FF1493", "#008080", "#8B4513", "#808000", "#000080",
+                "#000000", "#48D1CC", "#2F4F4F", "#D2691E", "#00BFFF", "#CD5C5C", "#1E90FF", "#E6E6FA",
+                "#9932CC", "#4169E1", "#6495ED", "#191970", "#B0E0E6", "#2E8B57", "#ADFF2F", "#DAA520",
+                "#4B0082", "#00FF7F", "#5F9EA0", "#FF4500", "#F0E68C", "#FF69B4", "#B0E0E6", "#B22222",
+                "#20B2AA", "#6495ED", "#CD853F", "#696969", "#696969", "#FFDAB9", "#8B008B", "#CD5C5C",
+                "#FF7F50", "#800000", "#9ACD32", "#BC8F8F", "#F0FFFF"
+        };
+        return colorArray;
+    }
+}
+
+
+/**
+ * Old version
+ *
+
+
+import javafx.scene.paint.Color;
  public class ColorArray{  //Updated
  	public static String[] getColorArray(){
- 	String[] colorArray = {
+ 	String[] colorArray = {	
 "#1CE6FF", "#FF34FF", "#FF4A46", "#008941", "#006FA6", "#A30059",
 "#FFDBE5", "#7A4900", "#0000A6", "#63FFAC", "#B79762", "#004D43", "#8FB0FF", "#997D87",
 "#5A0007", "#809693", "#FEFFE6", "#1B4400", "#4FC601", "#3B5DFF", "#4A3B53", "#FF2F80",
@@ -19,3 +41,5 @@ import javafx.scene.paint.Color;
  	 return colorArray;
  }
 }
+ *
+ */
