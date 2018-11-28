@@ -1,4 +1,4 @@
-import java.lang.Math;
+
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.EventHandler;
@@ -28,15 +28,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.Cursor;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.lang.Object;
+import java.util.Random;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Region;
@@ -44,7 +39,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Control;
 import javafx.scene.control.ChoiceBox;
-
 import java.lang.Object;
 import javafx.stage.Window;
 import javafx.stage.PopupWindow;
@@ -56,8 +50,8 @@ public class Vertex extends MenuItemArray
 {
 	private static int counter = 0;
 	private int index;
-	private final static double WIDTH = 1500;
-	private final static double HEIGHT = 750;
+	private final static int WIDTH = 1500;
+	private final static int HEIGHT = 750;
 	private final static double RADIUS = 15;
 	public static String[] colorArray = ColorArray.getColorArray();
 //	PointerInfo pointer = MouseInfo.getPointerInfo();
@@ -66,8 +60,9 @@ public class Vertex extends MenuItemArray
 
 	public Vertex(){
 		super(RADIUS);
-			setCenterX(Math.random()*WIDTH);
-			setCenterX(Math.random()*HEIGHT);
+		Random rand = new Random();
+			setCenterX(rand.nextInt(WIDTH) + 20);
+			setCenterY(rand.nextInt(HEIGHT) + 20);
 
 		index = counter;
 		counter++;
