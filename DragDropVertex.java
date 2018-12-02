@@ -1,33 +1,41 @@
-import javafx.application.Application; 
-import static javafx.application.Application.launch; 
+import java.lang.Math;
+import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.event.EventHandler;
 import java.awt.MouseInfo;
 import java.awt.PointerInfo;
-import java.awt.geom.Point2D;
 import java.awt.Point;
-import javafx.scene.Group; 
-import javafx.scene.Scene; 
-import javafx.scene.input.MouseEvent; 
-import javafx.scene.paint.Color; 
-import javafx.scene.shape.Circle; 
-import javafx.scene.shape.Shape;
-import javafx.scene.shape.Line;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import java.util.EventObject;
 import javafx.event.Event;
 import javafx.event.ActionEvent;
-import java.util.Random;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Region;
 import javafx.scene.control.Control;
 import javafx.scene.control.ComboBoxBase;
 import javafx.scene.control.ColorPicker;
-
-import javafx.scene.text.Font; 
+import java.util.Arrays;
+import javafx.scene.input.MouseButton;
+import javafx.application.Application;
+import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import javafx.scene.Cursor;
+import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text; 
-import javafx.stage.Stage; 
-         
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import java.util.Random;
 import java.lang.Object;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -36,7 +44,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Control;
 import javafx.scene.control.ChoiceBox;
-
 import java.lang.Object;
 import javafx.stage.Window;
 import javafx.stage.PopupWindow;
@@ -44,99 +51,73 @@ import javafx.scene.control.PopupControl;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
-// Elliot's Random Graph class
-
-public class RandomNodes {
-	private int vertices;
-	private int edges;
-	private int randomX = 0;
-	private int randomY = 0;
-	private int[][] array; //The AdjArray!
-
-	public RandomNodes() {
-		Random random = new Random();
-
-		vertices = random.nextInt(20) + 1;
-		edges = random.nextInt(40) + 1;
-	}
-
-	public RandomNodes(int userVertex, int userEdge) {
-		vertices = userVertex;
-		edges = userEdge;
-	}
-
-	public void createAdjMatrix() {
-
-		int[][] adjMatrix = new int[vertices][vertices];
-		int counter = 0;
-		while (counter < edges) {
-			randomNum();
-			if (adjMatrix[randomX][randomY] != 1 ) { // currently takes 0 also
-				adjMatrix[randomX][randomY] = 1;
-				adjMatrix[randomY][randomX] = 1;
-				counter++;
-				System.out.println(randomX + " is connected to " + randomY + "this is edge number " + counter);
-			}
-		}
-		array = adjMatrix;
-		createVertexArray();
-		lineDrawing();
-	}
+public class Vertex extends MenuItemArray
+{
+	private static int counter = 0;
+	private int index;
+	private final static int WIDTH = 1200;
+	private final static int HEIGHT = 750;
+	private final static double RADIUS = 15;
+	public static String[] colorArray = ColorArray.getColorArray();
 
 
-	public void createVertexArray() { //Initializes the vertexArray (Only had to happen once!!)
-		VertexArray temp = new VertexArray(vertices);
-	}
-
-	/*
-	This is the stuff Roy wrote, I added it to this class.
-	When you run the constructor it uses the constructed adjMatrix to make this (called array!!!)
-	VertexArray.vertexArray. is where the vertices are stored, the static vertexArray in VertexArray
-	*/
-
-	public void lineDrawing() {
-		int[][] copyMatrix = new int[array.length][array[0].length];
-		for (int i = 0; i < array.length; i++) {
-			for (int j = 0; j < array[0].length; j++) {
-				copyMatrix[i][j] = array[i][j];
-			}
-		}
-
-		for (int i = 0; i < array.length; i++) {
-			for (int j = 0; j < array[0].length; j++) {
-				if (copyMatrix[i][j] == 1) {
-					copyMatrix[j][i] = 0;
-					Line line = lineConnect.connect(VertexArray.vertexArray[i], VertexArray.vertexArray[j]);
-
-
-					Testing.root.getChildren().addAll(line);
-	    /* Roy's code used to try and make multiple line objects,
-	    by just adding them to the pane called Testing.root we can constantly
-	    only need 1 Line object at a time
-	    */
-				}
-			}
-		}
-
-	}
-	/*NEEDS IMPROVEMENT!!!!!!!!!!!!!
-	This was just for my conveinience, used in the constructor
-	this should be refined to not check things double!!!, compile time 
-	with a lot of edges is very very long */
-
-	public void randomNum() {
+	public Vertex(){
+		super(RADIUS);
 		Random rand = new Random();
-		randomX = 0;
-		randomY = 0;
-		while (randomX == randomY)
-			randomX = rand.nextInt(vertices);
-		randomY = rand.nextInt(vertices);
+			setCenterX(rand.nextInt(WIDTH) + 20);
+			setCenterY(rand.nextInt(HEIGHT) + 20);
+
+		index = counter;
+		counter++;
+		ContextMenu colorMenu = new ContextMenu();
+		MenuItem[] menuItemArray = getMenuItemArray();
+
+
+
+
+		for(int i=0; i<91;i++){ //Change 91 to less for smaller menu's with less colors
+			colorMenu.getItems().addAll(menuItemArray[i]);
+		}
+
+		this.setOnMouseClicked((new EventHandler<MouseEvent>(){
+			public void handle(MouseEvent e){
+				MouseButton butt = e.getButton();
+				if (butt == MouseButton.SECONDARY) {
+					PointerInfo a = MouseInfo.getPointerInfo();
+					Point b = a.getLocation();
+					colorMenu.show(Testing.root, b.getX(), b.getY());
+				}
+			}}));
+		setUpDragging(this);
+	}
+	private void setUpDragging(Vertex circle) {
+
+		circle.setOnDragDetected(event -> {
+			circle.getParent().setCursor(Cursor.CLOSED_HAND);
+//			ppp = new Point2D(event.getSceneX(), event.getSceneY());
+			//ppp = new Point2D(circle.getCenterX(), circle.getCenterY());
+
+			circle.setCenterX(event.getSceneX());
+			circle.setCenterY(event.getSceneY());
+		});
+
+		circle.setOnMouseReleased(event -> {
+			circle.getParent().setCursor(Cursor.DEFAULT);
+			//ppp = new Point2D(event.getSceneX(), event.getSceneY());
+			circle.setCenterX(event.getSceneX());
+			circle.setCenterY(event.getSceneY());
+
+		});
 	}
 
-	//Is used in the Testing class but can be removed if we make array public static
-	//Leave for now tho
-	public int[][] getAdjMatrix() {
-		return array;
-	}
+		/*
+		Not used anymore but might be an idea to add something like this to
+		the MenuItemArray class to make color checking easier
+
+		public void setColorIndex(int colorIndex){
+			this.colorIndex = colorIndex;
+			this.setFill(Color.web(colorArray[colorIndex]));
+		}
+		*/
+
 }
-
