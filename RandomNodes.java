@@ -15,7 +15,7 @@ import javafx.scene.shape.Line;
 import java.util.EventObject;
 import javafx.event.Event;
 import javafx.event.ActionEvent;
-
+import java.util.Random;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Region;
@@ -46,52 +46,45 @@ import javafx.scene.control.MenuItem;
 
 // Elliot's Random Graph class
 
-public class RandomNodes{
+public class RandomNodes {
 	private int vertices;
 	private int edges;
 	private int randomX = 0;
 	private int randomY = 0;
-	private boolean stop = false;
 	private int[][] array; //The AdjArray!
-	
-	public RandomNodes(){
-	vertices = (int) (Math.random()*19)+1;
-	edges = (int) (Math.random()*39)+1;
+
+	public RandomNodes() {
+		Random random = new Random();
+
+		vertices = random.nextInt(20) + 1;
+		edges = random.nextInt(40) + 1;
 	}
-	public RandomNodes(int userVertex, int userEdge){
+
+	public RandomNodes(int userVertex, int userEdge) {
 		vertices = userVertex;
 		edges = userEdge;
 	}
-	
-	public void createAdjMatrix(){
-		
+
+	public void createAdjMatrix() {
+
 		int[][] adjMatrix = new int[vertices][vertices];
-			
-	for(int counter=0; counter<edges; counter++){
-		if(counter==0){
-		randomNum();
-		adjMatrix[randomX][randomY] = 1;
-		}
-		
-		if(counter!=0){
-			stop = false;
-			while(stop==false){
+		int counter = 0;
+		while (counter < edges) {
 			randomNum();
-				if(adjMatrix[randomX][randomY]!=1){
-					stop = true;
-					adjMatrix[randomX][randomY] = 1;
-				}
+			if (adjMatrix[randomX][randomY] != 1 ) { // currently takes 0 also
+				adjMatrix[randomX][randomY] = 1;
+				adjMatrix[randomY][randomX] = 1;
+				counter++;
+				System.out.println(randomX + " is connected to " + randomY + "this is edge number " + counter);
 			}
 		}
-		adjMatrix[randomY][randomX]=1;
+		array = adjMatrix;
+		createVertexArray();
+		lineDrawing();
 	}
-	array = adjMatrix;
-	
-	createVertexArray();
-	lineDrawing();
-}		
-	
-	public void createVertexArray(){ //Initializes the vertexArray (Only had to happen once!!)
+
+
+	public void createVertexArray() { //Initializes the vertexArray (Only had to happen once!!)
 		VertexArray temp = new VertexArray(vertices);
 	}
 
@@ -100,50 +93,50 @@ public class RandomNodes{
 	When you run the constructor it uses the constructed adjMatrix to make this (called array!!!)
 	VertexArray.vertexArray. is where the vertices are stored, the static vertexArray in VertexArray
 	*/
-	
-	public void lineDrawing(){
-	int[][] copyMatrix = new int[array.length][array[0].length];
-	for (int i= 0;i<array.length;i++){
-	for (int j = 0; j< array[0].length;j++){
-	copyMatrix[i][j] = array[i][j];
-	}
-	}
 
-	for (int i= 0;i<array.length;i++){
-	for (int j = 0; j< array[0].length;j++){
-    if (copyMatrix[i][j] == 1){
-    copyMatrix [j][i] = 0;
-    Line line = new Line(); 
-    line.setStartX(VertexArray.vertexArray[i].getCenterX()); 
-      line.setStartY(VertexArray.vertexArray[i].getCenterY()); 
-      line.setEndX(VertexArray.vertexArray[j].getCenterX()); 
-      line.setEndY(VertexArray.vertexArray[j].getCenterY()); 
-      Testing.root.getChildren().addAll(line); 
+	public void lineDrawing() {
+		int[][] copyMatrix = new int[array.length][array[0].length];
+		for (int i = 0; i < array.length; i++) {
+			for (int j = 0; j < array[0].length; j++) {
+				copyMatrix[i][j] = array[i][j];
+			}
+		}
+
+		for (int i = 0; i < array.length; i++) {
+			for (int j = 0; j < array[0].length; j++) {
+				if (copyMatrix[i][j] == 1) {
+					copyMatrix[j][i] = 0;
+					Line line = lineConnect.connect(VertexArray.vertexArray[i], VertexArray.vertexArray[j]);
+
+
+					Testing.root.getChildren().addAll(line);
 	    /* Roy's code used to try and make multiple line objects,
 	    by just adding them to the pane called Testing.root we can constantly
 	    only need 1 Line object at a time
 	    */
-    }
-	}
-	}
+				}
+			}
+		}
 
-}
+	}
 	/*NEEDS IMPROVEMENT!!!!!!!!!!!!!
 	This was just for my conveinience, used in the constructor
 	this should be refined to not check things double!!!, compile time 
 	with a lot of edges is very very long */
-	
-	public void randomNum(){
-		randomX=0;
-		randomY=0;
-		while(randomX==randomY){
-		randomX = (int) (Math.random()*vertices);
-		randomY = (int) (Math.random()*vertices);
-		}
+
+	public void randomNum() {
+		Random rand = new Random();
+		randomX = 0;
+		randomY = 0;
+		while (randomX == randomY)
+			randomX = rand.nextInt(vertices);
+		randomY = rand.nextInt(vertices);
 	}
+
 	//Is used in the Testing class but can be removed if we make array public static
 	//Leave for now tho
-	public int[][] getAdjMatrix(){
+	public int[][] getAdjMatrix() {
 		return array;
 	}
 }
+
