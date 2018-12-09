@@ -268,6 +268,9 @@ public class Menu extends Application {
         Scene scene = new Scene(root, 1500, 750);
         Button hint = new Button("chromatic");
         Button highestDegree = new Button("Highest degree");
+        Button highestSatu = new Button("Highest Saturation");
+        highestSatu.setLayoutX(600);
+        highestSatu.setLayoutY(600);
         highestDegree.setLayoutX(450);
         highestDegree.setLayoutY(600);
         hint.setLayoutX(300);
@@ -289,7 +292,18 @@ public class Menu extends Application {
                 hint1.showAndWait();
             }
         }));
-        root.getChildren().addAll(hint, highestDegree);
+        highestSatu.setOnMouseClicked((new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent e) {
+                        Alert hint2 = new Alert(AlertType.INFORMATION);
+                        int highestSatIndex = MenuItemArray.highestSaturation(adjMatrix);
+                        hint2.setHeaderText("Highest Saturation");
+                        hint2.setContentText("the vertex with the highest degree of saturation  " + highestSatIndex);
+                        MenuItemArray.setSalmon(highestSatIndex);
+                        hint2.showAndWait();
+                    }
+        }));
+
+        root.getChildren().addAll(hint, highestDegree,highestSatu);
         stage.setTitle("Chromatic Number Game");
         stage.setScene(scene);
         stage.show();
