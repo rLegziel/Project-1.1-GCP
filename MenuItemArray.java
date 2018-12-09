@@ -52,7 +52,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
 /*
-date 09/12
+Elliot's MenuItemArray class (Circle subclass, Vertex superclass)
 */
 
 public class MenuItemArray extends Circle {
@@ -1525,12 +1525,40 @@ public class MenuItemArray extends Circle {
         return false;
     }
 
+    public static int highestSaturation(int[][] adjMat){
+        int highestIndex = 0;
+        int currentHigh = 0;
+        int connectionCounter =0;
+
+        for(int i = 0;i<adjMat[0].length;i++){
+            for (int j = 0;j<adjMat.length;j++){
+                if (adjMat[i][j] == 1){
+                    if(VertexArray.vertexArray[j].getColorIndex() != 100){
+                        connectionCounter++;
+                    }
+                }
+
+            }
+            if(connectionCounter > currentHigh ){
+                currentHigh = connectionCounter;
+                highestIndex = i;
+            }
+            connectionCounter =0;
+        }
+     return highestIndex;
+    }
+
     public void resetColorIndex() {
         colorIndex = 100;
     }
 
     public static void setWhite(int index) {
         VertexArray.vertexArray[index].setFill(Color.ANTIQUEWHITE);
+        VertexArray.vertexArray[index].setStroke(Color.BLACK);
+        VertexArray.vertexArray[index].setColorIndex(100);
+    }
+    public static void setSalmon(int index) {
+        VertexArray.vertexArray[index].setFill(Color.DARKSALMON);
         VertexArray.vertexArray[index].setStroke(Color.BLACK);
         VertexArray.vertexArray[index].setColorIndex(100);
     }
