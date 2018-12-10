@@ -3,7 +3,7 @@ import javafx.application.Application;
 import static javafx.application.Application.launch;
 
 import javafx.event.EventHandler;
-
+import java.util.ArrayList;
 import java.awt.MouseInfo;
 import java.awt.PointerInfo;
 import java.awt.geom.Point2D;
@@ -17,6 +17,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.control.Alert;
 
 import java.util.EventObject;
+import java.util.Arrays;
 
 import javafx.event.Event;
 import javafx.event.ActionEvent;
@@ -56,14 +57,15 @@ Elliot's MenuItemArray class (Circle subclass, Vertex superclass)
 */
 
 public class MenuItemArray extends Circle {
-    public String[] colorArray = ColorArray.getColorArray();
+    public static String[] colorArray = ColorArray.getColorArray();
     public MenuItem[] menuItemArray = new MenuItem[92];
     public int[][] ar = RandomNodes.array;
     protected int index;
     public int colorIndex = 100;
     public boolean selected = false;
     public static int currentVertex;
-    public static int[] doneColors = new int[60]; //Initialised in VertexArray
+    public static int[] doneColors = new int[45]; //Initialised in VertexArray
+
 
 //	protected boolean error = true;
 
@@ -1826,7 +1828,7 @@ public class MenuItemArray extends Circle {
         return menuItemArray;
     }
 
-    public boolean connectedColor(int[][] adjar, int index) { // method that takes in the adj matrix and the index of file we want to check
+    public static boolean connectedColor(int[][] adjar, int index) { // method that takes in the adj matrix and the index of file we want to check
         for (int j = 0; j < adjar.length; j++) {
             if (j != index && adjar[index][j] == 1) {
                 if (VertexArray.vertexArray[index].getColorIndex() == VertexArray.vertexArray[j].getColorIndex() && VertexArray.vertexArray[index].getColorIndex() != 100) {
@@ -1930,9 +1932,36 @@ public class MenuItemArray extends Circle {
             }
         }
     }
-
-
-
+    public static void colorNext(int[][] adjMat,int highestSaturationIndex){
+        int actualColored =0;
+        for(int i = 0;i<doneColors.length;i++){
+            if(doneColors[i] != -1){
+                actualColored++;
+            }
+        }
+        for(int j = 0; j<actualColored;j++){
+            VertexArray.vertexArray[highestSaturationIndex].setColorIndex(doneColors[j]);
+            if(connectedColor(adjMat,highestSaturationIndex) == true) {
+                int currentColorIndex = VertexArray.vertexArray[highestSaturationIndex].getColorIndex();
+                VertexArray.vertexArray[highestSaturationIndex].setFill(Color.web(colorArray[currentColorIndex]));
+                break;
+            } else{
+                VertexArray.vertexArray[highestSaturationIndex].resetColorIndex();
+            }
+        }
+        int color = 50;
+        if(VertexArray.vertexArray[highestSaturationIndex].getColorIndex() == 100){
+            VertexArray.vertexArray[highestSaturationIndex].setColorIndex(color);
+            while(connectedColor(adjMat,highestSaturationIndex) != true) {
+                color--;
+                VertexArray.vertexArray[highestSaturationIndex].setColorIndex(color);
+            }
+            VertexArray.vertexArray[highestSaturationIndex].setFill(Color.web(colorArray[color]));
+        }
+    }
 }
+
+
+
 	
 
