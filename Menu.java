@@ -268,14 +268,14 @@ public class Menu extends Application {
 
 	/*Adds all the Vertices to the Pane
 	(Could be moved to adjMatrix class root. would be Testing.root. */
-        Button button = new Button("OK");
-        button.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event){
-                showGameScreen();
-            }
-        });
-        root.getChildren().addAll(button);
+//        Button button = new Button("OK");
+//        button.setOnAction(new EventHandler<ActionEvent>(){
+//            @Override
+//            public void handle(ActionEvent event){
+//                showGameScreen();
+//            }
+//        });
+//        root.getChildren().addAll(button);
         for (int i = 0; i < adjMatrix.length; i++) {
             root.getChildren().addAll(VertexArray.vertexArray[i]);
         }
@@ -290,6 +290,9 @@ public class Menu extends Application {
         highestDegree.setLayoutY(600);
         hint.setLayoutX(300);
         hint.setLayoutY(600);
+        Button nextColor = new Button("color next");
+        nextColor.setLayoutX(750);
+        nextColor.setLayoutY(600);
         hint.setOnMouseClicked((new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
                 Alert hinta = new Alert(AlertType.INFORMATION);
@@ -317,7 +320,17 @@ public class Menu extends Application {
                 hint2.showAndWait();
             }
         }));
-        root.getChildren().addAll(hint, highestDegree,highestSatu);
+        nextColor.setOnMouseClicked((new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent e) {
+                Alert hint3 = new Alert(AlertType.INFORMATION);
+                int highestSatIndex = MenuItemArray.highestSaturation(adjMatrix);
+                MenuItemArray.colorNext(adjMatrix,highestSatIndex);
+                hint3.setHeaderText("hopefully this will color the next");
+                hint3.setContentText("hope this shit works");
+                hint3.showAndWait();
+            }
+        }));
+        root.getChildren().addAll(hint, highestDegree,highestSatu,nextColor);
         stage.setTitle("Chromatic Number Game");
         stage.setOnCloseRequest((new EventHandler<WindowEvent>(){
             @Override
