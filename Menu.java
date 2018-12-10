@@ -1,4 +1,4 @@
-// Menu 
+// Menu
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -19,7 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.geometry.*;
 import javafx.scene.control.*;
-
+import javafx.stage.*;
 import java.lang.*;
 
 import javafx.scene.layout.*;
@@ -73,19 +73,21 @@ import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.ChoiceBox;
 
+import java.lang.Object;
+
 import javafx.stage.Window;
 import javafx.stage.PopupWindow;
 import javafx.scene.control.PopupControl;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Alert.AlertType;
-import java.util.Random;
+import javafx.scene.control.Alert.AlertType;;
 
 public class Menu extends Application {
     // Instance variables for the input of the user in game mode 1 and 2
     private int inputVertices;
     private int inputEdges;
     public static Pane root = new Pane();
+    public static int gamemode;
 
     //Getters for the instance variables inputs
     public int getVertices() {
@@ -132,6 +134,7 @@ public class Menu extends Application {
         mode1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                gamemode = 1;
                 openUserInput(1);
                 // primaryStage.close();
             }
@@ -140,6 +143,7 @@ public class Menu extends Application {
         mode2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                gamemode = 2;
                 openUserInput(2);
                 //primaryStage.close();
             }
@@ -148,10 +152,11 @@ public class Menu extends Application {
         mode3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Random ran1 = new Random();
-                int x = ran1.nextInt((25 - 1)+1)+1;
+                gamemode = 3;
+                int x = (int) (Math.random() * 49 + 1);
+                int y = (x * (x - 1)) / 2;
                 inputVertices = x;
-                inputEdges = 2*x-1;
+                inputEdges = (int) (Math.random() * (y - 1) + 1);
 
                 showGameScreen();
                 // primaryStage.close();
@@ -192,10 +197,10 @@ public class Menu extends Application {
         random.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Random ran2 = new Random();
-                int x = ran2.nextInt((25 - 1)+1)+1;
+                int x = (int) (Math.random() * 49 + 1);
+                int y = (x * (x - 1)) / 2;
                 vertices.setText(Integer.toString(x));
-                edges.setText(Integer.toString(2*x-1));
+                edges.setText(Integer.toString((int) (Math.random() * (y - 1) + 1)));
             }
         });
 
@@ -240,12 +245,15 @@ public class Menu extends Application {
         RandomNodes graph = new RandomNodes(inputVertices, inputEdges);
         graph.createAdjMatrix();
         int[][] adjMatrix = graph.getAdjMatrix();
+        if(gamemode==3){
+            VertexArray.vertexArray[0].select();
+        }
         int chromaticNUM = ReadGraph.fromScartchChromatic(adjMatrix, inputEdges, inputVertices);
         System.out.println(chromaticNUM);
         int highVertexIndex = ReadGraph.highestDegreeVertex(adjMatrix);
-		
+
 		/*This is to Test my adjMatrix class, can be recommented
-		
+
 		System.out.println("Matrix is: "+adjMatrix.length);
 		for(int i=0; i<adjMatrix.length;i++,System.out.print("\n")){
 			for(int j=0; j<adjMatrix.length;j++){
@@ -256,16 +264,24 @@ public class Menu extends Application {
 
         //Background color
         root.setStyle("-fx-background-color: #E7E8E9;");
-	
-	
-	/*Adds all the Vertices to the Pane 
+
+
+	/*Adds all the Vertices to the Pane
 	(Could be moved to adjMatrix class root. would be Testing.root. */
+        Button button = new Button("OK");
+        button.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event){
+                showGameScreen();
+            }
+        });
+        root.getChildren().addAll(button);
         for (int i = 0; i < adjMatrix.length; i++) {
             root.getChildren().addAll(VertexArray.vertexArray[i]);
         }
 
         Scene scene = new Scene(root, 1500, 750);
-        Button hint = new Button("Chromatic Number");
+        Button hint = new Button("chromatic");
         Button highestDegree = new Button("Highest degree");
         Button highestSatu = new Button("Highest Saturation");
         highestSatu.setLayoutX(600);
@@ -277,33 +293,37 @@ public class Menu extends Application {
         hint.setOnMouseClicked((new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
                 Alert hinta = new Alert(AlertType.INFORMATION);
-                hinta.setHeaderText("Chromatic Number");
-                hinta.setContentText("The chromatic number is " + chromaticNUM);
+                hinta.setHeaderText("chromatic");
+                hinta.setContentText("the chromatic number is " + chromaticNUM);
                 hinta.showAndWait();
             }
         }));
         highestDegree.setOnMouseClicked((new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
                 Alert hint1 = new Alert(AlertType.INFORMATION);
-                hint1.setHeaderText("Highest degree");
-                hint1.setContentText("The vertex with the highest degree is  " + highVertexIndex);
+                hint1.setHeaderText("highest degree");
+                hint1.setContentText("the vertex with the highest degree is  " + highVertexIndex);
                 MenuItemArray.setWhite(highVertexIndex);
                 hint1.showAndWait();
             }
         }));
         highestSatu.setOnMouseClicked((new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent e) {
-                        Alert hint2 = new Alert(AlertType.INFORMATION);
-                        int highestSatIndex = MenuItemArray.highestSaturation(adjMatrix);
-                        hint2.setHeaderText("Highest Saturation");
-                        hint2.setContentText("The vertex with the highest degree of saturation  " + highestSatIndex);
-                        MenuItemArray.setSalmon(highestSatIndex);
-                        hint2.showAndWait();
-                    }
+            public void handle(MouseEvent e) {
+                Alert hint2 = new Alert(AlertType.INFORMATION);
+                int highestSatIndex = MenuItemArray.highestSaturation(adjMatrix);
+                hint2.setHeaderText("Highest Saturation");
+                hint2.setContentText("the vertex with the highest degree of saturation  " + highestSatIndex);
+                MenuItemArray.setSalmon(highestSatIndex);
+                hint2.showAndWait();
+            }
         }));
-
         root.getChildren().addAll(hint, highestDegree,highestSatu);
         stage.setTitle("Chromatic Number Game");
+        stage.setOnCloseRequest((new EventHandler<WindowEvent>(){
+            @Override
+            public void handle(WindowEvent e){
+                Platform.exit();
+            }}));
         stage.setScene(scene);
         stage.show();
     }
