@@ -460,7 +460,7 @@ public class MenuItemArray extends Circle {
         }));
         menuItemArray[13] = item13;
 
-        MenuItem item14 = new MenuItem("Black");
+        MenuItem item14 = new MenuItem("Honeysuckle");
         item14.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
