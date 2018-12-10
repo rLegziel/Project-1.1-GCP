@@ -21,7 +21,7 @@ import javafx.geometry.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
 import java.lang.*;
-
+import java.util.Random;
 import javafx.scene.layout.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -153,10 +153,12 @@ public class Menu extends Application {
             @Override
             public void handle(ActionEvent event) {
                 gamemode = 3;
-                int x = (int) (Math.random() * 49 + 1);
-                int y = (x * (x - 1)) / 2;
+                Random rand = new Random();
+                int x = rand.nextInt(35)+1;
+                int maximumEdges = (x*2) -1;
+                int y = rand.nextInt(maximumEdges)+1;
                 inputVertices = x;
-                inputEdges = (int) (Math.random() * (y - 1) + 1);
+                inputEdges = y;
 
                 showGameScreen();
                 // primaryStage.close();
@@ -197,8 +199,10 @@ public class Menu extends Application {
         random.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                int x = (int) (Math.random() * 49 + 1);
-                int y = (x * (x - 1)) / 2;
+                Random rand = new Random();
+                int x = rand.nextInt(35)+1;
+                int maximumEdges = (x*2) -1;
+                int y = rand.nextInt(maximumEdges)+1;
                 vertices.setText(Integer.toString(x));
                 edges.setText(Integer.toString((int) (Math.random() * (y - 1) + 1)));
             }
@@ -266,16 +270,6 @@ public class Menu extends Application {
         root.setStyle("-fx-background-color: #E7E8E9;");
 
 
-	/*Adds all the Vertices to the Pane
-	(Could be moved to adjMatrix class root. would be Testing.root. */
-//        Button button = new Button("OK");
-//        button.setOnAction(new EventHandler<ActionEvent>(){
-//            @Override
-//            public void handle(ActionEvent event){
-//                showGameScreen();
-//            }
-//        });
-//        root.getChildren().addAll(button);
         for (int i = 0; i < adjMatrix.length; i++) {
             root.getChildren().addAll(VertexArray.vertexArray[i]);
         }
