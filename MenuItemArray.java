@@ -61,6 +61,10 @@ public class MenuItemArray extends Circle {
     public int[][] ar = RandomNodes.array;
     protected int index;
     public int colorIndex = 100;
+    public boolean selected = false;
+    public static int currentVertex;
+    public static int[] doneColors = new int[60]; //Initialised in VertexArray
+
 //	protected boolean error = true;
 
     public MenuItemArray(double RADIUS) {
@@ -83,6 +87,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[0]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -112,6 +123,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[1]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -141,6 +159,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[2]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -169,6 +194,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[3]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -197,6 +229,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[4]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -225,6 +264,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[5]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -253,6 +299,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[6]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -281,6 +334,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[7]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -309,6 +369,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[8]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -337,6 +404,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[9]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -365,6 +439,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[10]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -392,8 +473,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[11]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -422,6 +509,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[12]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -450,6 +544,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[13]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -460,7 +561,7 @@ public class MenuItemArray extends Circle {
         }));
         menuItemArray[13] = item13;
 
-        MenuItem item14 = new MenuItem("Honeysuckle");
+        MenuItem item14 = new MenuItem("Black");
         item14.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
@@ -477,6 +578,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[14]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -504,6 +612,13 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                 } else {
                     setFill(Color.web(colorArray[15]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -531,6 +646,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[16]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -558,6 +680,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[17]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -584,8 +713,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[18]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -613,6 +748,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[19]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -640,6 +782,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[20]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -666,8 +815,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[21]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -695,6 +850,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[22]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -722,6 +884,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[23]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -748,8 +917,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[24]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -776,8 +951,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[25]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -804,8 +985,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[26]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -833,6 +1020,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[27]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -860,6 +1054,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[28]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -886,8 +1087,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[29]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -915,6 +1122,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[30]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -942,6 +1156,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[31]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -969,6 +1190,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[32]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -995,8 +1223,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[33]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1023,8 +1257,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-                    setColorIndex(34);
                     setFill(Color.web(colorArray[34]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1052,6 +1292,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[35]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1078,8 +1325,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[36]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1107,6 +1360,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[37]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1133,8 +1393,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[38]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1161,8 +1427,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[39]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1190,6 +1462,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[40]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1217,6 +1496,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[41]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1244,6 +1530,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[42]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1270,8 +1563,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[43]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1299,6 +1598,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[44]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1326,6 +1632,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[45]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1352,8 +1665,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[46]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1381,6 +1700,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[47]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1407,8 +1733,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[48]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1436,6 +1768,13 @@ public class MenuItemArray extends Circle {
                     resetColorIndex();
                 } else {
                     setFill(Color.web(colorArray[49]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1462,8 +1801,14 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
-
                     setFill(Color.web(colorArray[50]));
+                    if(Menu.gamemode==3){
+                        selected=false;
+                        currentVertex++;
+                        setStroke(Color.web(colorArray[colorIndex]));
+                        VertexArray.vertexArray[currentVertex].select();
+                    }
+                    checkDoneColor(colorIndex);
                 }
                 boolean end = isFinished(VertexArray.vertexArray, RandomNodes.vertices);
                 System.out.println(end);
@@ -1525,6 +1870,16 @@ public class MenuItemArray extends Circle {
         return false;
     }
 
+    public void resetColorIndex() {
+        colorIndex = 100;
+    }
+
+    public void select(){
+        selected = true;
+        this.setStrokeWidth(4);
+        this.setStroke(Color.CYAN);
+    }
+
     public static int highestSaturation(int[][] adjMat){
         int highestIndex = 0;
         int currentHigh = 0;
@@ -1545,11 +1900,7 @@ public class MenuItemArray extends Circle {
             }
             connectionCounter =0;
         }
-     return highestIndex;
-    }
-
-    public void resetColorIndex() {
-        colorIndex = 100;
+        return highestIndex;
     }
 
     public static void setWhite(int index) {
@@ -1557,11 +1908,29 @@ public class MenuItemArray extends Circle {
         VertexArray.vertexArray[index].setStroke(Color.BLACK);
         VertexArray.vertexArray[index].setColorIndex(100);
     }
+
     public static void setSalmon(int index) {
         VertexArray.vertexArray[index].setFill(Color.DARKSALMON);
         VertexArray.vertexArray[index].setStroke(Color.BLACK);
         VertexArray.vertexArray[index].setColorIndex(100);
     }
+
+    public void checkDoneColor(int nColor){
+        boolean stop = false;
+        for(int i=0;i<doneColors.length;i++) {
+            if (doneColors[i] == nColor) {
+                stop = true;
+            }
+        }
+        if(stop!=true){
+            for(int j=0;j<doneColors.length;j++){
+                if(doneColors[j]==-1){
+                    doneColors[j]=nColor;
+                }
+            }
+        }
+    }
+
 
 
 }
