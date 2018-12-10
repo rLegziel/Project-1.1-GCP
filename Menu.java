@@ -204,7 +204,7 @@ public class Menu extends Application {
                 int maximumEdges = (x*2) -1;
                 int y = rand.nextInt(maximumEdges)+1;
                 vertices.setText(Integer.toString(x));
-                edges.setText(Integer.toString((int) (Math.random() * (y - 1) + 1)));
+                edges.setText(Integer.toString(y));
             }
         });
 
