@@ -58,7 +58,7 @@ public class VertexArray
 
 	public VertexArray(int vertices){
 
-		for(int i=0;i<60;i++){
+		for(int i=0;i<45;i++){
 			MenuItemArray.doneColors[i]=-1;
 		}
 
