@@ -266,7 +266,7 @@ public class Menu extends Application {
         }
 
         Scene scene = new Scene(root, 1500, 750);
-        Button hint = new Button("chromatic");
+        Button hint = new Button("Chromatic Number");
         Button highestDegree = new Button("Highest degree");
         Button highestSatu = new Button("Highest Saturation");
         highestSatu.setLayoutX(600);
@@ -278,16 +278,16 @@ public class Menu extends Application {
         hint.setOnMouseClicked((new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
                 Alert hinta = new Alert(AlertType.INFORMATION);
-                hinta.setHeaderText("chromatic");
-                hinta.setContentText("the chromatic number is " + chromaticNUM);
+                hinta.setHeaderText("Chromatic Number");
+                hinta.setContentText("The chromatic number is " + chromaticNUM);
                 hinta.showAndWait();
             }
         }));
         highestDegree.setOnMouseClicked((new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
                 Alert hint1 = new Alert(AlertType.INFORMATION);
-                hint1.setHeaderText("highest degree");
-                hint1.setContentText("the vertex with the highest degree is  " + highVertexIndex);
+                hint1.setHeaderText("Highest degree");
+                hint1.setContentText("The vertex with the highest degree is  " + highVertexIndex);
                 MenuItemArray.setWhite(highVertexIndex);
                 hint1.showAndWait();
             }
@@ -297,7 +297,7 @@ public class Menu extends Application {
                         Alert hint2 = new Alert(AlertType.INFORMATION);
                         int highestSatIndex = MenuItemArray.highestSaturation(adjMatrix);
                         hint2.setHeaderText("Highest Saturation");
-                        hint2.setContentText("the vertex with the highest degree of saturation  " + highestSatIndex);
+                        hint2.setContentText("The vertex with the highest degree of saturation  " + highestSatIndex);
                         MenuItemArray.setSalmon(highestSatIndex);
                         hint2.showAndWait();
                     }
