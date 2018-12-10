@@ -149,10 +149,10 @@ public class Menu extends Application {
         mode3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                int x = (int) (Math.random() * 49 + 1);
-                int y = (x * (x - 1)) / 2;
+                Random ran1 = new Random();
+                int x = ran1.nextInt((25 - 1)+1)+1;
                 inputVertices = x;
-                inputEdges = (int) (Math.random() * (y - 1) + 1);
+                inputEdges = 2*x-1;
 
                 showGameScreen();
                 // primaryStage.close();
@@ -193,10 +193,10 @@ public class Menu extends Application {
         random.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                int x = (int) (Math.random() * 49 + 1);
-                int y = (x * (x - 1)) / 2;
+                Random ran2 = new Random();
+                int x = ran2.nextInt((25 - 1)+1)+1;
                 vertices.setText(Integer.toString(x));
-                edges.setText(Integer.toString((int) (Math.random() * (y - 1) + 1)));
+                edges.setText(Integer.toString(2*x-1));
             }
         });
 
