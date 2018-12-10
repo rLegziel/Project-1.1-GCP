@@ -1539,7 +1539,7 @@ public class MenuItemArray extends Circle {
                 }
 
             }
-            if(connectionCounter > currentHigh ){
+            if(connectionCounter > currentHigh && VertexArray.vertexArray[i].getColorIndex() == 100 ){
                 currentHigh = connectionCounter;
                 highestIndex = i;
             }
