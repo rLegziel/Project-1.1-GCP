@@ -73,14 +73,13 @@ import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.ChoiceBox;
 
-import java.lang.Object;
-
 import javafx.stage.Window;
 import javafx.stage.PopupWindow;
 import javafx.scene.control.PopupControl;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Alert.AlertType;;
+import javafx.scene.control.Alert.AlertType;
+import java.util.Random;
 
 public class Menu extends Application {
     // Instance variables for the input of the user in game mode 1 and 2
