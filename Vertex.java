@@ -51,6 +51,7 @@ import javafx.scene.control.PopupControl;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
+
 public class Vertex extends MenuItemArray
 {
 	private static int counter = 0;
@@ -59,15 +60,14 @@ public class Vertex extends MenuItemArray
 	private final static double RADIUS = 15;
 	public static String[] colorArray = ColorArray.getColorArray();
 	public int[][] ar = RandomNodes.array;
-	public int r=400;
-
+	public int r=450;
 
 
 	public Vertex(){
 		super(RADIUS);
 		Random rand = new Random();
 			setCenterX(rand.nextInt(WIDTH) + 100);
-			setCenterY(rand.nextInt(HEIGHT) + 15);
+			setCenterY(rand.nextInt(HEIGHT) + 50);
 
 		index = counter;
 		counter++;
@@ -111,8 +111,8 @@ public class Vertex extends MenuItemArray
 
 		});
 	}
-	
-		public void setLocation(int v){
+
+	public void setLocation(int v){
 		int vertices = v;
 		int j = this.index;
 		double angle = Math.toRadians(360)/(2*vertices);
@@ -120,13 +120,13 @@ public class Vertex extends MenuItemArray
 		double sin = Math.sin(a);
 		double cos = Math.cos(a);
 		setCenterX((WIDTH/2-(WIDTH/8)) + (r - (r*sin*sin)));
-		setCenterY((HEIGHT/2) + r*sin*cos);
+		setCenterY(((HEIGHT+100)/2) + r*sin*cos);
 	}
-	
+
 	public void setRLocation(int v){
 		Random rand = new Random();
 		setCenterX(rand.nextInt(WIDTH) + 100);
-		setCenterY(rand.nextInt(HEIGHT) + 15);
+		setCenterY(rand.nextInt(HEIGHT) + 50);
 	}
 
 	public static void setIndex(int nIndex) {
