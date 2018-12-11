@@ -59,6 +59,7 @@ public class Vertex extends MenuItemArray
 	private final static double RADIUS = 15;
 	public static String[] colorArray = ColorArray.getColorArray();
 	public int[][] ar = RandomNodes.array;
+	public int r=400;
 
 
 
