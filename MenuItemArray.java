@@ -66,6 +66,7 @@ public class MenuItemArray extends Circle {
     public static int currentVertex;
     public static int[] doneColors = new int[51]; //Initialised in VertexArray
     private int oldColor = 100;
+    public int userChromatic;
 
 //	protected boolean error = true;
 
@@ -1953,6 +1954,8 @@ public class MenuItemArray extends Circle {
         return index;
     }
 
+
+
     public boolean isFinished(Vertex[] vArray, int vertices) {
         int doneCount = 0;
         for (int i = 0; i < vertices; i++) {
@@ -1962,11 +1965,14 @@ public class MenuItemArray extends Circle {
         }
         System.out.println("doneCount is  " + doneCount);
         if (doneCount == vertices) {
-            Alert errorAlert = new Alert(AlertType.INFORMATION);
-            errorAlert.setHeaderText("you fucking genius");
-            errorAlert.setContentText("you managed to finish");
-            errorAlert.showAndWait();
-            return true;
+            if((Menu.gamemode==1&&userChromatic==Menu.chromaticNUM)||(Menu.gamemode==2)||(Menu.gamemode==3)) {
+
+                Alert errorAlert = new Alert(AlertType.INFORMATION);
+                errorAlert.setHeaderText("you fucking genius");
+                errorAlert.setContentText("you managed to finish");
+                errorAlert.showAndWait();
+                return true;
+            }
         }
         return false;
     }
@@ -2038,6 +2044,7 @@ public class MenuItemArray extends Circle {
                 counter++;
             }
         }
+        userChromatic = counter;
         Menu.setCurrentChrom(counter);
     }
 
@@ -2084,6 +2091,9 @@ public class MenuItemArray extends Circle {
                 color--;
                 VertexArray.vertexArray[highestSaturationIndex].setColorIndex(color);
             }
+
+            VertexArray.vertexArray[highestSaturationIndex].checkDoneColor(color);
+
             VertexArray.vertexArray[highestSaturationIndex].setFill(Color.web(colorArray[color]));
         }
     }
