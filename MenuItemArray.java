@@ -51,6 +51,7 @@ import javafx.stage.PopupWindow;
 import javafx.scene.control.PopupControl;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.media.*;
 
 /*
 Elliot's MenuItemArray class (Circle subclass, Vertex superclass)
@@ -67,6 +68,7 @@ public class MenuItemArray extends Circle {
     public static int[] doneColors = new int[51]; //Initialised in VertexArray
     private int oldColor = 100;
     public int userChromatic;
+
 
 //	protected boolean error = true;
 
