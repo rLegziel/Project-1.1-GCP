@@ -370,14 +370,18 @@ public class Menu extends Application {
             }
         }));
 	    
-	circle.setOnMouseClicked((new EventHandler<MouseEvent>() {
+      circle.setOnMouseClicked((new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
             Alert hintcircle = new Alert(AlertType.INFORMATION);
             hintcircle.setHeaderText("circle");
             hintcircle.setContentText("vertices form a circle now");
             hintcircle.showAndWait();
-            for (int i=0; i<inputVertices; i++){
+            if(counterCC%2==0){for (int i=0; i<inputVertices; i++){
             VertexArray.vertexArray[i].setLocation(inputVertices);
+            }counterCC++;}
+            else { 
+            for (int i=0; i<inputVertices; i++){VertexArray.vertexArray[i].setRLocation(inputVertices);}
+            counterCC++;
             }
             }
         }));
