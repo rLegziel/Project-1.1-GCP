@@ -380,11 +380,14 @@ public class Menu extends Application {
             hintrandom.setContentText("vertices are in radom places now");
             if(counterCC%2==0){for (int i=0; i<inputVertices; i++){
             VertexArray.vertexArray[i].setLocation(inputVertices);
-            }counterCC++; 
-            hintcircle.showAndWait();}
+            }counterCC++;
+            circle.setText("Random");
+            hintcircle.showAndWait();
+            }
             else { 
             for (int i=0; i<inputVertices; i++){VertexArray.vertexArray[i].setRLocation(inputVertices);}
             counterCC++;
+            circle.setText("Circle");
             hintrandom.showAndWait();
             }
             }
