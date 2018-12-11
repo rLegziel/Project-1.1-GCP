@@ -106,7 +106,11 @@ public class Vertex extends MenuItemArray
 		setCenterX((WIDTH/2-(WIDTH/8)) + (r - (r*sin*sin)));
 		setCenterY((HEIGHT/2) + r*sin*cos);
 	}
-	
+	public void setRLocation(int v){
+		Random rand = new Random();
+		setCenterX(rand.nextInt(WIDTH) + 100);
+		setCenterY(rand.nextInt(HEIGHT) + 15);
+	}
 	private void setUpDragging(Vertex circle) {
 
 		circle.setOnDragDetected(event -> {
