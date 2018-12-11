@@ -37,7 +37,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.util.Pair;
 import javafx.application.Platform;
 import javafx.scene.Node;
-
+import javafx.scene.media.*;
 import java.util.Optional;
 
 import javafx.application.Application;
@@ -81,6 +81,7 @@ import javafx.scene.control.PopupControl;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;;
+import java.io.*;
 
 public class Menu extends Application {
     // Instance variables for the input of the user in game mode 1 and 2
@@ -89,10 +90,11 @@ public class Menu extends Application {
     public static Pane root = new Pane();
     public static int gamemode;
     public static Label currentChrom;
-    private Scene scene = new Scene(root, 1500, 750);
+    private Scene scene = new Scene(root, 1150, 650);
     public static int chromaticNUM;
-    //private Media sound = new Media("GameMusic.mp3");
-    //public MediaPlayer mediaPlayer = new MediaPlayer(sound);
+    public static MediaPlayer mediaPlayer;
+    public int counterCC;
+    private boolean isMute = true;
     //Getters for the instance variables inputs
     public int getVertices() {
         return inputVertices;
@@ -105,40 +107,74 @@ public class Menu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Image background = new Image("numbers.jpeg");
+        try{
+            Media sound = new Media(new File("GameMusic.MP3").toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setCycleCount(mediaPlayer.INDEFINITE);
+        }catch(Exception e){};
+
+        Image background = new Image("MenuBackGround.GIF");
         ImageView mv = new ImageView(background);
 
-        Group root = new Group();
-        root.getChildren().addAll(mv);
+        ImageView stevenMeme = new ImageView(new Image("stevenmeme.PNG"));
+        Button EE = new Button("Secret...");
+        EE.setStyle("-fx-background-color: #1C00ff00; ");
+        EE.relocate(0,480);
+        stevenMeme.relocate(10,300);
 
+        Pane pane = new Pane();
+        pane.setPrefSize(800,500);
+        EE.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Media meme = new Media(new File("MemeSound.MP3").toURI().toString());
+                mediaPlayer = new MediaPlayer(meme);
+                mediaPlayer.play();
+                pane.getChildren().addAll(stevenMeme);
+            }
+        });
         Label title = new Label("Crazy Chromatic Number Game");
-        title.setFont(new Font("Stencil", 50));
+        title.setFont(new Font("Verdana", 40));
         title.setTextFill(Color.WHITE);
-
-        VBox options = new VBox();
-        options.setSpacing(50);
-        options.setAlignment(Pos.TOP_CENTER);
+        title.relocate(80,10);
 
         Label gameModes = new Label("Menu Options");
-        gameModes.setFont(new Font("Stencil", 30));
+        gameModes.setFont(new Font("Verdana", 25));
         gameModes.setTextFill(Color.WHITE);
+        gameModes.relocate(300,100);
 
-        options.getChildren().add(title);
-        options.getChildren().add(gameModes);
+        Label info = new Label();
+        info.setFont(new Font("Verdana", 15));
+        info.setTextFill(Color.WHITE);
+        info.relocate(480,260);
+
 
         Button mode1 = new Button("Mode 1");
+        mode1.relocate(350,200);
         Button mode2 = new Button("Mode 2");
+        mode2.relocate(350,300);
         Button mode3 = new Button("Mode 3");
+        mode3.relocate(350,400);
 
-        options.getChildren().add(mode1);
-        options.getChildren().add(mode2);
-        options.getChildren().add(mode3);
+        Button rules1 = new Button("?");
+        rules1.setShape(new Circle(1.5));
+        rules1.setMaxSize(3,3);
+        rules1.relocate(420,200);
+        Button rules2 = new Button("?");
+        rules2.setShape(new Circle(1.5));
+        rules2.setMaxSize(3,3);
+        rules2.relocate(420,300);
+        Button rules3 = new Button("?");
+        rules3.setShape(new Circle(1.5));
+        rules3.setMaxSize(3,3);
+        rules3.relocate(420,400);
+
+        pane.getChildren().addAll(mv,EE,title, gameModes, mode1, mode2, mode3, rules1, rules2, rules3, info);
 
         // Mode 1 EventHandler - opens Pop up that asks for input of number of vertices and edges
         mode1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                gamemode = 1;
                 openUserInput(1);
                 // primaryStage.close();
             }
@@ -147,7 +183,6 @@ public class Menu extends Application {
         mode2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                gamemode = 2;
                 openUserInput(2);
                 //primaryStage.close();
             }
@@ -156,23 +191,34 @@ public class Menu extends Application {
         mode3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                gamemode = 3;
-                Random rand = new Random();
-                int x = rand.nextInt(35)+1;
-                int maximumEdges = (x*2) -1;
-                int y = rand.nextInt(maximumEdges)+1;
+                Random ran1 = new Random();
+                int x = ran1.nextInt((50-1)+1)+1;
                 inputVertices = x;
-                inputEdges = y;
+                inputEdges = 2*x-1;
 
                 showGameScreen();
                 // primaryStage.close();
             }
         });
+        rules1.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent event){
+                info.setText("Mode 1\n"+" To the bitter end - \n play until you get a chromatic number! \n Good luck & keep it chromatic!");
+            }
+        });
 
-        root.getChildren().add(options);
-        // options.setAlignment(Pos.TOP_CENTER);
-
-        Scene menu = new Scene(root, 800, 500);
+        rules2.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent event){
+                info.setText("Mode 2\n" +
+                        "Best upper bound - \n try to find the best upper bound in \n a fixed time frame! Good luck & keep \n it chromatic! ");
+            }
+        });
+        rules3.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent event){
+                info.setText("Mode 3\n" +
+                        "Random color \n the vertices in an order given \n by a computer! \nGood luck & keep it chromatic!");
+            }
+        });
+        Scene menu = new Scene(pane, 800, 500, Color.BLACK);
 
         primaryStage.setScene(menu);
         primaryStage.setTitle("Chromatic Number Game");
@@ -246,11 +292,12 @@ public class Menu extends Application {
     public static void setCurrentChrom(int userChrom){
         root.getChildren().removeAll(currentChrom);
         currentChrom = new Label("Colors used: "+userChrom);
-        Font chromFont = new Font("Calibri",30);
+        Font chromFont = new Font("Calibri",20);
         currentChrom.setFont(chromFont);
         currentChrom.setLayoutX(1200);
         root.getChildren().addAll(currentChrom);
     }
+
 
     public void showGameScreen() {
         root.getChildren().clear();
@@ -258,7 +305,7 @@ public class Menu extends Application {
             MenuItemArray.doneColors[i]=-1;
         }
 
-        //mediaPlayer.play();
+        mediaPlayer.play();
 
         Image paperBackground = new Image("PaperBackground.JPG");
         ImageView rootBackground = new ImageView(paperBackground);
@@ -266,9 +313,10 @@ public class Menu extends Application {
         Vertex.setIndex(0);
         Stage stage = new Stage();
         Font chromFont = new Font("Calibri",30);
+
         currentChrom = new Label("Colors used: 0");
         currentChrom.setFont(chromFont);
-        currentChrom.setLayoutX(1200);
+        currentChrom.setLayoutX(950);
         root.getChildren().addAll(currentChrom);
 		/*Parameters of constructor are: (int vertices, int edges)
 		so maybe we should add the way for the user to choose these here
@@ -298,19 +346,40 @@ public class Menu extends Application {
         //Background color
 
 
-
+        Button mute = new Button();
+        ImageView muteImg = new ImageView(new Image("MuteImage.PNG"));
+        mute.setGraphic(muteImg);
+        ImageView unmuteImg = new ImageView(new Image("UnmuteImage.PNG"));
+        mute.setLayoutX(1100);
+        mute.setLayoutY(600);
+        mute.setOnMouseClicked((new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent e) {
+                if(isMute) {
+                    mediaPlayer.pause();
+                    mute.setGraphic(unmuteImg);
+                    isMute=false;
+                }else{
+                    mediaPlayer.play();
+                    mute.setGraphic(muteImg);
+                    isMute=true;
+                }
+            }
+        }
+        ));
 
         Button reset = new Button("Reset");
+        ImageView resetImg = new ImageView(new Image("ResetImage.PNG"));
+        reset.setGraphic(resetImg);
         reset.setOnMouseClicked((new EventHandler<MouseEvent>(){
             @Override
         public void handle(MouseEvent e) {
-
                 stage.hide();
                 showGameScreen();
             }
         }
         ));
-        root.getChildren().addAll(reset);
+        root.getChildren().addAll(reset,mute);
 
         for (int i = 0; i < adjMatrix.length; i++) {
             root.getChildren().addAll(VertexArray.vertexArray[i]);
@@ -320,7 +389,7 @@ public class Menu extends Application {
         Button hint = new Button("chromatic");
         Button highestDegree = new Button("Highest degree");
         Button highestSatu = new Button("Highest Saturation");
-	Button circle = new Button("Circle");
+        Button circle = new Button("Circle");
         circle.setLayoutX(150);
         circle.setLayoutY(600);
         highestSatu.setLayoutX(600);
@@ -369,40 +438,41 @@ public class Menu extends Application {
                 hint3.showAndWait();
             }
         }));
-	    
-       circle.setOnMouseClicked((new EventHandler<MouseEvent>() {
+        circle.setOnMouseClicked((new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
-            Alert hintcircle = new Alert(AlertType.INFORMATION);
-            hintcircle.setHeaderText("circle");
-            hintcircle.setContentText("vertices form a circle now");
-            Alert hintrandom = new Alert(AlertType.INFORMATION);
-            hintrandom.setHeaderText("random");
-            hintrandom.setContentText("vertices are in radom places now");
-            if(counterCC%2==0){for (int i=0; i<inputVertices; i++){
-            VertexArray.vertexArray[i].setLocation(inputVertices);
-            }counterCC++;
-            circle.setText("Random");
-            hintcircle.showAndWait();
-            }
-            else { 
-            for (int i=0; i<inputVertices; i++){VertexArray.vertexArray[i].setRLocation(inputVertices);}
-            counterCC++;
-            circle.setText("Circle");
-            hintrandom.showAndWait();
-            }
+                Alert hintcircle = new Alert(AlertType.INFORMATION);
+                hintcircle.setHeaderText("circle");
+                hintcircle.setContentText("vertices form a circle now");
+                Alert hintrandom = new Alert(AlertType.INFORMATION);
+                hintrandom.setHeaderText("random");
+                hintrandom.setContentText("vertices are in radom places now");
+                if(counterCC%2==0){for (int i=0; i<inputVertices; i++){
+                    VertexArray.vertexArray[i].setLocation(inputVertices);
+                }counterCC++;
+                    circle.setText("Random");
+                    hintcircle.showAndWait();
+                }
+                else {
+                    for (int i=0; i<inputVertices; i++){VertexArray.vertexArray[i].setRLocation(inputVertices);}
+                    counterCC++;
+                    circle.setText("Circle");
+                    hintrandom.showAndWait();
+                }
             }
         }));
+
         if(gamemode!=3) {
-            root.getChildren().addAll(hint, highestDegree, highestSatu, nextColor, circle);
+            root.getChildren().addAll(hint, highestDegree, highestSatu, nextColor,circle);
         }
         else{
-            root.getChildren().addAll(hint, highestDegree, highestSatu);
+            root.getChildren().addAll(hint, highestDegree, highestSatu,circle);
         }
         stage.setTitle("Chromatic Number Game");
         stage.setOnCloseRequest((new EventHandler<WindowEvent>(){
             @Override
             public void handle(WindowEvent e){
                 //Platform.exit();
+                mediaPlayer.pause();
             }}));
         stage.setScene(scene);
         stage.show();
