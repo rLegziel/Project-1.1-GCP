@@ -88,7 +88,7 @@ public class Menu extends Application {
     private int inputEdges;
     public static Pane root = new Pane();
     public static int gamemode;
-    public static Label currentChrom = new Label("Colors used: 0");
+    public static Label currentChrom;
 
     //Getters for the instance variables inputs
     public int getVertices() {
@@ -257,6 +257,7 @@ public class Menu extends Application {
         Stage stage = new Stage();
         Font chromFont = new Font("Calibri",30);
         currentChrom.setFont(chromFont);
+	currentChrom = new Label("Colors used: 0");
         currentChrom.setLayoutX(1200);
         root.getChildren().addAll(currentChrom);
 		/*Parameters of constructor are: (int vertices, int edges)
