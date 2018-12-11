@@ -111,6 +111,8 @@ public class Vertex extends MenuItemArray
 		});
 	}
 
-
+	public static void setIndex(int nIndex) {
+		counter = nIndex;
+	}
 
 }
