@@ -59,7 +59,6 @@ public class Vertex extends MenuItemArray
 	private final static double RADIUS = 15;
 	public static String[] colorArray = ColorArray.getColorArray();
 	public int[][] ar = RandomNodes.array;
-	public int r=400;
 
 
 
@@ -94,22 +93,6 @@ public class Vertex extends MenuItemArray
 				}
 			}}));
 		setUpDragging(this);
-	}
-	
-	public void setLocation(int v){
-		int vertices = v;
-		int j = this.index;
-		double angle = Math.toRadians(360)/(2*vertices);
-		double a = (angle*(j));
-		double sin = Math.sin(a);
-		double cos = Math.cos(a);
-		setCenterX((WIDTH/2-(WIDTH/8)) + (r - (r*sin*sin)));
-		setCenterY((HEIGHT/2) + r*sin*cos);
-	}
-	public void setRLocation(int v){
-		Random rand = new Random();
-		setCenterX(rand.nextInt(WIDTH) + 100);
-		setCenterY(rand.nextInt(HEIGHT) + 15);
 	}
 	private void setUpDragging(Vertex circle) {
 
