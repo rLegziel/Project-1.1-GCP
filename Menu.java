@@ -89,7 +89,7 @@ public class Menu extends Application {
     public static Pane root = new Pane();
     public static int gamemode;
     public static Label currentChrom;
-
+    private Scene scene = new Scene(root, 1500, 750);
     //Getters for the instance variables inputs
     public int getVertices() {
         return inputVertices;
@@ -253,11 +253,11 @@ public class Menu extends Application {
         for(int i=0;i<51;i++){
             MenuItemArray.doneColors[i]=-1;
         }
-
+        Vertex.setIndex(0);
         Stage stage = new Stage();
         Font chromFont = new Font("Calibri",30);
+        currentChrom = new Label("Colors used: 0");
         currentChrom.setFont(chromFont);
-	currentChrom = new Label("Colors used: 0");
         currentChrom.setLayoutX(1200);
         root.getChildren().addAll(currentChrom);
 		/*Parameters of constructor are: (int vertices, int edges)
@@ -303,7 +303,7 @@ public class Menu extends Application {
             root.getChildren().addAll(VertexArray.vertexArray[i]);
         }
 
-        Scene scene = new Scene(root, 1500, 750);
+
         Button hint = new Button("chromatic");
         Button highestDegree = new Button("Highest degree");
         Button highestSatu = new Button("Highest Saturation");
@@ -358,7 +358,7 @@ public class Menu extends Application {
         stage.setOnCloseRequest((new EventHandler<WindowEvent>(){
             @Override
             public void handle(WindowEvent e){
-                Platform.exit();
+                //Platform.exit();
             }}));
         stage.setScene(scene);
         stage.show();
