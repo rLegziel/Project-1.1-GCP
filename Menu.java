@@ -90,6 +90,9 @@ public class Menu extends Application {
     public static int gamemode;
     public static Label currentChrom;
     private Scene scene = new Scene(root, 1500, 750);
+    public static int chromaticNUM;
+    private Media sound = new Media("GameMusic.mp3");
+    public MediaPlayer mediaPlayer = new MediaPlayer(sound);
     //Getters for the instance variables inputs
     public int getVertices() {
         return inputVertices;
@@ -250,9 +253,16 @@ public class Menu extends Application {
     }
 
     public void showGameScreen() {
+        root.getChildren().clear();
         for(int i=0;i<51;i++){
             MenuItemArray.doneColors[i]=-1;
         }
+
+        //mediaPlayer.play();
+
+        Image paperBackground = new Image("PaperBackground.JPG");
+        ImageView rootBackground = new ImageView(paperBackground);
+        root.getChildren().addAll(rootBackground);
         Vertex.setIndex(0);
         Stage stage = new Stage();
         Font chromFont = new Font("Calibri",30);
@@ -271,7 +281,8 @@ public class Menu extends Application {
         if(gamemode==3){
             VertexArray.vertexArray[0].select();
         }
-        int chromaticNUM = ReadGraph.fromScartchChromatic(adjMatrix, inputEdges, inputVertices);
+
+        chromaticNUM = ReadGraph.fromScartchChromatic(adjMatrix, inputEdges, inputVertices);
         System.out.println(chromaticNUM);
         int highVertexIndex = ReadGraph.highestDegreeVertex(adjMatrix);
 
@@ -285,14 +296,16 @@ public class Menu extends Application {
 		*/
 
         //Background color
-        root.setStyle("-fx-background-color: #E7E8E9;");
+
+
 
 
         Button reset = new Button("Reset");
         reset.setOnMouseClicked((new EventHandler<MouseEvent>(){
             @Override
         public void handle(MouseEvent e) {
-                root.getChildren().clear();
+
+                stage.hide();
                 showGameScreen();
             }
         }
@@ -353,7 +366,12 @@ public class Menu extends Application {
                 hint3.showAndWait();
             }
         }));
-        root.getChildren().addAll(hint, highestDegree,highestSatu,nextColor);
+        if(gamemode!=3) {
+            root.getChildren().addAll(hint, highestDegree, highestSatu, nextColor);
+        }
+        else{
+            root.getChildren().addAll(hint, highestDegree, highestSatu);
+        }
         stage.setTitle("Chromatic Number Game");
         stage.setOnCloseRequest((new EventHandler<WindowEvent>(){
             @Override
