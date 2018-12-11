@@ -47,7 +47,7 @@ import javafx.scene.control.MenuItem;
 
 public class VertexArray
 {
-	static public Vertex[] vertexArray = new Vertex[100];//Bigger than needed for now
+	static public Vertex[] vertexArray = new Vertex[51];//Bigger than needed for now
 	
 	/* Currently has 50 vertices, to add more copy-paste this:
 	Vertex vertexi = new Vertex();
