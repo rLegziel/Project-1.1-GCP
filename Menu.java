@@ -91,8 +91,8 @@ public class Menu extends Application {
     public static Label currentChrom;
     private Scene scene = new Scene(root, 1500, 750);
     public static int chromaticNUM;
-    private Media sound = new Media("GameMusic.mp3");
-    public MediaPlayer mediaPlayer = new MediaPlayer(sound);
+    //private Media sound = new Media("GameMusic.mp3");
+    //public MediaPlayer mediaPlayer = new MediaPlayer(sound);
     //Getters for the instance variables inputs
     public int getVertices() {
         return inputVertices;
