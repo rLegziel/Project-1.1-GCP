@@ -88,6 +88,7 @@ public class Menu extends Application {
     private int inputEdges;
     public static Pane root = new Pane();
     public static int gamemode;
+    public static Label currentChrom = new Label("Colors used: 0");
 
     //Getters for the instance variables inputs
     public int getVertices() {
@@ -237,10 +238,27 @@ public class Menu extends Application {
         // result.ifPresent(gameSettings -> System.out.println("Vertices=" + gameSettings.getKey() + ", Edges=" + gameSettings.getValue()));
     }
 
+
     // Method to show the game screen
+    public static void setCurrentChrom(int userChrom){
+        root.getChildren().removeAll(currentChrom);
+        currentChrom = new Label("Colors used: "+userChrom);
+        Font chromFont = new Font("Calibri",30);
+        currentChrom.setFont(chromFont);
+        currentChrom.setLayoutX(1200);
+        root.getChildren().addAll(currentChrom);
+    }
+
     public void showGameScreen() {
+        for(int i=0;i<51;i++){
+            MenuItemArray.doneColors[i]=-1;
+        }
 
         Stage stage = new Stage();
+        Font chromFont = new Font("Calibri",30);
+        currentChrom.setFont(chromFont);
+        currentChrom.setLayoutX(1200);
+        root.getChildren().addAll(currentChrom);
 		/*Parameters of constructor are: (int vertices, int edges)
 		so maybe we should add the way for the user to choose these here
 		No parameters returns random amount of edges and vertices matrix
@@ -257,7 +275,6 @@ public class Menu extends Application {
         int highVertexIndex = ReadGraph.highestDegreeVertex(adjMatrix);
 
 		/*This is to Test my adjMatrix class, can be recommented
-
 		System.out.println("Matrix is: "+adjMatrix.length);
 		for(int i=0; i<adjMatrix.length;i++,System.out.print("\n")){
 			for(int j=0; j<adjMatrix.length;j++){
@@ -269,6 +286,17 @@ public class Menu extends Application {
         //Background color
         root.setStyle("-fx-background-color: #E7E8E9;");
 
+
+        Button reset = new Button("Reset");
+        reset.setOnMouseClicked((new EventHandler<MouseEvent>(){
+            @Override
+        public void handle(MouseEvent e) {
+                root.getChildren().clear();
+                showGameScreen();
+            }
+        }
+        ));
+        root.getChildren().addAll(reset);
 
         for (int i = 0; i < adjMatrix.length; i++) {
             root.getChildren().addAll(VertexArray.vertexArray[i]);
