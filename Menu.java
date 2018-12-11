@@ -320,6 +320,9 @@ public class Menu extends Application {
         Button hint = new Button("chromatic");
         Button highestDegree = new Button("Highest degree");
         Button highestSatu = new Button("Highest Saturation");
+	Button circle = new Button("Circle");
+        circle.setLayoutX(150);
+        circle.setLayoutY(600);
         highestSatu.setLayoutX(600);
         highestSatu.setLayoutY(600);
         highestDegree.setLayoutX(450);
@@ -366,8 +369,20 @@ public class Menu extends Application {
                 hint3.showAndWait();
             }
         }));
+	    
+	circle.setOnMouseClicked((new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent e) {
+            Alert hintcircle = new Alert(AlertType.INFORMATION);
+            hintcircle.setHeaderText("circle");
+            hintcircle.setContentText("vertices form a circle now");
+            hintcircle.showAndWait();
+            for (int i=0; i<inputVertices; i++){
+            VertexArray.vertexArray[i].setLocation(inputVertices);
+            }
+            }
+        }));
         if(gamemode!=3) {
-            root.getChildren().addAll(hint, highestDegree, highestSatu, nextColor);
+            root.getChildren().addAll(hint, highestDegree, highestSatu, nextColor, circle);
         }
         else{
             root.getChildren().addAll(hint, highestDegree, highestSatu);
