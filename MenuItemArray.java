@@ -58,14 +58,14 @@ Elliot's MenuItemArray class (Circle subclass, Vertex superclass)
 
 public class MenuItemArray extends Circle {
     public static String[] colorArray = ColorArray.getColorArray();
-    public MenuItem[] menuItemArray = new MenuItem[92];
+    public MenuItem[] menuItemArray = new MenuItem[51];
     public int[][] ar = RandomNodes.array;
     protected int index;
     public int colorIndex = 100;
     public boolean selected = false;
     public static int currentVertex;
-    public static int[] doneColors = new int[45]; //Initialised in VertexArray
-
+    public static int[] doneColors = new int[51]; //Initialised in VertexArray
+    private int oldColor = 100;
 
 //	protected boolean error = true;
 
@@ -76,6 +76,7 @@ public class MenuItemArray extends Circle {
         item0.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(0);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -86,8 +87,10 @@ public class MenuItemArray extends Circle {
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
                     System.out.println("nah");
+
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[0]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -111,6 +114,7 @@ public class MenuItemArray extends Circle {
         item1.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(1);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -124,6 +128,7 @@ public class MenuItemArray extends Circle {
                     error = true;
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[1]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -147,7 +152,7 @@ public class MenuItemArray extends Circle {
         item2.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
-
+                oldColor = colorIndex;
                 setColorIndex(2);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -160,6 +165,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[2]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -182,7 +188,7 @@ public class MenuItemArray extends Circle {
         item3.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
-
+                oldColor = colorIndex;
                 setColorIndex(3);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -195,6 +201,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[3]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -217,6 +224,7 @@ public class MenuItemArray extends Circle {
         item4.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(4);
 
                 error = connectedColor(ar, index);
@@ -230,6 +238,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[4]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -252,6 +261,7 @@ public class MenuItemArray extends Circle {
         item5.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(5);
 
                 error = connectedColor(ar, index);
@@ -265,6 +275,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[5]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -287,6 +298,7 @@ public class MenuItemArray extends Circle {
         item6.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(6);
 
                 error = connectedColor(ar, index);
@@ -300,6 +312,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[6]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -321,6 +334,7 @@ public class MenuItemArray extends Circle {
         MenuItem item7 = new MenuItem("Neon Pink");
         item7.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
+                oldColor = colorIndex;
                 setColorIndex(7);
                 boolean error = true;
 
@@ -335,6 +349,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[7]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -357,6 +372,7 @@ public class MenuItemArray extends Circle {
         item8.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(8);
 
                 error = connectedColor(ar, index);
@@ -370,6 +386,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[8]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -392,7 +409,7 @@ public class MenuItemArray extends Circle {
         item9.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
-
+                oldColor = colorIndex;
                 setColorIndex(9);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -405,6 +422,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[9]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -427,6 +445,7 @@ public class MenuItemArray extends Circle {
         item10.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(10);
 
                 error = connectedColor(ar, index);
@@ -440,6 +459,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[10]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -462,6 +482,7 @@ public class MenuItemArray extends Circle {
         item11.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(11);
 
                 error = connectedColor(ar, index);
@@ -475,6 +496,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[11]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -497,6 +519,7 @@ public class MenuItemArray extends Circle {
         item12.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(12);
 
                 error = connectedColor(ar, index);
@@ -510,6 +533,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[12]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -532,6 +556,7 @@ public class MenuItemArray extends Circle {
         item13.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(13);
 
                 error = connectedColor(ar, index);
@@ -545,6 +570,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[13]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -567,6 +593,7 @@ public class MenuItemArray extends Circle {
         item14.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(14);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -579,6 +606,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[14]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -601,9 +629,9 @@ public class MenuItemArray extends Circle {
         item15.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
-                setFill(Color.web(colorArray[15]));
-                error = connectedColor(ar, index);
+                oldColor = colorIndex;
                 setColorIndex(15);
+                error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
@@ -613,6 +641,7 @@ public class MenuItemArray extends Circle {
                     errorAlert.showAndWait();
                     System.out.println("nah");
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[15]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -635,6 +664,7 @@ public class MenuItemArray extends Circle {
         item16.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(16);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -647,6 +677,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[16]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -669,6 +700,7 @@ public class MenuItemArray extends Circle {
         item17.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(17);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -681,6 +713,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[17]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -703,6 +736,7 @@ public class MenuItemArray extends Circle {
         item18.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(18);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -715,6 +749,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[18]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -737,6 +772,7 @@ public class MenuItemArray extends Circle {
         item19.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(19);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -749,6 +785,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[19]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -771,6 +808,7 @@ public class MenuItemArray extends Circle {
         item20.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(20);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -783,6 +821,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[20]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -805,6 +844,7 @@ public class MenuItemArray extends Circle {
         item21.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(21);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -817,6 +857,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[21]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -839,6 +880,7 @@ public class MenuItemArray extends Circle {
         item22.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(22);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -851,6 +893,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[22]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -873,6 +916,7 @@ public class MenuItemArray extends Circle {
         item23.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(23);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -885,6 +929,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[23]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -907,6 +952,7 @@ public class MenuItemArray extends Circle {
         item24.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(24);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -919,6 +965,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[24]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -941,6 +988,7 @@ public class MenuItemArray extends Circle {
         item25.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(25);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -953,6 +1001,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[25]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -975,6 +1024,7 @@ public class MenuItemArray extends Circle {
         item26.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(26);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -987,6 +1037,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[26]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1009,6 +1060,7 @@ public class MenuItemArray extends Circle {
         item27.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(27);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1021,6 +1073,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[27]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1043,6 +1096,7 @@ public class MenuItemArray extends Circle {
         item28.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(28);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1055,6 +1109,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[28]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1077,6 +1132,7 @@ public class MenuItemArray extends Circle {
         item29.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(29);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1089,6 +1145,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[29]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1111,6 +1168,7 @@ public class MenuItemArray extends Circle {
         item30.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(30);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1123,6 +1181,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[30]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1145,6 +1204,7 @@ public class MenuItemArray extends Circle {
         item31.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(31);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1157,6 +1217,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[31]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1179,6 +1240,7 @@ public class MenuItemArray extends Circle {
         item32.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(32);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1191,6 +1253,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[32]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1213,6 +1276,7 @@ public class MenuItemArray extends Circle {
         item33.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(33);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1225,6 +1289,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[33]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1247,6 +1312,7 @@ public class MenuItemArray extends Circle {
         item34.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(34);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1259,6 +1325,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[34]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1281,6 +1348,7 @@ public class MenuItemArray extends Circle {
         item35.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(35);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1293,6 +1361,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[35]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1315,6 +1384,7 @@ public class MenuItemArray extends Circle {
         item36.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(36);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1327,6 +1397,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[36]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1349,6 +1420,7 @@ public class MenuItemArray extends Circle {
         item37.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(37);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1361,6 +1433,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[37]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1383,6 +1456,7 @@ public class MenuItemArray extends Circle {
         item38.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(38);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1395,6 +1469,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[38]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1417,6 +1492,7 @@ public class MenuItemArray extends Circle {
         item39.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(39);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1429,6 +1505,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[39]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1451,6 +1528,7 @@ public class MenuItemArray extends Circle {
         item40.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(40);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1463,6 +1541,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[40]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1485,6 +1564,7 @@ public class MenuItemArray extends Circle {
         item41.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(41);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1497,6 +1577,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[41]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1519,6 +1600,7 @@ public class MenuItemArray extends Circle {
         item42.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(42);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1531,6 +1613,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[42]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1553,6 +1636,7 @@ public class MenuItemArray extends Circle {
         item43.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(43);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1565,6 +1649,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[43]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1587,6 +1672,7 @@ public class MenuItemArray extends Circle {
         item44.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(44);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1599,6 +1685,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[44]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1621,6 +1708,7 @@ public class MenuItemArray extends Circle {
         item45.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(45);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1633,6 +1721,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[45]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1655,6 +1744,7 @@ public class MenuItemArray extends Circle {
         item46.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(46);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1667,6 +1757,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[46]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1689,6 +1780,7 @@ public class MenuItemArray extends Circle {
         item47.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(47);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1701,6 +1793,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[47]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1723,6 +1816,7 @@ public class MenuItemArray extends Circle {
         item48.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(48);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1735,6 +1829,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[48]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1757,6 +1852,7 @@ public class MenuItemArray extends Circle {
         item49.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(49);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1769,6 +1865,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[49]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1791,6 +1888,7 @@ public class MenuItemArray extends Circle {
         item50.setOnAction((new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e) {
                 boolean error = true;
+                oldColor = colorIndex;
                 setColorIndex(50);
                 error = connectedColor(ar, index);
                 System.out.println("this index is " + index);
@@ -1803,6 +1901,7 @@ public class MenuItemArray extends Circle {
                     System.out.println("nah");
                     resetColorIndex();
                 } else {
+                    checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[50]));
                     if(Menu.gamemode==3){
                         selected=false;
@@ -1873,7 +1972,7 @@ public class MenuItemArray extends Circle {
     }
 
     public void resetColorIndex() {
-        colorIndex = 100;
+        colorIndex = oldColor;
     }
 
     public void select(){
@@ -1928,10 +2027,39 @@ public class MenuItemArray extends Circle {
             for(int j=0;j<doneColors.length;j++){
                 if(doneColors[j]==-1){
                     doneColors[j]=nColor;
+                    j=j+100;
                 }
             }
         }
+        int counter = 0;
+        for(int i=0;i<doneColors.length;i++) {
+            System.out.println(doneColors[i]);
+            if (doneColors[i]!=-1) {
+                counter++;
+            }
+        }
+        Menu.setCurrentChrom(counter);
     }
+
+    public void checkRemoveColor(int color){
+        boolean keep = false;
+        if(color!=100){
+            for(int i=0;i<VertexArray.vertexArray.length;i++){
+                if(VertexArray.vertexArray[i].getColorIndex()==color){
+                    keep = true;
+                }
+            }
+            if(keep!=true){
+                for(int j=0;j<doneColors.length;j++){
+                    if(doneColors[j]==color){
+                        doneColors[j]=-1;
+                    }
+                }
+            }
+        }
+
+    }
+
     public static void colorNext(int[][] adjMat,int highestSaturationIndex){
         int actualColored =0;
         for(int i = 0;i<doneColors.length;i++){
@@ -1960,8 +2088,6 @@ public class MenuItemArray extends Circle {
         }
     }
 }
-
-
 
 	
 
