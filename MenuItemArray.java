@@ -1,77 +1,50 @@
-import javafx.application.Application;
-
-import static javafx.application.Application.launch;
-
-import javafx.event.EventHandler;
-import java.util.ArrayList;
-import java.awt.MouseInfo;
-import java.awt.PointerInfo;
-import java.awt.geom.Point2D;
-import java.awt.Point;
-
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.control.Alert;
-
-import java.util.EventObject;
-import java.util.Arrays;
-
-import javafx.event.Event;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.layout.Region;
-import javafx.scene.control.Control;
-import javafx.scene.control.ComboBoxBase;
-import javafx.scene.control.ColorPicker;
-
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-
-import java.lang.Object;
-
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.control.Control;
-import javafx.scene.control.ChoiceBox;
-
-import java.lang.Object;
-
-import javafx.stage.Window;
-import javafx.stage.PopupWindow;
-import javafx.scene.control.PopupControl;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.media.*;
-
+package group2;
 /*
 Elliot's MenuItemArray class (Circle subclass, Vertex superclass)
 */
 
-public class MenuItemArray extends Circle {
-    public static String[] colorArray = ColorArray.getColorArray();
-    public MenuItem[] menuItemArray = new MenuItem[51];
-    public int[][] ar = RandomNodes.array;
-    protected int index;
-    public int colorIndex = 100;
-    public boolean selected = false;
-    public static int currentVertex;
-    public static int[] doneColors = new int[51]; //Initialised in VertexArray
-    private int oldColor = 100;
-    public int userChromatic;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.MenuItem;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
+/*
+This class extends the circle class.
+This is so that the Vertex class (Which inherit from this class) can use circle's methods for node coloring
+ */
+
+public class MenuItemArray extends Circle {
+    public static String[] colorArray = ColorArray.getColorArray(); //Array containing colors (See ColorArray)
+    public MenuItem[] menuItemArray = new MenuItem[51];
+    public int[][] ar = RandomNodes.array; //The AdjArray of the current game
+    protected int index; //Index of this vertex
+    public int colorIndex = 100; //Default uncolored colorindex
+    public boolean selected = false; //Used in gamemode 3
+    public static int currentVertex; //Used in gamemode 3
+    public static int[] doneColors = new int[51]; //Initialised in Menu
+    private int oldColor = 100;
+    public static int userChromatic; //Current user Chromatic Number
 
 //	protected boolean error = true;
 
+
+    /*
+    Each vertex also constructs a context menu. This is the menu where you choose the color of a vertex.
+    We have added 51 different Color options. Each of these options is 1 of the MenuItems.
+    When clicked, a menuItem first checks to see if the color selection is legal. This is done with
+    the connectedColor method. If the chosen option was illegal (Choosing a color that is equal to the
+    color of a connected vertex), the color gets reset and the menu is closed. If the chosen option is legal
+    the following happens:
+    First we check the old color to potentially remove it from the doneColor array (Uses checkRemoveColor method)
+    We then color the vertex in the color corresponding to the chosen menu item.
+    Then we check the gamemode that's being played. If gamemode 3 was selected in the Menu Class, the menu item
+    also tells the program to select the next vertex to be colored and set it's stroke (To show which one has
+    to be colored). Also resets the current stroke.
+    Finally we add the chosen color to our doneColor array with the checkDoneColor method and checks if the game
+    has finished with the isFinished method.
+     */
     public MenuItemArray(double RADIUS) {
         super(RADIUS);
 
@@ -85,7 +58,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -95,8 +68,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[0]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -123,7 +96,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -133,8 +106,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[1]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -161,7 +134,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -170,8 +143,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[2]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -197,7 +170,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -206,8 +179,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[3]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -234,7 +207,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -243,8 +216,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[4]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -271,7 +244,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -280,8 +253,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[5]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -308,7 +281,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -317,8 +290,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[6]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -345,7 +318,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -354,8 +327,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[7]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -382,7 +355,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -391,8 +364,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[8]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -418,7 +391,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -427,8 +400,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[9]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -455,7 +428,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -464,8 +437,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[10]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -492,7 +465,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -501,8 +474,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[11]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -529,7 +502,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -538,8 +511,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[12]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -566,7 +539,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -575,8 +548,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[13]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -602,7 +575,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -611,8 +584,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[14]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -638,7 +611,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -646,8 +619,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[15]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -673,7 +646,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -682,8 +655,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[16]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -709,7 +682,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -718,8 +691,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[17]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -745,7 +718,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -754,8 +727,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[18]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -781,7 +754,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -790,8 +763,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[19]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -817,7 +790,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -826,8 +799,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[20]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -853,7 +826,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -862,8 +835,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[21]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -889,7 +862,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -898,8 +871,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[22]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -925,7 +898,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -934,8 +907,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[23]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -961,7 +934,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -970,8 +943,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[24]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -997,7 +970,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1006,8 +979,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[25]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1033,7 +1006,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1042,8 +1015,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[26]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1069,7 +1042,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1078,8 +1051,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[27]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1105,7 +1078,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1114,8 +1087,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[28]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1141,7 +1114,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1150,8 +1123,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[29]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1177,7 +1150,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1186,8 +1159,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[30]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1213,7 +1186,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1222,8 +1195,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[31]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1249,7 +1222,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1258,8 +1231,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[32]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1285,7 +1258,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1294,8 +1267,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[33]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1321,7 +1294,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1330,8 +1303,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[34]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1357,7 +1330,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1366,8 +1339,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[35]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1393,7 +1366,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1402,8 +1375,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[36]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1429,7 +1402,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1438,8 +1411,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[37]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1465,7 +1438,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1474,8 +1447,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[38]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1501,7 +1474,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1510,8 +1483,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[39]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1537,7 +1510,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1546,8 +1519,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[40]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1573,7 +1546,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1582,8 +1555,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[41]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1609,7 +1582,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1618,8 +1591,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[42]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1645,7 +1618,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1654,8 +1627,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[43]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1681,7 +1654,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1690,8 +1663,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[44]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1717,7 +1690,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1726,8 +1699,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[45]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1753,7 +1726,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1762,8 +1735,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[46]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1789,7 +1762,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1798,8 +1771,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[47]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1825,7 +1798,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1834,8 +1807,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[48]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1861,7 +1834,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1870,8 +1843,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[49]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1897,7 +1870,7 @@ public class MenuItemArray extends Circle {
                 System.out.println("this index is " + index);
                 System.out.println("this color index is " + getColorIndex());
                 if (error == false) {
-                    Alert errorAlert = new Alert(AlertType.ERROR);
+                    Alert errorAlert = new Alert(Alert.AlertType.ERROR);
                     errorAlert.setHeaderText("you fucking idiot");
                     errorAlert.setContentText("you cannot choose this color");
                     errorAlert.showAndWait();
@@ -1906,8 +1879,8 @@ public class MenuItemArray extends Circle {
                 } else {
                     checkRemoveColor(oldColor);
                     setFill(Color.web(colorArray[50]));
-                    if(Menu.gamemode==3){
-                        selected=false;
+                    if (Menu.gamemode == 3) {
+                        selected = false;
                         currentVertex++;
                         setStroke(Color.web(colorArray[colorIndex]));
                         VertexArray.vertexArray[currentVertex].select();
@@ -1926,13 +1899,24 @@ public class MenuItemArray extends Circle {
 
     }
 
+    /**
+     * does xyz
+     * @return  the menuItemArray
+     */
     public MenuItem[] getMenuItemArray() {
         return menuItemArray;
     }
+    /*
+    a method that checks if the vertex is connected to another with the same color, takes in 2 @params
+    1)int[][] adjMat is the adjacency matrix of our graph
+    2)int index is the index of the vertex we want to check
 
-    public static boolean connectedColor(int[][] adjar, int index) { // method that takes in the adj matrix and the index of file we want to check
-        for (int j = 0; j < adjar.length; j++) {
-            if (j != index && adjar[index][j] == 1) {
+    return false if there is another vertex connected in the same colors, otherwise returns true.
+     */
+
+    public static boolean connectedColor(int[][] adjMat, int index) {
+        for (int j = 0; j < adjMat.length; j++) {
+            if (j != index && adjMat[index][j] == 1) {
                 if (VertexArray.vertexArray[index].getColorIndex() == VertexArray.vertexArray[j].getColorIndex() && VertexArray.vertexArray[index].getColorIndex() != 100) {
                     return false;
                 }
@@ -1942,23 +1926,35 @@ public class MenuItemArray extends Circle {
         return true;
     }
 
+    /*
+    a method that sets the colorIndex, takes in 1 @param:
+    1)int color, the new colorIndex we want to set.
+     */
 
     public void setColorIndex(int color) {
         colorIndex = color;
 
     }
+    /*
+    a method that returns the colorIndex.
+     */
 
     public int getColorIndex() {
         return colorIndex;
     }
 
-    public int getIndex() {
-        return index;
-    }
 
+                 /*
+                 isFinished is the method that checks if the user finished coloring, it takes 2 @params
+                 1)Vertex[] vArray, the vertexArray
+                 2)int vertices, the amount of vertices
+                 it checks if all vertices are colored, and will go through the whole vArray to check.
+                 if its game mode is 1, it will only return true if the amount of colors the user used is the actual
+                 chromatic number.
+                 this method will return true if the game is finished, and false if not.
 
-
-    public boolean isFinished(Vertex[] vArray, int vertices) {
+                  */
+    public static boolean isFinished(Vertex[] vArray, int vertices) {
         int doneCount = 0;
         for (int i = 0; i < vertices; i++) {
             if (vArray[i].getColorIndex() != 100) {
@@ -1967,56 +1963,87 @@ public class MenuItemArray extends Circle {
         }
         System.out.println("doneCount is  " + doneCount);
         if (doneCount == vertices) {
-            if((Menu.gamemode==1&&userChromatic==Menu.chromaticNUM)||(Menu.gamemode==2)||(Menu.gamemode==3)) {
-
-                Alert errorAlert = new Alert(AlertType.INFORMATION);
+            if ((Menu.gamemode == 1 && userChromatic == Menu.chromaticNUM) ||  (Menu.gamemode == 3)) {
+                Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
                 errorAlert.setHeaderText("you fucking genius");
                 errorAlert.setContentText("you managed to finish");
+                errorAlert.showAndWait();
+                return true;
+            } else if (Menu.gamemode == 2) {
+                Alert errorAlert = new Alert(Alert.AlertType.INFORMATION);
+                errorAlert.setHeaderText("Game Over");
+                int numColors = numberOfColors();
+                errorAlert.setContentText("you colored with " + numColors + " and the chromatic number is :" + Menu.chromaticNUM );
                 errorAlert.showAndWait();
                 return true;
             }
         }
         return false;
     }
-
+    /*
+             resetColorIndex resets the colorIndex to its previous colorIndex, mostly to the default:100.
+              */
     public void resetColorIndex() {
         colorIndex = oldColor;
     }
 
-    public void select(){
+    public void select() {
         selected = true;
         this.setStrokeWidth(4);
         this.setStroke(Color.CYAN);
     }
+         /*
+         highestSaturation is one of our hint methods, it takes 1 @params
+         1)int[][] adjMat is the adjacency
+         it finds the index of the vertex that has the highest saturation-
+         the vertex that has the most colored vertex connected to it.
+         it  iterates the adjacency matrix, checks the amount of edges to each vertex and how many of them are currently colored.
+         it returns the index of this vertex.
+          */
 
-    public static int highestSaturation(int[][] adjMat){
+    public static int highestSaturation(int[][] adjMat) {
         int highestIndex = 0;
         int currentHigh = 0;
-        int connectionCounter =0;
+        int connectionCounter = 0;
 
-        for(int i = 0;i<adjMat[0].length;i++){
-            for (int j = 0;j<adjMat.length;j++){
-                if (adjMat[i][j] == 1){
-                    if(VertexArray.vertexArray[j].getColorIndex() != 100){
+        for (int i = 0; i < adjMat[0].length; i++) {
+            for (int j = 0; j < adjMat.length; j++) {
+                if (adjMat[i][j] == 1) {
+                    if (VertexArray.vertexArray[j].getColorIndex() != 100) {
                         connectionCounter++;
                     }
                 }
 
             }
-            if(connectionCounter > currentHigh && VertexArray.vertexArray[i].getColorIndex() == 100 ){
+            if (connectionCounter > currentHigh && VertexArray.vertexArray[i].getColorIndex() == 100) {
                 currentHigh = connectionCounter;
                 highestIndex = i;
             }
-            connectionCounter =0;
+            connectionCounter = 0;
         }
         return highestIndex;
     }
+
+         /**
+         setWhite takes one parameter
+         @param  index is the index of the vertex
+         it colors the Vertex in that index in the default WHITE color.
+         this method is used in the highestDegree method, to color the index
+         with the highest degree, meaning it has the most edges.
+          */
 
     public static void setWhite(int index) {
         VertexArray.vertexArray[index].setFill(Color.ANTIQUEWHITE);
         VertexArray.vertexArray[index].setStroke(Color.BLACK);
         VertexArray.vertexArray[index].setColorIndex(100);
     }
+         /**
+         setSalmon takes 1 @params
+         1)int index is the index of the vertex
+         it colors the Vertex in that index in the default DARKSALMON color.
+         this method is used in the highestSaturation method, to color the index
+         with the highest saturation.
+          */
 
     public static void setSalmon(int index) {
         VertexArray.vertexArray[index].setFill(Color.DARKSALMON);
@@ -2024,25 +2051,35 @@ public class MenuItemArray extends Circle {
         VertexArray.vertexArray[index].setColorIndex(100);
     }
 
-    public void checkDoneColor(int nColor){
+    /**
+     * checkDoneColor is a method that adds newly used colors to the doneColor array
+     * The doneColor array is initialized in the Menu class at the start of a game
+     * This method runs through the array, looking for colors with the same index as
+     * the parameter. If none are found it means the user is adding a new color. This
+     * is then added to the doneColor array. It also updates the GUI to show the user his/her
+     * chromatic number.
+     * @param nColor
+     */
+
+    public void checkDoneColor(int nColor) {
         boolean stop = false;
-        for(int i=0;i<doneColors.length;i++) {
+        for (int i = 0; i < doneColors.length; i++) {
             if (doneColors[i] == nColor) {
                 stop = true;
             }
         }
-        if(stop!=true){
-            for(int j=0;j<doneColors.length;j++){
-                if(doneColors[j]==-1){
-                    doneColors[j]=nColor;
-                    j=j+100;
+        if (stop != true) {
+            for (int j = 0; j < doneColors.length; j++) {
+                if (doneColors[j] == -1) {
+                    doneColors[j] = nColor;
+                    j = j + 100;
                 }
             }
         }
         int counter = 0;
-        for(int i=0;i<doneColors.length;i++) {
+        for (int i = 0; i < doneColors.length; i++) {
             System.out.println(doneColors[i]);
-            if (doneColors[i]!=-1) {
+            if (doneColors[i] != -1) {
                 counter++;
             }
         }
@@ -2050,18 +2087,27 @@ public class MenuItemArray extends Circle {
         Menu.setCurrentChrom(counter);
     }
 
-    public void checkRemoveColor(int color){
+    /**
+     * This method is used to check if the user has managed to reduce their chromatic number.
+     * The parameter is the old color of a vertex before it gets recolored. Every other vertex
+     * is then checked to see if there are any other vertices with the old color of this vertex.
+     * If there are no others with the old color, it is removed from the doneColors array by
+     * changing it to -1 (Represents "No color" in the doneColor array
+     * @param color The old color of the vertec
+     */
+
+    public void checkRemoveColor(int color) {
         boolean keep = false;
-        if(color!=100){
-            for(int i=0;i<VertexArray.vertexArray.length;i++){
-                if(VertexArray.vertexArray[i].getColorIndex()==color){
+        if (color != 100) {
+            for (int i = 0; i < VertexArray.vertexArray.length; i++) {
+                if (VertexArray.vertexArray[i].getColorIndex() == color) {
                     keep = true;
                 }
             }
-            if(keep!=true){
-                for(int j=0;j<doneColors.length;j++){
-                    if(doneColors[j]==color){
-                        doneColors[j]=-1;
+            if (keep != true) {
+                for (int j = 0; j < doneColors.length; j++) {
+                    if (doneColors[j] == color) {
+                        doneColors[j] = -1;
                     }
                 }
             }
@@ -2069,27 +2115,37 @@ public class MenuItemArray extends Circle {
 
     }
 
-    public static void colorNext(int[][] adjMat,int highestSaturationIndex){
-        int actualColored =0;
-        for(int i = 0;i<doneColors.length;i++){
-            if(doneColors[i] != -1){
+    /**
+    colorNext is one of our hint methods, it takes 2 @parameter
+     1)int[][] adjMat is the adjacency matrix for our graph
+     2) int highestSaturationIndex is the index with the highest degree of saturation, gotten from highestSaturation method.
+     The method will check the colors that the user used, and try to use a color that was already used first.
+     if that isn't possible, it would add another color, going from colorIndex[50] backwards.
+     add the isFinished here
+
+		*/
+
+    public static void colorNext(int[][] adjMat, int highestSaturationIndex) {
+        int actualColored = 0;
+        for (int i = 0; i < doneColors.length; i++) {
+            if (doneColors[i] != -1) {
                 actualColored++;
             }
         }
-        for(int j = 0; j<actualColored;j++){
+        for (int j = 0; j < actualColored; j++) {
             VertexArray.vertexArray[highestSaturationIndex].setColorIndex(doneColors[j]);
-            if(connectedColor(adjMat,highestSaturationIndex) == true) {
+            if (connectedColor(adjMat, highestSaturationIndex) == true) {
                 int currentColorIndex = VertexArray.vertexArray[highestSaturationIndex].getColorIndex();
                 VertexArray.vertexArray[highestSaturationIndex].setFill(Color.web(colorArray[currentColorIndex]));
                 break;
-            } else{
+            } else {
                 VertexArray.vertexArray[highestSaturationIndex].resetColorIndex();
             }
         }
         int color = 50;
-        if(VertexArray.vertexArray[highestSaturationIndex].getColorIndex() == 100){
+        if (VertexArray.vertexArray[highestSaturationIndex].getColorIndex() == 100) {
             VertexArray.vertexArray[highestSaturationIndex].setColorIndex(color);
-            while(connectedColor(adjMat,highestSaturationIndex) != true) {
+            while (connectedColor(adjMat, highestSaturationIndex) != true) {
                 color--;
                 VertexArray.vertexArray[highestSaturationIndex].setColorIndex(color);
             }
@@ -2099,7 +2155,22 @@ public class MenuItemArray extends Circle {
             VertexArray.vertexArray[highestSaturationIndex].setFill(Color.web(colorArray[color]));
         }
     }
-}
 
-	
+    /**
+     * numberOfColors is a method that counts the number of the colors used by the user, it basically takes the
+     doneColors array(which has the colors it used).
+     @return an integer which is the number of colors that were used
+		*/
+
+    public static int numberOfColors() {
+        int counter = 0;
+        for (int i = 0; i < doneColors.length; i++) {
+            System.out.println(doneColors[i]);
+            if (doneColors[i] != -1) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+}
 
