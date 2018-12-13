@@ -1,7 +1,7 @@
 package group2;
 /**
  * Contributed by: Elliot, Roy, Lina, Iga, Mihai
- * Version: 1
+ * Version: 1.5
  * 12.12.2018
  * VertexArray object is an array of Vertex objects containing all the vertices
  * the user can use 
