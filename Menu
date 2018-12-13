@@ -1,170 +1,243 @@
-import javafx.scene.control.DialogPane;
-import javafx.stage.StageStyle;
-import javafx.scene.Group;
-import javafx.scene.paint.Color;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.layout.StackPane;
-import javafx.geometry.Insets;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
-import javafx.geometry.*;
-import javafx.scene.control.*;
-import java.lang.*;
-import javafx.scene.layout.*;
+/*
+    Lina, Roy, Elliot, Mihai, Iga
+    Version 6.5
+    12/12/2018
+    
+    The class Menu provides the layout of the menu to start each gamemode,
+    moreover it includes the implementation of different hints and the option to show the graph in a circular shape.
+
+*/
+
+package group2;
+
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Font;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.util.Pair;
-import javafx.application.Platform;
-import javafx.scene.Node;
-import java.util.Optional;
-import javafx.application.Application;
-import static javafx.application.Application.launch;
-import java.awt.MouseInfo;
-import java.awt.PointerInfo;
-import java.awt.geom.Point2D;
-import java.awt.Point;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
-import javafx.scene.shape.Line;
-import java.util.EventObject;
-import javafx.event.Event;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.layout.Region;
-import javafx.scene.control.Control;
-import javafx.scene.control.ComboBoxBase;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import java.lang.Object;
-import javafx.scene.Parent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.ChoiceBox;
-import java.lang.Object;
-import javafx.stage.Window;
-import javafx.stage.PopupWindow;
-import javafx.scene.control.PopupControl;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import  javafx.scene.control.Alert.AlertType;;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.util.Pair;
+import java.io.File;
+import java.util.Optional;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class Menu extends Application{
-    // Instance variables for the input of the user in game mode 1 and 2
+/**
+ * Menu class 
+ */
+public class Menu extends Application {
+
     private int inputVertices;
     private int inputEdges;
+
     public static Pane root = new Pane();
-    private long start;
+    public static int gamemode;
+    public static Label currentChrom;
+    private Scene scene = new Scene(root, 1150, 650);
+    public static int chromaticNUM; // Chromatic number of the chosen graph
+    public static MediaPlayer mediaPlayer;
+    public int counterCC;
+    private boolean isMute = true;
+    public boolean isReading;
+    public int[][] inputMatrix;
+    private int highVertexIndex;
+    public int seconds=0;
 
-    //Getters for the instance variables inputs
-    public int getVertices(){
-        return inputVertices;
-    }
 
-    public int getEdges(){
-        return inputEdges;
-    }
-
+    
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
 
-        Image background = new Image("numbers.jpeg");
+        /**
+         * Media player implementation
+         */
+        try{
+            Media sound = new Media(new File("GameMusic.MP3").toURI().toString());
+            mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.setCycleCount(mediaPlayer.INDEFINITE);
+        }catch(Exception e){};
+
+        Image background = new Image(("MenuBackGround.GIF"));
         ImageView mv = new ImageView(background);
 
-        Group root = new Group();
-        root.getChildren().addAll(mv);
+
+        /**
+         * Pane for the layout of the game menu
+         * 
+         */
+        Pane pane = new Pane();
+        pane.setPrefSize(800,500);
 
         Label title = new Label("Crazy Chromatic Number Game");
-        title.setFont(new Font("Stencil", 50));
+        title.setFont(new Font("Verdana", 40));
         title.setTextFill(Color.WHITE);
-
-        VBox options = new VBox();
-        options.setSpacing(50);
-        options.setAlignment(Pos.TOP_CENTER);
+        title.relocate(80,10);
 
         Label gameModes = new Label("Menu Options");
-        gameModes.setFont(new Font("Stencil", 30));
+        gameModes.setFont(new Font("Verdana", 25));
         gameModes.setTextFill(Color.WHITE);
+        gameModes.relocate(300,100);
 
-        options.getChildren().add(title);
-        options.getChildren().add(gameModes);
+        Label info = new Label();
+        info.setFont(new Font("Verdana", 15));
+        info.setTextFill(Color.WHITE);
+        info.relocate(480,260);
 
+        /**
+         * Three buttons for the different game modes
+         */
         Button mode1 = new Button("Mode 1");
+        mode1.relocate(350,200);
         Button mode2 = new Button("Mode 2");
+        mode2.relocate(350,300);
         Button mode3 = new Button("Mode 3");
+        mode3.relocate(350,400);
 
-        options.getChildren().add(mode1);
-        options.getChildren().add(mode2);
-        options.getChildren().add(mode3);
+        /**
+         * Buttons that gives a summary of each game mode
+         */
+        Button rules1 = new Button("?");
+        rules1.setShape(new Circle(1.5));
+        rules1.setMaxSize(3,3);
+        rules1.relocate(420,200);
+        Button rules2 = new Button("?");
+        rules2.setShape(new Circle(1.5));
+        rules2.setMaxSize(3,3);
+        rules2.relocate(420,300);
+        Button rules3 = new Button("?");
+        rules3.setShape(new Circle(1.5));
+        rules3.setMaxSize(3,3);
+        rules3.relocate(420,400);
+
+        /**
+         * GAME MODE 1
+         * The option to read in a graph from a file
+         * Button opens a directory, user can upload a file
+         */
+        Button file1 = new Button("Choose your own file");
+        file1.relocate(450,200);
+        file1.setOnMouseClicked((new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent e) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Open Graph File");
+                File file = fileChooser.showOpenDialog(primaryStage);
+                String userFile = file.getAbsolutePath();
+                inputMatrix = ReadToAdj.readCreateMatrix(userFile);
+                inputVertices = inputMatrix.length;
+                inputEdges = ReadToAdj.getVertices(inputMatrix);
+                showGameScreen();
+            }
+        }));
+        /**
+         * GAME MODE 2
+         * The option to read in a graph from a file
+         * Button opens a directory, user can upload a file
+         */
+        Button file2 = new Button("Choose your own file");
+        file2.relocate(450,300);
+        file2.setOnMouseClicked((new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent e) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Open Graph File");
+                File file = fileChooser.showOpenDialog(primaryStage);
+                String userFile = file.getAbsolutePath();
+                inputMatrix = ReadToAdj.readCreateMatrix(userFile);
+                inputVertices = inputMatrix.length;
+                inputEdges = ReadToAdj.getVertices(inputMatrix);
+                showGameScreen();
+            }
+        }));
+
+        pane.getChildren().addAll(mv,title, gameModes, mode1, mode2, mode3, rules1, rules2, rules3, info, file1, file2);
 
         // Mode 1 EventHandler - opens Pop up that asks for input of number of vertices and edges
-        mode1.setOnAction(new EventHandler<ActionEvent>(){
+        mode1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event){
+            public void handle(ActionEvent event) {
                 openUserInput(1);
-                // primaryStage.close();
             }
         });
-
-        mode2.setOnAction(new EventHandler<ActionEvent>(){
+        // Mode 2 EventHandler - opens Pop up that asks for input of number of vertices and edges
+        mode2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event){
+            public void handle(ActionEvent event) {
                 openUserInput(2);
-                //primaryStage.close();
             }
         });
-
-        mode3.setOnAction(new EventHandler<ActionEvent>(){
+        // Mode 3 EventHandler - generates a random graph and starts game
+        mode3.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event){
-                int x = (int) (Math.random() * 49 + 1);
-                int y = (x *(x-1))/2;
+            public void handle(ActionEvent event) {
+                setGameMode(3);
+                Random ran1 = new Random();
+                int x = ran1.nextInt(15)+1;
                 inputVertices = x;
-                inputEdges = (int) (Math.random() * (y-1) +1);
+                inputEdges = 2*x-1;
 
                 showGameScreen();
-                // primaryStage.close();
             }
         });
 
-        root.getChildren().add(options);
-        // options.setAlignment(Pos.TOP_CENTER);
+        /**
+         * Info about each game mode button - EventHandlers 
+         */
+        rules1.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent event){
+                info.setText("Mode 1\n"+" To the bitter end - \n play until you get a chromatic number! \n Good luck & keep it chromatic!");
+            }
+        });
 
-        Scene menu = new Scene(root, 800, 500);
+        rules2.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent event){
+                info.setText("Mode 2\n" +
+                        "Best upper bound - \n try to find the best upper bound in \n a fixed time frame! Good luck & keep \n it chromatic! ");
+            }
+        });
+        rules3.setOnAction(new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent event){
+                info.setText("Mode 3\n" +
+                        "Random color \n the vertices in an order given \n by a computer! \nGood luck & keep it chromatic!");
+            }
+        });
+
+        Scene menu = new Scene(pane, 800, 500, Color.BLACK);
 
         primaryStage.setScene(menu);
         primaryStage.setTitle("Chromatic Number Game");
         primaryStage.show();
 
     }
-    // Method for game mode 1 and 2 to show the game screen
-    public void openUserInput(int modeNumber){
+
+    /**
+     * Method for game mode 1 and 2 to collect input for vertices and edges and shows the game screen
+     * @param modeNumber - number of the the game mode that is going to be played
+    */
+    public void openUserInput(int modeNumber) {
         Dialog<Pair<String, String>> input = new Dialog<>();
         input.setTitle("Game Mode " + modeNumber);
+        setGameMode(modeNumber);
         input.setHeaderText("Game Settings");
-        input.setGraphic(new ImageView(this.getClass().getResource("settings.png").toString()));
-        ButtonType loginButtonType = new ButtonType("START", ButtonData.OK_DONE);
-        input.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+        input.setGraphic(new ImageView(("settings.png")));
+
+        ButtonType loginButtonType = new ButtonType("START", ButtonData.OK_DONE);// Button of the dialog to start game
+        input.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL); // Button to close input dialog
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
@@ -176,18 +249,25 @@ public class Menu extends Application{
         TextField edges = new TextField();
         edges.setPromptText("Edges");
         Button random = new Button("Random graph");
-        // Random graph button that puts to numbers into the input text fields of vertices and edges
-        random.setOnAction(new EventHandler<ActionEvent>(){
+
+        /** 
+         * Random graph button that puts random numbers into the input text fields of vertices and edges
+        */
+        random.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event){
-                int x = (int) (Math.random() * 49 + 1);
-                int y = (x *(x-1))/2;
+            public void handle(ActionEvent event) {
+                Random rand = new Random();
+                int x = rand.nextInt(35)+1; // Random number for the number vertices between 1 and 35
+                int maximumEdges = (x*2) -1; 
+                int y = rand.nextInt(maximumEdges); // Random number for the number of edges between 0 and 2 times the number of vertices minus 1 
                 vertices.setText(Integer.toString(x));
-                edges.setText(Integer.toString((int) (Math.random() * (y-1) +1)));
+                edges.setText(Integer.toString(y));
             }
         });
 
-
+        /**
+         * Layout of the input dialog 
+         */
         grid.add(new Label("Number of vertices:"), 0, 0);
         grid.add(vertices, 1, 0);
         grid.add(new Label("Number of edges:"), 0, 1);
@@ -205,164 +285,261 @@ public class Menu extends Application{
             return null;
         });
 
-        Optional<Pair<String, String>> result = input.showAndWait();
-
-        if (result.isPresent()){
+        Optional<Pair<String, String>> result = input.showAndWait(); // Input saved as a optional pair 
+        /**
+         * If the start button is pressed, the input is saved in the instance variables for the inputVertices and inputEdges
+         */
+        if (result.isPresent()) { 
             inputVertices = Integer.parseInt(result.get().getKey());
             inputEdges = Integer.parseInt(result.get().getValue());
         }
-        showGameScreen();
-        //primaryStage.hide();
-        // result.ifPresent(gameSettings -> System.out.println("Vertices=" + gameSettings.getKey() + ", Edges=" + gameSettings.getValue()));
+        showGameScreen(); // start the game with a graph based on the user input
     }
-    // Method to show the game screen
+    /**
+     * Sets the current chromatic number to the amout of colors the user used
+     * @param userChrom - amount of colors used by the user
+     */
+    public static void setCurrentChrom(int userChrom){
+        root.getChildren().removeAll(currentChrom); // remove previous currentChrom
+        currentChrom = new Label("Colors used: "+userChrom);
+        Font chromFont = new Font("Calibri",20);
+        currentChrom.setFont(chromFont);
+        currentChrom.setLayoutX(1200);
+        root.getChildren().addAll(currentChrom); // set label to current number of colors
+    }
 
+    /**
+     * Method to show the game screen - used in all three game modes
+     */
+    public void showGameScreen() {
+        root.getChildren().clear(); // clear the previous pane of the game screen
 
-    public void showGameScreen(){
+        //Resets the done color array - all values -1
+        for(int i=0;i<51;i++){
+            MenuItemArray.doneColors[i]=-1;
+        }
 
+        /**
+         * Layout of the game screen
+         */
+        Image paperBackground = new Image("PaperBackground.JPG");
+        ImageView rootBackground = new ImageView(paperBackground);
+        root.getChildren().addAll(rootBackground);
+        Vertex.setIndex(0);
         Stage stage = new Stage();
-		/*Parameters of constructor are: (int vertices, int edges)
-		so maybe we should add the way for the user to choose these here
-		No parameters returns random amount of edges and vertices matrix
-		(boundries set in RandomNodes.java)
-		*/
+        Font chromFont = new Font("Calibri",30);
+
+        currentChrom = new Label("Colors used: 0");
+        currentChrom.setFont(chromFont);
+        currentChrom.setLayoutX(950);
+        root.getChildren().addAll(currentChrom);
 
 
-		////////////////// starting to count the seconds since the stage was created////////////
+		if(isReading == false) {
+            RandomNodes graph = new RandomNodes(inputVertices,inputEdges);
+            graph.createAdjMatrix();
+            inputMatrix = graph.getAdjMatrix();
+            chromaticNUM = ReadGraph.fromScartchChromatic(inputMatrix, inputEdges, inputVertices);
+            System.out.println(chromaticNUM);
+             highVertexIndex = ReadGraph.highestDegreeVertex(inputMatrix);
+        } else{
+		    RandomNodes inputGraph = new RandomNodes(inputVertices,inputEdges);
+            inputGraph.createVArray(inputMatrix);
+            chromaticNUM = ReadGraph.fromScartchChromatic(inputMatrix, inputEdges, inputVertices);
+            System.out.println(chromaticNUM);
+             highVertexIndex = ReadGraph.highestDegreeVertex(inputMatrix);
+        }
+        if(gamemode==3){
+            VertexArray.vertexArray[0].select();
+            System.out.println("IS THE CODE COMING HERE?");
+        }
 
-          /// I Imagine this might very well be the highscore for GAME ONE. Multiplied by TEN or smth
-
-        ///////////////////////////////////END INVISIBLE TIMER/////////////////////////////////
-
-        RandomNodes graph = new RandomNodes(inputVertices, inputEdges);
-        graph.createAdjMatrix();
-        int[][] adjMatrix = graph.getAdjMatrix();
-        int chromaticNUM = ReadGraph.fromScartchChromatic(adjMatrix,inputEdges,inputVertices);
-        System.out.println(chromaticNUM);
-
-		/*This is to Test my adjMatrix class, can be recommented
-
-		System.out.println("Matrix is: "+adjMatrix.length);
-		for(int i=0; i<adjMatrix.length;i++,System.out.print("\n")){
-			for(int j=0; j<adjMatrix.length;j++){
-				System.out.print(adjMatrix[i][j]+" ");
-			}
-		}
-		*/
-
-        //Background color
-        root.setStyle("-fx-background-color: #E7E8E9;");
-
-
-	/*Adds all the Vertices to the Pane
-	(Could be moved to adjMatrix class root. would be Testing.root. */
-        for(int i=0;i<adjMatrix.length;i++){
+        /**
+         * Button to mute and unmute the background music/media player
+         */
+        Button mute = new Button();
+        ImageView muteImg = new ImageView(new Image("MuteImage.PNG"));
+        mute.setGraphic(muteImg);
+        ImageView unmuteImg = new ImageView(new Image("UnmuteImage.PNG"));
+        mute.setLayoutX(1100);
+        mute.setLayoutY(600);
+        mute.setOnMouseClicked((new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent e) {
+                if(isMute) {
+                    mediaPlayer.pause();
+                    mute.setGraphic(unmuteImg);
+                    isMute=false;
+                }else{
+                    mediaPlayer.play();
+                    mute.setGraphic(muteImg);
+                    isMute=true;
+                }
+            }
+        }
+        ));
+        /**
+         * Button to reset the game, uses showGameScreen() to restart the game screen
+         */
+        Button reset = new Button("Reset");
+        ImageView resetImg = new ImageView(new Image("ResetImage.PNG"));
+        reset.setGraphic(resetImg);
+        reset.setOnMouseClicked((new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent e) {
+                stage.hide();
+                showGameScreen();
+            }
+        }
+        ));
+        root.getChildren().addAll(reset,mute);
+        // Adding the vertices to the game screen
+        for (int i = 0; i < inputMatrix.length; i++) {
             root.getChildren().addAll(VertexArray.vertexArray[i]);
         }
 
-        Scene scene = new Scene(root, 1500, 750);
-        Button hint = new Button("chromatic");
+        /**
+         * Hints for the different game modes and their layouts (buttons)
+         */
+        Button hint = new Button("Chromatic");
+        Button highestDegree = new Button("Highest degree");
+        Button highestSatu = new Button("Highest Saturation");
+        Button circle = new Button("Circle");
+        circle.setLayoutX(150);
+        circle.setLayoutY(600);
+        highestSatu.setLayoutX(600);
+        highestSatu.setLayoutY(600);
+        highestDegree.setLayoutX(450);
+        highestDegree.setLayoutY(600);
         hint.setLayoutX(300);
         hint.setLayoutY(600);
-        hint.setOnMouseClicked((new EventHandler<MouseEvent>(){
-            public void handle(MouseEvent e){
+        Button nextColor = new Button("Color next");
+        nextColor.setLayoutX(750);
+        nextColor.setLayoutY(600);
+
+        /**
+         * Hint that displays the Chromatic Numberin a alert/pop-up window
+         */
+        hint.setOnMouseClicked((new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent e) {
                 Alert hinta = new Alert(AlertType.INFORMATION);
-                hinta.setHeaderText("chrom");
+                hinta.setHeaderText("chromatic");
                 hinta.setContentText("the chromatic number is " + chromaticNUM);
                 hinta.showAndWait();
             }
         }));
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////GAME MODE TWO////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        final FxStopWatch stopwatch = new FxStopWatch(inputVertices * 5);
-        stopwatch.setLayoutX(1100);
-        stopwatch.setLayoutY(0);
-        stopwatch.setStyle("-fx-background-color: transparent;");
-        stopwatch.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
-
-        Button endTimer = new Button("timer");
-        endTimer.setLayoutX(0);
-        endTimer.setLayoutY(600);
-        endTimer.setOnMouseClicked((new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent e) {
-
-                stopwatch.setVisible(false);
-                long tEnd = System.currentTimeMillis();   /////// needs the game finish thingy;
-                //double elapsedSeconds = tDelta / 1000.0;
-                Alert hinta = new Alert(AlertType.INFORMATION);
-                hinta.setHeaderText("");
-                hinta.setContentText("Congratz. You've done it");
-                hinta.showAndWait();
-
-            }
-        }));
-
-/////////////////////////////////////////GAME MODE ONE/////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////////////////
-
         /**
-         * GAME MODE ONE: TIME ELAPSED
-         *
-
-        long tStart = System.currentTimeMillis();
-
-
-        final FxWatch stopwatch = new FxWatch();
-        stopwatch.setLayoutX(1100);
-        stopwatch.setLayoutY(0);
-        stopwatch.setStyle("-fx-background-color: transparent;");
-        stopwatch.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
-
-        Button endTimer = new Button("timer");
-        endTimer.setLayoutX(0);
-        endTimer.setLayoutY(600);
-        endTimer.setOnMouseClicked((new EventHandler<MouseEvent>() {
+         * Hint that sets the color of the vertex with the highest degree in whi
+         */
+        highestDegree.setOnMouseClicked((new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
-
-                stopwatch.setVisible(false);
-                long tEnd = System.currentTimeMillis();   /////// needs the game finish thingy;
-                long tDelta = tEnd - tStart;
-                double elapsedSeconds = tDelta / 1000.0;
-                Alert hinta = new Alert(AlertType.INFORMATION);
-                hinta.setHeaderText("");
-                hinta.setContentText("Congratz. You've done it in " + elapsedSeconds + " seconds");
-                hinta.showAndWait();
-
+                Alert hint1 = new Alert(AlertType.INFORMATION);
+                hint1.setHeaderText("highest degree");
+                hint1.setContentText("the vertex with the highest degree is  " + highVertexIndex);
+                MenuItemArray.setWhite(highVertexIndex);
+                hint1.showAndWait();
+            }
+        }));
+        highestSatu.setOnMouseClicked((new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent e) {
+                Alert hint2 = new Alert(AlertType.INFORMATION);
+                int highestSatIndex = MenuItemArray.highestSaturation(inputMatrix);
+                hint2.setHeaderText("Highest Saturation");
+                hint2.setContentText("the vertex with the highest degree of saturation  " + highestSatIndex);
+                MenuItemArray.setSalmon(highestSatIndex);
+                hint2.showAndWait();
+            }
+        }));
+        nextColor.setOnMouseClicked((new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent e) {
+                Alert hint3 = new Alert(AlertType.INFORMATION);
+                int highestSatIndex = MenuItemArray.highestSaturation(inputMatrix);
+                MenuItemArray.colorNext(inputMatrix,highestSatIndex);
+                hint3.setHeaderText("hopefully this will color the next");
+                hint3.setContentText("hope this shit works");
+                hint3.showAndWait();
+            }
+        }));
+        circle.setOnMouseClicked((new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent e) {
+                Alert hintcircle = new Alert(AlertType.INFORMATION);
+                hintcircle.setHeaderText("circle");
+                hintcircle.setContentText("vertices form a circle now");
+                Alert hintrandom = new Alert(AlertType.INFORMATION);
+                hintrandom.setHeaderText("random");
+                hintrandom.setContentText("vertices are in radom places now");
+                if(counterCC%2==0){for (int i=0; i<inputVertices; i++){
+                    VertexArray.vertexArray[i].setLocation(inputVertices);
+                }counterCC++;
+                    circle.setText("Random");
+                    hintcircle.showAndWait();
+                }
+                else {
+                    for (int i=0; i<inputVertices; i++){VertexArray.vertexArray[i].setRLocation(inputVertices);}
+                    counterCC++;
+                    circle.setText("Circle");
+                    hintrandom.showAndWait();
+                }
             }
         }));
 
-      
-
-        root.getChildren().add(endTimer);           /////////// JUST BEEN TESTING THE TIMER: SHOULD BE REPLACED BY THE isDONE THINGHY
-
-         */
-        
-        
-        root.getChildren().add(stopwatch);
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////END////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        if(gamemode==2) {
+            Label timerLabel = new Label("00:00");
+            seconds = inputVertices * 10;
+            timerLabel.setLayoutX(600);
+            timerLabel.setLayoutY(800);
+            Timer timer = new Timer();
+            root.getChildren().addAll(hint, highestDegree, highestSatu, nextColor,circle,timerLabel);
+            timer.scheduleAtFixedRate(new  TimerTask() {
+                public void run() {
+                    Platform.runLater(() -> timerLabel.setText(Integer.toString(((seconds - (seconds % 60)) / 60)) + ":" + Integer.toString((seconds % 60))));
+                    seconds--;
+                   if(seconds == 0 || MenuItemArray.isFinished(VertexArray.vertexArray,inputVertices) == true){
+                           timer.cancel();
+                       }
 
 
-        root.getChildren().add(hint);
 
+                }},0,1000);
+
+
+        }else if( gamemode == 1) {
+            Label timerLabel = new Label("00:00");
+            timerLabel.setLayoutX(600);
+            timerLabel.setLayoutY(800);
+            Timer timer = new Timer();
+            root.getChildren().addAll(hint, highestDegree, highestSatu, nextColor,circle,timerLabel);
+            timer.scheduleAtFixedRate(new TimerTask() {
+                public void run() {
+
+                        Platform.runLater(() -> timerLabel.setText(Integer.toString(((seconds - (seconds % 60)) / 60)) + ":" + Integer.toString((seconds % 60))));
+                        seconds++;
+
+            }},0,1000);
+
+
+        }
+        else{
+            root.getChildren().addAll(hint, highestDegree, highestSatu,circle);
+        }
         stage.setTitle("Chromatic Number Game");
+//        stage.setOnCloseRequest((new EventHandler<WindowEvent>(){
+//            @Override
+//            public void handle(WindowEvent e){
+//                //Platform.exit();
+//                mediaPlayer.pause();
+//            }}));
         stage.setScene(scene);
         stage.show();
     }
+
     // Main method
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
+    }
+
+    public void setGameMode(int number){
+        gamemode = number;
     }
 
 
