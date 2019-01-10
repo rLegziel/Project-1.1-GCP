@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 public class ChromaticMethods {
 
@@ -240,8 +241,8 @@ public class ChromaticMethods {
             }
             if(counter == 1){
                 System.out.println("first round!   " + counter);
-                usedArray.add(counter);
-                doneArray[highestDeg] = coloringSaturation(color, adjMat, doneArray, counter,usedArray);
+                usedArray.add(highestDeg);
+                doneArray[highestDeg] = coloringSaturation(color, adjMat, doneArray, highestDeg,usedArray);
             }else {
                 int satuIndex = highestSaturation(adjMat, doneArray);
                 System.out.println("highest saturation index is  " + satuIndex);
@@ -251,6 +252,46 @@ public class ChromaticMethods {
             counter++;
         }
         return findChromatic(doneArray);
+    }
+
+    public static int randomSaturationChromatic(int[][] adjMat){
+        int[] color = makeColorsArray(adjMat.length);
+        int[] doneArray = new int[adjMat.length];
+        ArrayList<Integer> usedArray = new ArrayList<>();
+        int vertex = adjMat.length;
+        int minimumChromatic = vertex;
+        int counter = 0;
+        for(int c = 0; c<1000;c++) {
+            Arrays.fill(doneArray, 0);
+            counter =0;
+            usedArray.clear();
+            System.out.println("this is the " + c + " time");
+            Random rand = new Random();
+            int startingNum = rand.nextInt(vertex-1) + 1;
+            while (counter != adjMat.length - 1) {
+                if (counter == 0) {
+                    doneArray[counter] = 1;
+                }
+                if (counter == 1) {
+//                    System.out.println("first round!   " + startingNum);
+                    usedArray.add(startingNum);
+//                    doneArray[startingNum] = coloringSaturation(color, adjMat, doneArray, startingNum, usedArray);
+                    doneArray[startingNum] = 1;
+                } else {
+                    int satuIndex = highestSaturation(adjMat, doneArray);
+//                    System.out.println("highest saturation index is  " + satuIndex);
+                    usedArray.add(satuIndex);
+                    doneArray[satuIndex] = coloringSaturation(color, adjMat, doneArray, satuIndex, usedArray);
+                }
+                counter++;
+            }
+            int chromaticRandomized = findChromatic(doneArray);
+            System.out.println("current chromatic is  " + chromaticRandomized);
+            if (chromaticRandomized < minimumChromatic) {
+                minimumChromatic = chromaticRandomized;
+            }
+        }
+        return minimumChromatic;
     }
 
     public static int coloringSaturation(int[] colors, int[][] matrix, int[] done, int index,ArrayList<Integer> usedArray) {
