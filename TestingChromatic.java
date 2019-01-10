@@ -16,9 +16,12 @@ public class TestingChromatic {
 
     int chromaticSatu = ChromaticMethods.chromaticSaturation(adjMat);
 
+    int randomSaturation = ChromaticMethods.randomSaturationChromatic(adjMat);
+
     System.out.println("The chromatic number is : " + chromaticNum);
     System.out.println("The Clique size is  : " + clSize);
-    System.out.println("The chromatic (using saturation number is : " + chromaticSatu);
+    System.out.println("The chromatic (using saturation) number is : " + chromaticSatu);
+    System.out.println("The chromatic (using random saturation) number is : " + randomSaturation);
 
 
 
