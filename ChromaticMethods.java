@@ -219,7 +219,7 @@ public class ChromaticMethods {
             doneArray[j] = coloring(color, adjMat, doneArray, j);
         }
         int minimumChromatic = upperBound;
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10000; i++) {
             int chromaticRandomized = randomizedTest(adjMat, vertex, upperBound, color);
             if (chromaticRandomized < minimumChromatic) {
                 minimumChromatic = chromaticRandomized;
@@ -245,7 +245,7 @@ public class ChromaticMethods {
                 doneArray[highestDeg] = coloringSaturation(color, adjMat, doneArray, highestDeg,usedArray);
             }else {
                 int satuIndex = highestSaturation(adjMat, doneArray);
-                System.out.println("highest saturation index is  " + satuIndex);
+//                System.out.println("highest saturation index is  " + satuIndex);
                 usedArray.add(satuIndex);
                 doneArray[satuIndex] = coloringSaturation(color, adjMat, doneArray, satuIndex, usedArray);
             }
@@ -261,25 +261,27 @@ public class ChromaticMethods {
         int vertex = adjMat.length;
         int minimumChromatic = vertex;
         int counter = 0;
-        for(int c = 0; c<1000;c++) {
+        for(int c = 0; c<100;c++) {
             Arrays.fill(doneArray, 0);
             counter =0;
             usedArray.clear();
             System.out.println("this is the " + c + " time");
-            Random rand = new Random();
-            int startingNum = rand.nextInt(vertex-1) + 1;
             while (counter != adjMat.length - 1) {
                 if (counter == 0) {
                     doneArray[counter] = 1;
+                    usedArray.add(0);
                 }
                 if (counter == 1) {
+                    Random rand = new Random();
+                    int startingNum = rand.nextInt(vertex-1) + 1;
 //                    System.out.println("first round!   " + startingNum);
                     usedArray.add(startingNum);
+                    System.out.println("starting number is " + startingNum);
 //                    doneArray[startingNum] = coloringSaturation(color, adjMat, doneArray, startingNum, usedArray);
                     doneArray[startingNum] = 1;
                 } else {
                     int satuIndex = highestSaturation(adjMat, doneArray);
-//                    System.out.println("highest saturation index is  " + satuIndex);
+                    System.out.println("highest saturation index is  " + satuIndex);
                     usedArray.add(satuIndex);
                     doneArray[satuIndex] = coloringSaturation(color, adjMat, doneArray, satuIndex, usedArray);
                 }
@@ -298,8 +300,8 @@ public class ChromaticMethods {
         int[] array = Arrays.copyOf(colors, colors.length);
         if(usedArray.size() > 0){
             for(int i = 0;i<usedArray.size();i++){
-                if (matrix[index][usedArray.get(i)] == 1){
-                    int colorToRemove = done[i];
+                if (matrix[index][usedArray.get(i)] == 1 && done[usedArray.get(i)] != 0){
+                    int colorToRemove = done[usedArray.get(i)];
                     for (int j = 0; j < array.length; j++) {
                         if (array[j] == colorToRemove) {
                             array[j] = 0;
@@ -346,11 +348,15 @@ public class ChromaticMethods {
                 }
 
             }
-            if (connectionCounter > currentHigh && colorArray[i] == 0) {
+            if (connectionCounter > currentHigh && colorArray[i] == 0 && i !=0) {
                 currentHigh = connectionCounter;
                 highestIndex = i;
             }
             connectionCounter = 0;
+        }
+        if (highestIndex == 0){
+            highestIndex = highestDegreeVertex(adjMat);
+            return highestIndex;
         }
         return highestIndex;
     }
