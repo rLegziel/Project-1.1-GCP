@@ -8,6 +8,7 @@ public class ChromaticMethods {
 
     /**
      * this method computes the chromatic number based on the highest color value the algorithm used.
+     *
      * @param array is doneArray
      * @return
      */
@@ -204,6 +205,7 @@ public class ChromaticMethods {
     /**
      * This method is used to calculate the chromatic number based on the adjacency matrix and the number of vertices
      * in the graph
+     *
      * @param adjMat the adjacency matrix
      * @param vertex the number of vertices
      * @return an integer which is the chromatic number.
@@ -221,7 +223,7 @@ public class ChromaticMethods {
         int chromatic = findChromatic(doneArray);
         System.out.println("this is the greedy chromatic : " + chromatic);
         int minimumChromatic = upperBound;
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 1; i++) {
             int chromaticRandomized = randomizedTest(adjMat, vertex, upperBound, color);
             if (chromaticRandomized < minimumChromatic) {
                 minimumChromatic = chromaticRandomized;
@@ -231,51 +233,52 @@ public class ChromaticMethods {
         return minimumChromatic;
     }
 
-    public static int chromaticSaturation(int[][] adjMat){
+    public static int chromaticSaturation(int[][] adjMat) {
         int[] color = makeColorsArray(adjMat.length);
         int[] doneArray = new int[adjMat.length];
 //        int highestDeg = highestDegreeVertex(adjMat);
         ArrayList<Integer> usedArray = new ArrayList<>();
         int counter = 0;
-        while(counter != adjMat.length-1){
-            if(counter == 0){
+        while (counter != adjMat.length ) {
+            if (counter == 0) {
                 doneArray[counter] = 1;
             }
-            if(counter == 1){
+            if (counter == 1) {
 //                System.out.println("first round!   " + counter);
                 usedArray.add(counter);
-                doneArray[counter] = coloringSaturation(color, adjMat, doneArray, counter,usedArray);
-            }else {
+                doneArray[counter] = coloringSaturation(color, adjMat, doneArray, counter, usedArray);
+            } else {
                 int satuIndex = highestSaturation(adjMat, doneArray);
 //                System.out.println("highest saturation index is  " + satuIndex);
                 usedArray.add(satuIndex);
                 doneArray[satuIndex] = coloringSaturation(color, adjMat, doneArray, satuIndex, usedArray);
             }
             counter++;
+//            System.out.println("the counter is " + counter);
         }
         return findChromatic(doneArray);
     }
 
-    public static int randomSaturationChromatic(int[][] adjMat){
+    public static int randomSaturationChromatic(int[][] adjMat) {
         int[] color = makeColorsArray(adjMat.length);
         int[] doneArray = new int[adjMat.length];
         ArrayList<Integer> usedArray = new ArrayList<>();
         int vertex = adjMat.length;
         int minimumChromatic = vertex;
         int counter = 0;
-        for(int c = 0; c<1000;c++) {
+        for (int c = 0; c < 1; c++) {
             Arrays.fill(doneArray, 0);
-            counter =0;
+            counter = 0;
             usedArray.clear();
 //            System.out.println("this is the " + c + " time");
-            while (counter != adjMat.length - 1) {
+            while (counter != adjMat.length ) {
                 if (counter == 0) {
                     doneArray[counter] = 1;
                     usedArray.add(0);
                 }
-                if (counter == 1) {
+                else if (counter == 1) {
                     Random rand = new Random();
-                    int startingNum = rand.nextInt(vertex-1) + 1;
+                    int startingNum = rand.nextInt(vertex - 1) + 1;
 //                    System.out.println("first round!   " + startingNum);
                     usedArray.add(startingNum);
 //                    System.out.println("starting number is " + startingNum);
@@ -299,11 +302,11 @@ public class ChromaticMethods {
         return minimumChromatic;
     }
 
-    public static int coloringSaturation(int[] colors, int[][] matrix, int[] done, int index,ArrayList<Integer> usedArray) {
+    public static int coloringSaturation(int[] colors, int[][] matrix, int[] done, int index, ArrayList<Integer> usedArray) {
         int[] array = Arrays.copyOf(colors, colors.length);
-        if(usedArray.size() > 0){
-            for(int i = 0;i<usedArray.size();i++){
-                if (matrix[index][usedArray.get(i)] == 1 && done[usedArray.get(i)] != 0){
+        if (usedArray.size() > 0) {
+            for (int i = 0; i < usedArray.size(); i++) {
+                if (matrix[index][usedArray.get(i)] == 1 && done[usedArray.get(i)] != 0) {
                     int colorToRemove = done[usedArray.get(i)];
                     for (int j = 0; j < array.length; j++) {
                         if (array[j] == colorToRemove) {
@@ -337,7 +340,7 @@ public class ChromaticMethods {
         return upperIndex;
     }
 
-    public static int highestSaturation(int[][] adjMat,int[] colorArray) {
+    public static int highestSaturation(int[][] adjMat, int[] doneArray) {
         int highestIndex = 0;
         int currentHigh = 0;
         int connectionCounter = 0;
@@ -345,22 +348,29 @@ public class ChromaticMethods {
         for (int i = 0; i < adjMat[0].length; i++) {
             for (int j = 0; j < adjMat.length; j++) {
                 if (adjMat[i][j] == 1) {
-                    if (colorArray[j] != 0) {
+                    if (doneArray[j] != 0) {
                         connectionCounter++;
                     }
                 }
 
             }
-            if (connectionCounter > currentHigh && colorArray[i] == 0 && i !=0) {
+
+            if (connectionCounter > currentHigh && doneArray[i] == 0 && i != 0) {
                 currentHigh = connectionCounter;
                 highestIndex = i;
             }
             connectionCounter = 0;
         }
-        if (highestIndex == 0){
-            highestIndex = highestDegreeVertex(adjMat);
-            return highestIndex;
+        if (highestIndex == 0) {
+            for (int y = 0; y < doneArray.length; y++) {
+                if (doneArray[y] == 0) {
+                    highestIndex = y;
+                    return highestIndex;
+                }
+            }
         }
+//        System.out.println("this is the highest index : " + highestIndex);
         return highestIndex;
     }
 }
+
