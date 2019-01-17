@@ -7,7 +7,7 @@ public class findClicque {
 	public static int findClique(int[][] adjMat) {
 		ArrayList<Integer> checkedNow = new ArrayList<>();
 		ArrayList<Integer> checkLater = new ArrayList<>();
-
+		int connections = 0;
 		int currentC = 1;
 		for (int i = 0; i < adjMat.length; i++) {
 			for (int j = 0; j < adjMat.length; j++) {
@@ -22,9 +22,11 @@ public class findClicque {
 						checkLater.add(checkedNow.get(y));
 					}
 				}
-				int connections = isConnected(adjMat, checkLater);
+				connections = isConnected(adjMat, checkLater);
 				System.out.println("connections is " + connections);
-				currentC =  currentC+connections;
+				System.out.println("currentC is " + currentC);
+				currentC = currentC + connections;
+
 				if (currentC > cSize) {
 					cSize = currentC;
 					System.out.println(cSize + " is the new highest clique!");
@@ -42,6 +44,7 @@ public class findClicque {
 		int counter = 1;
 		int currentHigh = 0;
 		for (int k = 0; k < connections.size(); k++) {
+			counter = 1;
 			for (int y = 0; y < connections.size(); y++) {
 				if (adjMat[connections.get(k)][connections.get(y)] == 1) {
 					counter++;
@@ -50,9 +53,39 @@ public class findClicque {
 			if (counter > currentHigh) {
 				currentHigh = counter;
 			}
-			counter = 1;
+		}
+		if (currentHigh == 1) {
+			return 0;
 		}
 		return currentHigh;
 	}
+
+	public static int[] vertexOrdering(int[][] adjMat){
+		int[] another = new int[adjMat.length];
+		int[] sorted = new int[adjMat.length];
+		for(int i = 0;i < adjMat.length;i++){
+			another[i] = i;
+
+		}
+
+		for(int j =0;j<adjMat.length;j++){
+           int currentHighIndex = ChromaticMethods.highestDegreeVertex(adjMat,another);
+           System.out.println(currentHighIndex + " this is currently the highest degree index");
+           another[currentHighIndex] = 0;
+           sorted[j]=currentHighIndex;
+		}
+		return sorted;
+	}
+
+	public static int[] degreesOrdering(int[][] adjMat,int[] sorted){
+		int[] actualDegrees = new int[adjMat.length];
+		for(int j =0;j<adjMat.length;j++){
+			int currentHighNumber = ChromaticMethods.highestDegreeNumber(adjMat,sorted[j]);
+			actualDegrees[j] = currentHighNumber;
+		}
+		return actualDegrees;
+	}
 }
+
+
 
