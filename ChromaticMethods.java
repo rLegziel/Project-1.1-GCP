@@ -223,7 +223,7 @@ public class ChromaticMethods {
         int chromatic = findChromatic(doneArray);
         System.out.println("this is the greedy chromatic : " + chromatic);
         int minimumChromatic = upperBound;
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 1000; i++) {
             int chromaticRandomized = randomizedTest(adjMat, vertex, upperBound, color);
             if (chromaticRandomized < minimumChromatic) {
                 minimumChromatic = chromaticRandomized;
@@ -266,7 +266,7 @@ public class ChromaticMethods {
         int vertex = adjMat.length;
         int minimumChromatic = vertex;
         int counter = 0;
-        for (int c = 0; c < 1; c++) {
+        for (int c = 0; c < 100; c++) {
             Arrays.fill(doneArray, 0);
             counter = 0;
             usedArray.clear();
@@ -320,25 +320,26 @@ public class ChromaticMethods {
         return lowestColor;
     }
 
-    public static int highestDegreeVertex(int[][] adjMat) {
+    public static int highestDegreeVertex(int[][] adjMat,int[] notThis) {
         int max = 0;
         int upperIndex = 0;
         int upperBound = 0;
         for (int i = 0; i < adjMat[0].length; i++) {
-            for (int j = 0; j < adjMat.length; j++) {
-                if (adjMat[i][j] == 1) {
-                    upperBound++;
-                }
+            if (notThis[i] != 0) {
+                upperBound = highestDegreeNumber(adjMat, i);
             }
+
             if (max < upperBound) {
                 max = upperBound;
-                upperBound = 0;
                 upperIndex = i;
             }
+            upperBound = 0;
         }
-
         return upperIndex;
-    }
+            }
+
+
+
 
     public static int highestSaturation(int[][] adjMat, int[] doneArray) {
         int highestIndex = 0;
@@ -369,8 +370,18 @@ public class ChromaticMethods {
                 }
             }
         }
-//        System.out.println("this is the highest index : " + highestIndex);
+
         return highestIndex;
+    }
+
+    public static int highestDegreeNumber(int[][] adjMat,int index) {
+        int counter = 0;
+        for(int i=0;i<adjMat.length;i++){
+            if(adjMat[index][i] == 1){
+                counter++;
+            }
+        }
+        return counter;
     }
 }
 
