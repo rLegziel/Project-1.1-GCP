@@ -47,6 +47,7 @@ public class CliqueFinder {
         ArrayList<Integer> temp3 = new ArrayList<>();
         ArrayList<Integer> remember = new ArrayList<>();
         int numberOfCliques = 0;
+        System.out.println(cliques.toString());
 
         for (int l = 0; l < cliques.size(); l++) {
             if (cliques.get(l) == -1) {
@@ -54,77 +55,118 @@ public class CliqueFinder {
                 for (int m = 0; m < currentCSize; m++) {
                     tempArray1[m] = cliques.get(l + 1 + m);
                 }
+                //System.out.print("\n"+l+":");
 
-                for (int n = 0; n < cliques.size(); n++) {
-                    if (cliques.get(n) == -1 && n > l) { //Finding next clique that wasn't checked yet
+
+                for (int n = l + currentCSize; n < cliques.size(); n++) {
+                    if (cliques.get(n) == -1) { //Finding next clique that wasn't checked yet
                         int[] tempArray2 = new int[currentCSize]; //Making an array for a 2nd clique
                         for (int p = 0; p < currentCSize; p++) {
                             tempArray2[p] = cliques.get(n + 1 + p);
                         }
+                        /*System.out.print(" "+n);
+
+                         if(currentCSize==3){
+                System.out.print("\n");
+                for(int y=0;y<tempArray2.length;y++){
+                    System.out.print(tempArray2[y] +"");
+                }}
+                */
                         int counter = 0; //Counting amount of shared vertices
                         temp1.clear();
                         temp2.clear();
                         remember.clear();
-                       for(int q=0;q<tempArray1.length;q++){
-                           temp1.add(tempArray1[q]);
-                           temp1.add(tempArray2[q]);
-                           temp2.add(tempArray1[q]);
-                           temp2.add(tempArray2[q]);
-                       }
-                       boolean stop = false;
-                       for(int r=0;r<tempArray1.length&&stop!=true;r++){
-                           for(int s=0;s<tempArray2.length;s++){
-                               if(tempArray1[r]==tempArray2[s]){
-                                   remember.add(tempArray1[r]);
-                                   counter++;
-                               }
-                           }
-                           if(r>0&&counter==0){
-                               //System.out.println("Stopped"+currentCSize);
-                               stop = true;
-                           }
-                       }
-                       while(remember.isEmpty()==false) {
-                           temp1.remove(remember.get(0));
-                           temp1.remove(remember.get(0));
-                           temp2.remove(remember.get(0));
-                           remember.remove(0);
-                       }
-                        //System.out.println("Now: "+temp2.toString());
+                        for (int q = 0; q < tempArray1.length; q++) {
+                            temp1.add(tempArray1[q]);
+                            temp1.add(tempArray2[q]);
+                            temp2.add(tempArray1[q]);
+                            temp2.add(tempArray2[q]);
+                            if (currentCSize == 3) {
+                                // System.out.println(temp2.toString());
+                            }
+                        }
+                        boolean stop = false;
+                        for (int r = 0; r < tempArray1.length && stop != true; r++) {
+                            for (int s = 0; s < tempArray2.length; s++) {
+                                if (tempArray1[r] == tempArray2[s]) {
+                                    remember.add(tempArray1[r]);
+                                    counter++;
+                                }
+                            }
+                            if (r > 0 && counter == 0) {
+                                stop = true;
+                            }
+                        }
+                        while (remember.isEmpty() == false) {
+                            int tempNum1 = temp1.indexOf(remember.get(0));
+                            int tempNum2 = temp2.indexOf(remember.get(0));
+                            temp1.remove(tempNum1);
+                            tempNum1 = temp1.indexOf(remember.get(0));
+                            temp1.remove(tempNum1);
+                            temp2.remove(tempNum2);
+                            remember.remove(0);
+                        }
+                        //System.out.println("Now: "+temp1.toString());
 
                         if (counter == currentCSize - 1) { //If they share same amount of vertices
                             if (adjMatrix[temp1.get(0)][temp1.get(1)] == 1) { //Check if edge between last 2 exists
-                                for (int s = 0; s < temp2.size(); s++) {
-                                    if(s==0){
-                                        temp3.add(-1); //Seperator
-                                        numberOfCliques++;
+                                boolean doubles = false;
+                                if(temp3.size()!=0) {
+                                    for (int a = 0; a < temp3.size() && doubles != true; a++) {
+                                        if (temp3.get(a) == -1) {
+                                            int[] tempArray3 = new int[currentCSize]; //Making an array for a clique
+                                            for (int b = 0; b < currentCSize; b++) {
+                                                tempArray3[b] = temp3.get(a + 1 + b);
+                                            }
+                                            int failCount = 0;
+                                            for (int b = 0; b < tempArray3.length; b++) {
+                                                for (int c = 0; c < temp2.size(); c++) {
+                                                    if (temp2.get(c) == tempArray3[b]) {
+                                                        failCount++;
+                                                        if (failCount == tempArray3.length) {
+                                                            doubles = true;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
-                                    temp3.add(temp2.get(s));
+                                }
+                                    if (doubles == false) {
+                                        for (int s = 0; s < temp2.size(); s++) {
+                                            if (s == 0) {
+                                                temp3.add(-1); //Seperator
+                                                numberOfCliques++;
+                                            }
+                                            temp3.add(temp2.get(s));
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
+            }
+            System.out.println(temp3.toString());
 
+                int count = 0;
+                boolean stop = false;
+                for (int z = 0; z < temp3.size() && stop != true; z++) {
+                    if (temp3.get(z) == -1) {
+                        count++;
+                    }
+                    if (count == 2) {
+                        stop = true;
+                        System.out.println("Next Cycle!!!");
+                        //System.out.println(temp3.toString());
+                        System.out.println("Number of Cliques: " + numberOfCliques);
+                        cliqueSearchNext(temp3, currentCSize+1, adjMatrix);
+                    }
+                }
+                //System.out.println(temp3.toString());
+                //System.out.println(numberOfCliques);
+                //System.out.println("Its done");
+                return temp3;
             }
         }
-        int count = 0;
-        boolean stop = false;
-        for(int z=0;z<temp3.size()&&stop!=true;z++){
-            if(temp3.get(z)==-1){
-                count++;
-            }
-            if(count==2){
-                stop = true;
-                System.out.println("Next Cycle!!!");
-                System.out.println(temp3.toString());
-                System.out.println("Number of Cliques: "+numberOfCliques);
-                cliqueSearchNext(temp3,currentCSize+1,adjMatrix);
-            }
-        }
-        //System.out.println(temp3.toString());
-        //System.out.println(numberOfCliques);
-        System.out.println("Its done");
-        return temp3;
-    }
-}
+
