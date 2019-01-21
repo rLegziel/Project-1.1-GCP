@@ -39,12 +39,14 @@ public class CliqueFinder {
         return temp1;
     }
 
+
     public static ArrayList cliqueSearchNext(ArrayList<Integer> cliques, int cSize, int[][] adjMatrix) {
         int currentCSize = cSize;
         ArrayList<Integer> temp1 = new ArrayList<>();
         ArrayList<Integer> temp2 = new ArrayList<>();
         ArrayList<Integer> temp3 = new ArrayList<>();
         ArrayList<Integer> remember = new ArrayList<>();
+        int numberOfCliques = 0;
 
         for (int l = 0; l < cliques.size(); l++) {
             if (cliques.get(l) == -1) {
@@ -69,16 +71,20 @@ public class CliqueFinder {
                            temp2.add(tempArray1[q]);
                            temp2.add(tempArray2[q]);
                        }
-                       for(int r=0;r<tempArray1.length;r++){
+                       boolean stop = false;
+                       for(int r=0;r<tempArray1.length&&stop!=true;r++){
                            for(int s=0;s<tempArray2.length;s++){
                                if(tempArray1[r]==tempArray2[s]){
                                    remember.add(tempArray1[r]);
                                    counter++;
                                }
                            }
+                           if(r>0&&counter==0){
+                               //System.out.println("Stopped"+currentCSize);
+                               stop = true;
+                           }
                        }
                        while(remember.isEmpty()==false) {
-                           System.out.println("Working");
                            temp1.remove(remember.get(0));
                            temp1.remove(remember.get(0));
                            temp2.remove(remember.get(0));
@@ -91,6 +97,7 @@ public class CliqueFinder {
                                 for (int s = 0; s < temp2.size(); s++) {
                                     if(s==0){
                                         temp3.add(-1); //Seperator
+                                        numberOfCliques++;
                                     }
                                     temp3.add(temp2.get(s));
                                 }
@@ -111,9 +118,12 @@ public class CliqueFinder {
                 stop = true;
                 System.out.println("Next Cycle!!!");
                 System.out.println(temp3.toString());
+                System.out.println("Number of Cliques: "+numberOfCliques);
                 cliqueSearchNext(temp3,currentCSize+1,adjMatrix);
             }
         }
+        //System.out.println(temp3.toString());
+        //System.out.println(numberOfCliques);
         System.out.println("Its done");
         return temp3;
     }
