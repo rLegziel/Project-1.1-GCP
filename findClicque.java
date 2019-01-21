@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class findClicque {
 	static int cSize = 2;
@@ -80,11 +81,32 @@ public class findClicque {
 	public static int[] degreesOrdering(int[][] adjMat,int[] sorted){
 		int[] actualDegrees = new int[adjMat.length];
 		for(int j =0;j<adjMat.length;j++){
-			int currentHighNumber = ChromaticMethods.highestDegreeNumber(adjMat,sorted[j]);
+			int currentHighNumber = ChromaticMethods.checkDegrees(adjMat,sorted[j]);
 			actualDegrees[j] = currentHighNumber;
 		}
 		return actualDegrees;
 	}
+
+    public static int computeFromEigens(double[] eigens){
+		double highest =0;
+		double lowest = 0;
+		for(int i = 0;i<eigens.length;i++){
+			if(eigens[i] > highest){
+				highest = eigens[i];
+			}
+			if(eigens[i]<lowest){
+				lowest = eigens[i];
+			}
+		}
+
+		System.out.println("the biggest eigenvalue is  : " + highest);
+		System.out.println("the lowest eigenvalue is : " + lowest);
+		double anotherShot =  (1+(highest /(0-lowest)));
+		int yeahnah = (int) Math.round(anotherShot);
+		return yeahnah;
+	}
+
+
 }
 
 
