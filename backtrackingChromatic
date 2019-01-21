@@ -1,0 +1,42 @@
+public class backtrackingChromatic {
+    int V;
+    int colors[];
+
+    boolean backtracking(int matrix[][], int n, int vertices){
+        V = vertices;
+        colors = new int[V];
+
+        for (int i = 0; i < V; i++)
+            colors[i] = 0;
+ 
+        if (tryingColor(matrix, n, colors, 0)){
+            System.out.println("CHROMATIC: " + n);
+            return true; 
+        }
+        System.out.println("CHROMATIC NUMBER WAS CORRECT");
+        return false;
+    }
+
+    boolean isSafe(int v, int matrix[][], int colors[], int c){
+        for (int i = 0; i < V; i++)
+            if (matrix[v][i] == 1 && c == colors[i])
+                return false;
+        return true;
+    }
+
+    boolean tryingColor(int matrix[][], int n, int colors[], int v) {
+        if (v == V)
+            return true;
+ 
+        for (int c = 1; c <= n; c++){
+            if (isSafe(v, matrix, colors, c)){
+                colors[v] = c;
+                
+                if (tryingColor(matrix, n, colors, v + 1))
+                    return true;
+                colors[v] = 0;
+            }
+        }
+        return false;
+    }
+}
