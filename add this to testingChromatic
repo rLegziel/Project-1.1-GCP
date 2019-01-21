@@ -1,0 +1,6 @@
+  // add this to testingChromatic
+  
+  backtrackingChromatic CHROMATIC = new backtrackingChromatic();
+    int n = chromaticNum - 1; // or take minimum of all results achieved so far
+    
+    CHROMATIC.backtracking(adjMat, n, vertex);
