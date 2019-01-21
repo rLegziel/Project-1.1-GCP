@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class CliqueFinder {
 
+    public static int highestClique=0;
     public static ArrayList cliqueSearch3(int[][] adjMatrix) {
         ArrayList<Integer> temp1 = new ArrayList<>();
         for (int i = 0; i < adjMatrix.length; i++) {
@@ -9,10 +10,12 @@ public class CliqueFinder {
                 if (adjMatrix[i][j] == 1) {
                     for (int k = 0; k < adjMatrix.length; k++) {
                         if (adjMatrix[j][k] == 1 && k != i) {
+//                            System.out.println("where are we 1");
                             if (adjMatrix[k][i] == 1) {
                                 boolean found = false;
                                 for (int l = 0; l < temp1.size() && found != true; l++) {
                                     if (temp1.get(l) == -1) {
+//                                        System.out.println("where are we 2");
                                         int[] tempArray = {temp1.get(l + 1), temp1.get(l + 2), temp1.get(l + 3)};
                                         if ((i == tempArray[0] || i == tempArray[1] || i == tempArray[2])
                                                 && (j == tempArray[0] || j == tempArray[1] || j == tempArray[2]) &&
@@ -35,19 +38,19 @@ public class CliqueFinder {
                 }
             }
         }
-        System.out.println(temp1.toString());
+        //System.out.println(temp1.toString());
         return temp1;
     }
 
 
-    public static ArrayList cliqueSearchNext(ArrayList<Integer> cliques, int cSize, int[][] adjMatrix) {
+    public static ArrayList<Integer> cliqueSearchNext(ArrayList<Integer> cliques, int cSize, int[][] adjMatrix) {
         int currentCSize = cSize;
         ArrayList<Integer> temp1 = new ArrayList<>();
         ArrayList<Integer> temp2 = new ArrayList<>();
         ArrayList<Integer> temp3 = new ArrayList<>();
         ArrayList<Integer> remember = new ArrayList<>();
         int numberOfCliques = 0;
-        System.out.println(cliques.toString());
+        //System.out.println(cliques.toString());
 
         for (int l = 0; l < cliques.size(); l++) {
             if (cliques.get(l) == -1) {
@@ -65,7 +68,6 @@ public class CliqueFinder {
                             tempArray2[p] = cliques.get(n + 1 + p);
                         }
                         /*System.out.print(" "+n);
-
                          if(currentCSize==3){
                 System.out.print("\n");
                 for(int y=0;y<tempArray2.length;y++){
@@ -132,14 +134,13 @@ public class CliqueFinder {
                                         }
                                     }
                                 }
-                                    if (doubles == false) {
-                                        for (int s = 0; s < temp2.size(); s++) {
-                                            if (s == 0) {
-                                                temp3.add(-1); //Seperator
-                                                numberOfCliques++;
-                                            }
-                                            temp3.add(temp2.get(s));
+                                if (doubles == false) {
+                                    for (int s = 0; s < temp2.size(); s++) {
+                                        if (s == 0) {
+                                            temp3.add(-1); //Seperator
+                                            numberOfCliques++;
                                         }
+                                        temp3.add(temp2.get(s));
                                     }
                                 }
                             }
@@ -147,26 +148,33 @@ public class CliqueFinder {
                     }
                 }
             }
-            System.out.println(temp3.toString());
+        }
+        //System.out.println(temp3.toString());
 
-                int count = 0;
-                boolean stop = false;
-                for (int z = 0; z < temp3.size() && stop != true; z++) {
-                    if (temp3.get(z) == -1) {
-                        count++;
-                    }
-                    if (count == 2) {
-                        stop = true;
-                        System.out.println("Next Cycle!!!");
-                        //System.out.println(temp3.toString());
-                        System.out.println("Number of Cliques: " + numberOfCliques);
-                        cliqueSearchNext(temp3, currentCSize+1, adjMatrix);
-                    }
-                }
+        int count = 0;
+        boolean stop = false;
+        for (int z = 0; z < temp3.size() && stop != true; z++) {
+            if (temp3.get(z) == -1) {
+                count++;
+            }
+            if(count==0){
+                highestClique = currentCSize;
+            }
+            if(count==1){
+                highestClique= currentCSize+1;
+            }
+            if (count == 2) {
+                stop = true;
+                highestClique = currentCSize+1;
+                //System.out.println("Next Cycle!!!");
                 //System.out.println(temp3.toString());
-                //System.out.println(numberOfCliques);
-                //System.out.println("Its done");
-                return temp3;
+                //System.out.println("Number of Cliques: " + numberOfCliques);
+                cliqueSearchNext(temp3, currentCSize+1, adjMatrix);
             }
         }
-
+        //System.out.println(temp3.toString());
+        //System.out.println(numberOfCliques);
+        //System.out.println(highestClique);
+        return temp3;
+    }
+}
