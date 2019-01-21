@@ -15,8 +15,8 @@ public class PASS {
 
         for (int i = 0; i < adjMat.length; i++) {
             for (int j = 0; j < adjMat.length; j++) {
-                if (adjMat[i][j] == 1) {
-                    if (doneArray[j] != 0) {
+                if (doneArray[j] != 0) {
+                    if (adjMat[i][j] == 1) {
                         connectionCounter++;
 //                        System.out.println("____where do i print 1 ");
                     }
@@ -46,6 +46,14 @@ public class PASS {
                 if (uniqueColors1 > uniqueColors2) {
                     highestIndex = i;
 //                    System.out.println("____where do i print 6 ");
+                }else if(uniqueColors1 == uniqueColors2){
+      System.out.println("____where do i print 6 ");
+                    Random rand= new Random();
+                    int rando = rand.nextInt(2) +1;
+                    if(rando == 1){
+                        highestIndex = i;
+                    }
+
                 }
             }
             connectionCounter = 0;
@@ -99,7 +107,7 @@ public class PASS {
                 doneArray[counter] = ChromaticMethods.coloringSaturation(color, adjMat, doneArray, counter, usedArray);
             } else {
                 int satuIndex = PASShighestSaturation(adjMat,doneArray);
-//                System.out.println("___________________________________________highest saturation index is  " + satuIndex);
+                System.out.println("___________________________________________highest saturation index is  " + satuIndex);
                 usedArray.add(satuIndex);
                 doneArray[satuIndex] = ChromaticMethods.coloringSaturation(color, adjMat, doneArray, satuIndex, usedArray);
             }
@@ -116,8 +124,8 @@ public class PASS {
         int vertex = adjMat.length;
         int minimumChromatic = vertex;
         int counter = 0;
-        for(int c = 0; c<1;c++) {
-//            System.out.println("this is the " + c + " time PASS");
+        for(int c = 2; c<3;c++) {
+            System.out.println("this is the " + c + " time PASS");
             Arrays.fill(doneArray, 0);
             counter =0;
             usedArray.clear();
@@ -127,13 +135,13 @@ public class PASS {
                     usedArray.add(counter);
                 }
                 else if (counter == 1) {
-                    Random rand = new Random();
-                    int startingNum = rand.nextInt(vertex-1) + 1;
-                    System.out.println("first round!   " + startingNum);
-                    usedArray.add(startingNum);
+//                    Random rand = new Random();
+//                    int startingNum = rand.nextInt(vertex-1) + 1;
+                    System.out.println("first round!   " + c);
+                    usedArray.add(c);
 //                    System.out.println("starting number is " + startingNum);
 //                    doneArray[startingNum] = coloringSaturation(color, adjMat, doneArray, startingNum, usedArray);
-                    doneArray[startingNum] = 1;
+                    doneArray[c] = 1;
                 } else{
                     int satuIndex = PASShighestSaturation(adjMat, doneArray);
                     System.out.println("highest PASS index is  " + satuIndex);
@@ -144,7 +152,7 @@ public class PASS {
 //                System.out.println(" random highest PASS  times is  " + counter);
             }
             int chromaticRandomized = ChromaticMethods.findChromatic(doneArray);
-            System.out.println(Arrays.toString(doneArray) + "this is the random PASS, should have some mistake");
+//            System.out.println(Arrays.toString(doneArray) + "this is the random PASS, should have some mistake");
 //            System.out.println("current chromatic is  " + chromaticRandomized);
             if (chromaticRandomized < minimumChromatic) {
                 minimumChromatic = chromaticRandomized;
