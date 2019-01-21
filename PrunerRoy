@@ -1,0 +1,30 @@
+import java.util.ArrayList;
+
+public class Pruner {
+    // can be used to decide how many times this would be pruned. might make things faster to find clique.
+
+    public static int[][] prune(int[][] adjMatrix,int cliqueSize,int[] degreeOrder) {
+        for (int i = 0; i < adjMatrix.length; i++) {
+            int degrees = degreeOrder[i];
+            if(degrees < cliqueSize && degrees !=0 ){
+                System.out.println("the index " + i +" has only one connection");
+                for(int j =0;j<adjMatrix.length;j++){
+                    adjMatrix[i][j] = 0;
+                    adjMatrix[j][i] = 0;
+                }
+            }
+        }
+        int[] updatedDegrees = new int[adjMatrix.length];
+
+        for(int k = 0;k<updatedDegrees.length;k++) {
+            updatedDegrees[k] = ChromaticMethods.checkDegrees(adjMatrix, k);
+        }
+        for(int r =0;r<updatedDegrees.length;r++){
+            if(updatedDegrees[r] != 0 && updatedDegrees[r] <cliqueSize){
+                return prune(adjMatrix,cliqueSize,updatedDegrees);
+            }
+        }
+        System.out.println("pruning is done!");
+        return adjMatrix;
+    }
+}
