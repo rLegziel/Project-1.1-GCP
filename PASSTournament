@@ -1,0 +1,154 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
+public class PASS {
+
+    public static int amountOfColors(ArrayList<Integer> colors) {
+        int counter = 0;
+        int amountOfConnections = colors.size();
+
+        for (int i = 0; i < colors.size(); i++) {
+            for (int j = 0; j < colors.size(); j++) {
+                if (colors.get(i) == colors.get(j)) {
+                    counter++;
+                }
+
+            }
+        }
+        amountOfConnections = amountOfConnections - counter;
+        return amountOfConnections;
+    }
+
+    public static int PASShighestSaturation(int[][] adjMat, int[] doneArray) {
+        int highestIndex = 0;
+        int currentHigh = 0;
+        int connectionCounter = 0;
+        ArrayList<Integer> amountOfColors = new ArrayList<>();
+        ArrayList<Integer> amountOfColors2 = new ArrayList<>();
+        int colorCounter = 0;
+
+        for (int i = 0; i < adjMat.length; i++) {
+            for (int j = 0; j < adjMat.length; j++) {
+                if (doneArray[j] != 0) {
+                    if (adjMat[i][j] == 1) {
+                        connectionCounter++;
+//                        System.out.println("____where do i print 1 ");
+                    }
+                }
+
+            }
+//            System.out.println("connection counter is " + connectionCounter + "and the index is " + i);
+//            System.out.println("current highest index is; " + highestIndex);
+            if (connectionCounter > currentHigh && doneArray[i] == 0 && i != 0) {
+                currentHigh = connectionCounter;
+                highestIndex = i;
+//                System.out.println("____where do i print 3 ");
+            }
+            if (connectionCounter == currentHigh && doneArray[i] == 0 && i != 0) {
+                for (int u = 0; u < adjMat.length; u++) {
+                    if (adjMat[currentHigh][u] == 1 && doneArray[u] != 0) {
+                        amountOfColors.add(doneArray[u]);
+//                        System.out.println("____where do i print 4 ");
+                    }
+                    if (adjMat[highestIndex][u] == 1 && doneArray[u] != 0) {
+                        amountOfColors2.add(doneArray[u]);
+//                        System.out.println("____where do i print 5 ");
+                    }
+                }
+                int uniqueColors1 = amountOfColors(amountOfColors);
+                int uniqueColors2 = amountOfColors(amountOfColors2);
+                if (uniqueColors1 > uniqueColors2) {
+                    highestIndex = i;
+//                    System.out.println("____where do i print 6 ");
+                }else if(uniqueColors1 == uniqueColors2){
+//                    System.out.println("____where do i print 6 ");
+                    Random rand= new Random();
+                    int rando = rand.nextInt(2) +1;
+                    if(rando == 1){
+                        highestIndex = i;
+                    }
+
+                }
+            }
+            connectionCounter = 0;
+//            System.out.println("the highest index is " + highestIndex + " and the index is " + i);
+        }
+        if (highestIndex == 0) {
+//            System.out.println("is this entered? ");
+            for(int y=0;y<doneArray.length;y++){
+//                System.out.println("is this entered? 2");
+                if(doneArray[y] == 0){
+//                    System.out.println("is this entered? 3");
+                    highestIndex = y;
+//                    System.out.println("____where do i print 7 ");
+                    return highestIndex;
+                }
+            }
+        }
+//        System.out.println("____where do i print 8  the index is " + highestIndex);
+        return highestIndex;
+    }
+
+    public static int randomPASS(int[][] adjMat,int amountOfTimes){
+        int[] color = ChromaticMethods.makeColorsArray(adjMat.length);
+        int[] doneArray = new int[adjMat.length];
+        ArrayList<Integer> usedArray = new ArrayList<>();
+        int vertex = adjMat.length;
+        int minimumChromatic = vertex;
+        int counter = 0;
+        for(int c = 2; c<amountOfTimes;c++) {
+//            System.out.println("this is the " + c + " time PASS");
+            Arrays.fill(doneArray, 0);
+            counter =0;
+            usedArray.clear();
+            while (counter != adjMat.length) {
+                if (counter == 0) {
+                    doneArray[counter] = 1;
+                    usedArray.add(counter);
+                }
+                else if (counter == 1) {
+//                    Random rand = new Random();
+//                    int startingNum = rand.nextInt(vertex-1) + 1;
+//                    System.out.println("first round!   " + c);
+                    usedArray.add(c);
+//                    System.out.println("starting number is " + startingNum);
+//                    doneArray[startingNum] = coloringSaturation(color, adjMat, doneArray, startingNum, usedArray);
+                    doneArray[c] = 1;
+                } else{
+                    int satuIndex = PASShighestSaturation(adjMat, doneArray);
+//                    System.out.println("highest PASS index is  " + satuIndex);
+                    usedArray.add(satuIndex);
+                    doneArray[satuIndex] = coloringSaturation(color, adjMat, doneArray, satuIndex, usedArray);
+                }
+                counter++;
+//                System.out.println(" random highest PASS  times is  " + counter);
+            }
+            int chromaticRandomized = ChromaticMethods.findChromatic(doneArray);
+//            System.out.println(Arrays.toString(doneArray) + "this is the random PASS, should have some mistake");
+//            System.out.println("current chromatic is  " + chromaticRandomized);
+            if (chromaticRandomized < Main.chromatic) {
+                Main.chromatic = chromaticRandomized;
+            }
+        }
+        return minimumChromatic;
+    }
+
+    public static int coloringSaturation(int[] colors, int[][] matrix, int[] done, int index, ArrayList<Integer> usedArray) {
+        int[] array = Arrays.copyOf(colors, colors.length);
+        if (usedArray.size() > 0) {
+            for (int i = 0; i < usedArray.size(); i++) {
+                if (matrix[index][usedArray.get(i)] == 1 && done[usedArray.get(i)] != 0) {
+                    int colorToRemove = done[usedArray.get(i)];
+                    for (int j = 0; j < array.length; j++) {
+                        if (array[j] == colorToRemove) {
+                            array[j] = 0;
+                        }
+                    }
+                }
+            }
+        }
+        int lowestColor = ChromaticMethods.findSmallest(array);
+        return lowestColor;
+    }
+}
