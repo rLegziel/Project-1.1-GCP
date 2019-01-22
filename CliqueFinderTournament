@@ -1,0 +1,217 @@
+import java.util.ArrayList;
+
+public class CliqueFinder {
+//change filename
+
+
+        public static int highestClique=0;
+
+
+        public static ArrayList cliqueSearch3(int[][] adjMatrix) {
+            ArrayList<Integer> temp1 = new ArrayList<>();
+            for (int i = 0; i < adjMatrix.length; i++) {
+                for (int j = 0; j < adjMatrix.length; j++) {
+                    if (adjMatrix[i][j] == 1) {
+                        for (int k = 0; k < adjMatrix.length; k++) {
+                            if (adjMatrix[j][k] == 1 && k != i) {
+//                            System.out.println("where are we 1");
+                                if (adjMatrix[k][i] == 1) {
+                                    boolean found = false;
+                                    for (int l = 0; l < temp1.size() && found != true; l++) {
+                                        if (temp1.get(l) == -1) {
+//                                        System.out.println("where are we 2");
+                                            int[] tempArray = {temp1.get(l + 1), temp1.get(l + 2), temp1.get(l + 3)};
+                                            if ((i == tempArray[0] || i == tempArray[1] || i == tempArray[2])
+                                                    && (j == tempArray[0] || j == tempArray[1] || j == tempArray[2]) &&
+                                                    (k == tempArray[0] || k == tempArray[1] || k == tempArray[2])) {
+                                                found = true;
+                                            }
+                                        }
+                                    }
+                                    if (found == false) {
+                                        temp1.add(-1); //Seperator
+                                        temp1.add((Integer) i);
+                                        temp1.add((Integer) j);
+                                        temp1.add((Integer) k);
+
+                                        //System.out.print(temp1.toString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            //System.out.println(temp1.toString());
+            return temp1;
+        }
+
+
+        public static ArrayList<Integer> cliqueSearchNext(ArrayList<Integer> cliques, int cSize, int[][] adjMatrix) {
+            int currentCSize = cSize;
+            ArrayList<Integer> temp1 = new ArrayList<>();
+            ArrayList<Integer> temp2 = new ArrayList<>();
+            ArrayList<Integer> temp3 = new ArrayList<>();
+            ArrayList<Integer> remember = new ArrayList<>();
+            int numberOfCliques = 0;
+            //System.out.println(cliques.toString());
+
+            for (int l = 0; l < cliques.size(); l++) {
+                if (cliques.get(l) == -1) {
+                    int[] tempArray1 = new int[currentCSize]; //Making an array for a clique
+                    for (int m = 0; m < currentCSize; m++) {
+                        tempArray1[m] = cliques.get(l + 1 + m);
+                    }
+                    //System.out.print("\n"+l+":");
+
+
+                    for (int n = l + currentCSize; n < cliques.size(); n++) {
+                        if (cliques.get(n) == -1) { //Finding next clique that wasn't checked yet
+                            int[] tempArray2 = new int[currentCSize]; //Making an array for a 2nd clique
+                            for (int p = 0; p < currentCSize; p++) {
+                                tempArray2[p] = cliques.get(n + 1 + p);
+                            }
+                        /*System.out.print(" "+n);
+                         if(currentCSize==3){
+                System.out.print("\n");
+                for(int y=0;y<tempArray2.length;y++){
+                    System.out.print(tempArray2[y] +"");
+                }}
+                */
+                            int counter = 0; //Counting amount of shared vertices
+                            temp1.clear();
+                            temp2.clear();
+                            remember.clear();
+                            for (int q = 0; q < tempArray1.length; q++) {
+                                temp1.add(tempArray1[q]);
+                                temp1.add(tempArray2[q]);
+                                temp2.add(tempArray1[q]);
+                                temp2.add(tempArray2[q]);
+                                if (currentCSize == 3) {
+                                    // System.out.println(temp2.toString());
+                                }
+                            }
+                            boolean stop = false;
+                            for (int r = 0; r < tempArray1.length && stop != true; r++) {
+                                for (int s = 0; s < tempArray2.length; s++) {
+                                    if (tempArray1[r] == tempArray2[s]) {
+                                        remember.add(tempArray1[r]);
+                                        counter++;
+                                    }
+                                }
+                                if (r > 0 && counter == 0) {
+                                    stop = true;
+                                }
+                            }
+                            while (remember.isEmpty() == false) {
+                                int tempNum1 = temp1.indexOf(remember.get(0));
+                                int tempNum2 = temp2.indexOf(remember.get(0));
+                                temp1.remove(tempNum1);
+                                tempNum1 = temp1.indexOf(remember.get(0));
+                                temp1.remove(tempNum1);
+                                temp2.remove(tempNum2);
+                                remember.remove(0);
+                            }
+                            //System.out.println("Now: "+temp1.toString());
+
+                            if (counter == currentCSize - 1) { //If they share same amount of vertices
+                                if (adjMatrix[temp1.get(0)][temp1.get(1)] == 1) { //Check if edge between last 2 exists
+                                    boolean doubles = false;
+                                    if(temp3.size()!=0) {
+                                        for (int a = 0; a < temp3.size() && doubles != true; a++) {
+                                            if (temp3.get(a) == -1) {
+                                                int[] tempArray3 = new int[currentCSize]; //Making an array for a clique
+                                                for (int b = 0; b < currentCSize; b++) {
+                                                    tempArray3[b] = temp3.get(a + 1 + b);
+                                                }
+                                                int failCount = 0;
+                                                for (int b = 0; b < tempArray3.length; b++) {
+                                                    for (int c = 0; c < temp2.size(); c++) {
+                                                        if (temp2.get(c) == tempArray3[b]) {
+                                                            failCount++;
+                                                            if (failCount == tempArray3.length) {
+                                                                doubles = true;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (doubles == false) {
+                                        for (int s = 0; s < temp2.size(); s++) {
+                                            if (s == 0) {
+                                                temp3.add(-1); //Seperator
+                                                numberOfCliques++;
+                                            }
+                                            temp3.add(temp2.get(s));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            //System.out.println(temp3.toString());
+
+            int count = 0;
+            boolean stop = false;
+            for (int z = 0; z < temp3.size() && stop != true; z++) {
+                if (temp3.get(z) == -1) {
+                    count++;
+                }
+                if(count==0){
+                    highestClique = currentCSize;
+                }
+                if(count==1){
+                    highestClique= currentCSize+1;
+                }
+                if (count == 2) {
+                    stop = true;
+                    highestClique = currentCSize+1;
+                    //System.out.println("Next Cycle!!!");
+                    //System.out.println(temp3.toString());
+                    //System.out.println("Number of Cliques: " + numberOfCliques);
+                    cliqueSearchNext(temp3, currentCSize+1, adjMatrix);
+                }
+            }
+            //System.out.println(temp3.toString());
+            //System.out.println(numberOfCliques);
+            //System.out.println(highestClique);
+            return temp3;
+        }
+
+    public static int computeFromEigens ( double[] eigens){
+        double highest = 0;
+        double positives = 0;
+        double negatives = 0;
+        double lowest = 0;
+        for (int i = 0; i < eigens.length; i++) {
+            if (eigens[i] > highest) {
+                highest = eigens[i];
+            }
+            if (eigens[i] < lowest) {
+                lowest = eigens[i];
+            }
+            if (eigens[i] > 0) {
+                positives = positives + (eigens[i] * eigens[i]);
+            }
+            if (eigens[i] < 0) {
+                negatives = negatives + (eigens[i] * eigens[i]);
+            }
+        }
+
+        System.out.println("the biggest eigenvalue is  : " + highest);
+        System.out.println("the lowest eigenvalue is : " + lowest);
+        double alternativeWay = positives / negatives;
+        int alt = (int) Math.round(alternativeWay);
+        double anotherShot = (1 + (highest / (0 - lowest)));
+        int yeahnah = (int) Math.round(anotherShot);
+        if(alt> yeahnah){
+            return alt;
+        }
+        return yeahnah;
+    }
+    }
+
