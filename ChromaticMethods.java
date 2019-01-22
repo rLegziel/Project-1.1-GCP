@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
+import Jama.*;
 
 public class ChromaticMethods {
 
@@ -10,7 +11,7 @@ public class ChromaticMethods {
      * this method computes the chromatic number based on the highest color value the algorithm used.
      *
      * @param array is doneArray
-     * @return
+     * @return the chromatic number
      */
     public static int findChromatic(int[] array) {
         int finalReturn = 0;
@@ -123,7 +124,7 @@ public class ChromaticMethods {
             randomOrder.add(i);
         }
         Collections.shuffle(randomOrder);
-        System.out.println(Arrays.toString(randomOrder.toArray()));
+//        System.out.println(Arrays.toString(randomOrder.toArray()));
 
         int[] doneArray = new int[vertices];
         for (int j = 0; j < randomOrder.size(); j++) {
@@ -221,18 +222,34 @@ public class ChromaticMethods {
             doneArray[j] = coloring(color, adjMat, doneArray, j);
         }
         int chromatic = findChromatic(doneArray);
-        System.out.println("this is the greedy chromatic : " + chromatic);
+//        System.out.println("this is the greedy chromatic : " + chromatic);
         int minimumChromatic = upperBound;
-        for (int i = 0; i < 1000; i++) {
+        TestingChromatic.upperB = upperBound;
+        for (int i = 0; i < 20000; i++) {
             int chromaticRandomized = randomizedTest(adjMat, vertex, upperBound, color);
+            if(chromaticRandomized==2){
+                minimumChromatic =chromaticRandomized;
+                TestingChromatic.upperB = 2;
+                CliqueFinder.highestClique = 2;
+                System.out.println("NEW BEST UPPER BOUND = " + TestingChromatic.upperB );
+                break;
+            }
             if (chromaticRandomized < minimumChromatic) {
                 minimumChromatic = chromaticRandomized;
+                TestingChromatic.chromatic = chromaticRandomized;
+            }else if(chromaticRandomized<TestingChromatic.upperB && chromaticRandomized > minimumChromatic){
+                TestingChromatic.upperB = chromaticRandomized;
+                System.out.println("NEW BEST UPPER BOUND = " + TestingChromatic.upperB );
             }
         }
-        System.out.println("The chromatic number(randomized) is: " + minimumChromatic);
         return minimumChromatic;
     }
 
+    /**
+     * @param adjMat the adjacency matrix
+     * @return a chromatic number
+     * this is the DSATUR algorithm, will try and color based on the standard vertex ordering.
+     */
     public static int chromaticSaturation(int[][] adjMat) {
         int[] color = makeColorsArray(adjMat.length);
         int[] doneArray = new int[adjMat.length];
@@ -254,11 +271,17 @@ public class ChromaticMethods {
                 doneArray[satuIndex] = coloringSaturation(color, adjMat, doneArray, satuIndex, usedArray);
             }
             counter++;
-//            System.out.println("the counter is " + counter);
+//            System.out.println("the counter is(saturation) " + counter);
         }
         return findChromatic(doneArray);
     }
 
+    /**
+     * @param adjMat the adjacency matrix
+     * @return a chromatic number
+     * this is the DSATUR algorithm, it will always start at a random starting point and keep on going from there as many times
+     * as the loop will run.
+     */
     public static int randomSaturationChromatic(int[][] adjMat) {
         int[] color = makeColorsArray(adjMat.length);
         int[] doneArray = new int[adjMat.length];
@@ -266,7 +289,7 @@ public class ChromaticMethods {
         int vertex = adjMat.length;
         int minimumChromatic = vertex;
         int counter = 0;
-        for (int c = 0; c < 100; c++) {
+        for (int c = 0; c < 10; c++) {
             Arrays.fill(doneArray, 0);
             counter = 0;
             usedArray.clear();
@@ -302,6 +325,14 @@ public class ChromaticMethods {
         return minimumChromatic;
     }
 
+    /**
+     * @param colors the array that contains all the possible colors, contains the same amount of colors as the upperbound.
+     * @param matrix the adjacency matrix
+     * @param done the array that contains the coloring sequence
+     * @param index the index we want to color
+     * @param usedArray all vertices that were already colored.
+     * @return the smallest coloring possible for this vertex.
+     */
     public static int coloringSaturation(int[] colors, int[][] matrix, int[] done, int index, ArrayList<Integer> usedArray) {
         int[] array = Arrays.copyOf(colors, colors.length);
         if (usedArray.size() > 0) {
@@ -320,13 +351,18 @@ public class ChromaticMethods {
         return lowestColor;
     }
 
+    /**
+     * @param adjMat the adjacency matrix
+     * @param notThis an array that contains the vertices that were already checked.
+     * @return the index with the highest amount of edges.
+     */
     public static int highestDegreeVertex(int[][] adjMat,int[] notThis) {
         int max = 0;
         int upperIndex = 0;
         int upperBound = 0;
         for (int i = 0; i < adjMat[0].length; i++) {
             if (notThis[i] != 0) {
-                upperBound = highestDegreeNumber(adjMat, i);
+                upperBound = checkDegrees(adjMat, i);
             }
 
             if (max < upperBound) {
@@ -339,8 +375,12 @@ public class ChromaticMethods {
             }
 
 
-
-
+    /**
+     * @param adjMat the adjacency matrix
+     * @param doneArray the array that contains the actual coloring sequence
+     * @return the index of the next vertex to color for the DSATUR algorithm,
+     * based on its level of saturation.
+     */
     public static int highestSaturation(int[][] adjMat, int[] doneArray) {
         int highestIndex = 0;
         int currentHigh = 0;
@@ -374,7 +414,12 @@ public class ChromaticMethods {
         return highestIndex;
     }
 
-    public static int highestDegreeNumber(int[][] adjMat,int index) {
+    /**
+     * @param adjMat the adjacency matrix
+     * @param index of the vertex we want to check
+     * @return the amount of edges this vertex has.
+     */
+    public static int checkDegrees(int[][] adjMat,int index) {
         int counter = 0;
         for(int i=0;i<adjMat.length;i++){
             if(adjMat[index][i] == 1){
@@ -382,6 +427,32 @@ public class ChromaticMethods {
             }
         }
         return counter;
+    }
+
+    /**
+     * @param adjMat the adjacency matrix
+     * @return true if the graph is a wheel, otherwise false.
+     * checks it as a wheel graph will have one vertex with n-1 edges and the rest will have 3.
+     */
+    public static boolean ifWheel(int[][] adjMat){
+        int counterEdges =0;
+        int counterMiddle =0;
+        for(int i =1;i<adjMat.length;i++){
+            int deg = checkDegrees(adjMat,i);
+            if(deg == 3){
+                counterEdges++;
+            }else if(deg== adjMat.length-2 ){
+                counterMiddle++;
+            } else{
+                break;
+            }
+        }
+        if(counterEdges+counterMiddle == adjMat.length-1){
+            TestingChromatic.chromatic = 3;
+//            System.out.println("really?");
+            return true;
+        }
+        return false;
     }
 }
 
