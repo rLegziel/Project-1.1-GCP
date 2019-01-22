@@ -1,14 +1,20 @@
-import java.util.ArrayList;
+
 
 public class Pruner {
-    // can be used to decide how many times this would be pruned. might make things faster to find clique.
 
+
+    /**
+     * @param adjMatrix the adj matrix
+     * @param cliqueSize the hypothetical lower bound computed witht the eigenvalues.
+     * @param degreeOrder the array that contains the amount of edges for each index
+     * @return another adj matrix, that will be pruned such that there wont be any vertices with less coneections then cliqueSize.
+     */
     public static int[][] prune(int[][] adjMatrix,int cliqueSize,int[] degreeOrder) {
         for (int i = 0; i < adjMatrix.length; i++) {
             int degrees = degreeOrder[i];
             if(degrees < cliqueSize && degrees !=0 ){
-                System.out.println("the index " + i +" has only one connection");
                 for(int j =0;j<adjMatrix.length;j++){
+
                     adjMatrix[i][j] = 0;
                     adjMatrix[j][i] = 0;
                 }
@@ -22,6 +28,7 @@ public class Pruner {
         for(int r =0;r<updatedDegrees.length;r++){
             if(updatedDegrees[r] != 0 && updatedDegrees[r] <cliqueSize){
                 return prune(adjMatrix,cliqueSize,updatedDegrees);
+
             }
         }
         System.out.println("pruning is done!");
