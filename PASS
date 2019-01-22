@@ -5,49 +5,47 @@ import java.util.Random;
 public class PASS {
 
 
+    /**
+     * @param adjMat the adjacency matrix
+     * @param doneArray the array that contain the actual coloring
+     * @return the next vertex to color based on our Quai-PASS algorithm.
+     * it would look for the one with the highest saturation, if there is more than 1 with the same degree of saturation
+     * it would compare unique colors, if that is also the same it would choose at random between each two.
+     */
     public static int PASShighestSaturation(int[][] adjMat, int[] doneArray) {
         int highestIndex = 0;
         int currentHigh = 0;
         int connectionCounter = 0;
         ArrayList<Integer> amountOfColors = new ArrayList<>();
         ArrayList<Integer> amountOfColors2 = new ArrayList<>();
-        int colorCounter = 0;
 
         for (int i = 0; i < adjMat.length; i++) {
             for (int j = 0; j < adjMat.length; j++) {
                 if (doneArray[j] != 0) {
                     if (adjMat[i][j] == 1) {
                         connectionCounter++;
-//                        System.out.println("____where do i print 1 ");
                     }
                 }
 
             }
-//            System.out.println("connection counter is " + connectionCounter + "and the index is " + i);
-//            System.out.println("current highest index is; " + highestIndex);
             if (connectionCounter > currentHigh && doneArray[i] == 0 && i != 0) {
                 currentHigh = connectionCounter;
                 highestIndex = i;
-//                System.out.println("____where do i print 3 ");
             }
             if (connectionCounter == currentHigh && doneArray[i] == 0 && i != 0) {
                 for (int u = 0; u < adjMat.length; u++) {
                     if (adjMat[currentHigh][u] == 1 && doneArray[u] != 0) {
                         amountOfColors.add(doneArray[u]);
-//                        System.out.println("____where do i print 4 ");
                     }
                     if (adjMat[highestIndex][u] == 1 && doneArray[u] != 0) {
                         amountOfColors2.add(doneArray[u]);
-//                        System.out.println("____where do i print 5 ");
                     }
                 }
                 int uniqueColors1 = amountOfColors(amountOfColors);
                 int uniqueColors2 = amountOfColors(amountOfColors2);
                 if (uniqueColors1 > uniqueColors2) {
                     highestIndex = i;
-//                    System.out.println("____where do i print 6 ");
                 }else if(uniqueColors1 == uniqueColors2){
-      System.out.println("____where do i print 6 ");
                     Random rand= new Random();
                     int rando = rand.nextInt(2) +1;
                     if(rando == 1){
@@ -57,24 +55,22 @@ public class PASS {
                 }
             }
             connectionCounter = 0;
-//            System.out.println("the highest index is " + highestIndex + " and the index is " + i);
         }
         if (highestIndex == 0) {
-//            System.out.println("is this entered? ");
             for(int y=0;y<doneArray.length;y++){
-//                System.out.println("is this entered? 2");
                 if(doneArray[y] == 0){
-//                    System.out.println("is this entered? 3");
                     highestIndex = y;
-//                    System.out.println("____where do i print 7 ");
                     return highestIndex;
                 }
             }
         }
-//        System.out.println("____where do i print 8  the index is " + highestIndex);
         return highestIndex;
     }
 
+    /**
+     * @param colors is an ArrayList that includes all the colors that the vertex is connected to
+     * @return the amount of unique(different colors)
+     */
     public static int amountOfColors(ArrayList<Integer> colors) {
         int counter = 0;
         int amountOfConnections = colors.size();
@@ -91,10 +87,14 @@ public class PASS {
         return amountOfConnections;
     }
 
+    /**
+     * @param adjMat the adjacency matrix
+     * @return a chromatic number
+     * this only does the Quasi-PASS algorithm once, it will use standard vertex ordering.
+     */
     public static int PASSchromaticSaturation(int[][] adjMat) {
         int[] color = ChromaticMethods.makeColorsArray(adjMat.length);
         int[] doneArray = new int[adjMat.length];
-//        int highestDeg = ChromaticMethods.highestDegreeVertex(adjMat);
         ArrayList<Integer> usedArray = new ArrayList<>();
         int counter = 0;
         while (counter != adjMat.length ) {
@@ -102,7 +102,6 @@ public class PASS {
                 doneArray[counter] = 1;
             }
             if (counter == 1) {
-//                System.out.println("first round!   " + highestDeg);
                 usedArray.add(counter);
                 doneArray[counter] = ChromaticMethods.coloringSaturation(color, adjMat, doneArray, counter, usedArray);
             } else {
@@ -117,6 +116,13 @@ public class PASS {
         return ChromaticMethods.findChromatic(doneArray);
     }
 
+    /**
+     * @param adjMat the adjacency matrix
+     * @return a chromatic number
+     * this method tries to color the graph using our Quasi-PASS algorithm, which will find which next vertex it should color
+     * next by analyzing its saturation and the amount of unique colors connected to it.
+     * it would start coloring in vertex number 2, and in each cycle it would change its starting point by 1.
+     */
     public static int randomPASS(int[][] adjMat){
         int[] color = ChromaticMethods.makeColorsArray(adjMat.length);
         int[] doneArray = new int[adjMat.length];
@@ -124,8 +130,7 @@ public class PASS {
         int vertex = adjMat.length;
         int minimumChromatic = vertex;
         int counter = 0;
-        for(int c = 2; c<3;c++) {
-            System.out.println("this is the " + c + " time PASS");
+        for(int c = 2; c<adjMat.length-1;c++) {
             Arrays.fill(doneArray, 0);
             counter =0;
             usedArray.clear();
@@ -135,12 +140,8 @@ public class PASS {
                     usedArray.add(counter);
                 }
                 else if (counter == 1) {
-//                    Random rand = new Random();
-//                    int startingNum = rand.nextInt(vertex-1) + 1;
-                    System.out.println("first round!   " + c);
+
                     usedArray.add(c);
-//                    System.out.println("starting number is " + startingNum);
-//                    doneArray[startingNum] = coloringSaturation(color, adjMat, doneArray, startingNum, usedArray);
                     doneArray[c] = 1;
                 } else{
                     int satuIndex = PASShighestSaturation(adjMat, doneArray);
@@ -149,11 +150,8 @@ public class PASS {
                     doneArray[satuIndex] = ChromaticMethods.coloringSaturation(color, adjMat, doneArray, satuIndex, usedArray);
                 }
                 counter++;
-//                System.out.println(" random highest PASS  times is  " + counter);
             }
             int chromaticRandomized = ChromaticMethods.findChromatic(doneArray);
-//            System.out.println(Arrays.toString(doneArray) + "this is the random PASS, should have some mistake");
-//            System.out.println("current chromatic is  " + chromaticRandomized);
             if (chromaticRandomized < minimumChromatic) {
                 minimumChromatic = chromaticRandomized;
             }
