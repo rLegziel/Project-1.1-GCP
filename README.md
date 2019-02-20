@@ -1,7 +1,8 @@
-# Project-1.2
+# Project-1.1
 
-Group Project Year1 Semester 1 about the Graph coloring problem, here are implementations for our solution:
-##Exact Chromatic:
+This is our group project about the GCP
+
+## Exact Chromatic:
 Greedy Algorithm
 DSatur Algorithm
 Quasi-PASS Algorithm
